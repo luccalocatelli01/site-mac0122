@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Teste do filtro</title>
+<link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+<pre class="codigo"><span class="comentario">/* Arquivo C valido para experimentar as cinco classes do filtro. */</span>
+<span class="pragma">#include &lt;stdio.h&gt;</span>
+<span class="pragma">#define LIMITE 10 </span><span class="comentario">// Comentario depois de uma diretiva.</span>
+<span class="pragma">#define URL "http://exemplo.test"</span>
+<span class="pragma">#define SOMA(a, b) \
+    ((a) + (b))</span>
+<span class="pragma">#define VALOR </span><span class="comentario">/* comentario no meio da diretiva */</span><span class="pragma"> 3</span>
+<span class="pragma">#define ASPA '"'</span>
+
+<span class="comentario">/* Um comentario pode ocupar
+   varias linhas e conter "aspas", int, if e &lt;tags&gt; &amp;. */</span>
+<span class="comentario">/***/</span> <span class="comentario">/**/</span>
+
+<span class="tipo">static</span> <span class="tipo">int</span> dividir(<span class="tipo">int</span> a, <span class="tipo">int</span> b) {
+    <span class="comando">return</span> a / b;
+}
+
+<span class="tipo">int</span> main(<span class="tipo">void</span>) {
+    <span class="tipo">int</span> intervalo = 4, iff = 1, _for = 2;
+    <span class="tipo">const</span> <span class="tipo">char</span> *s1 = <span class="cadeia">"for if int"</span>;
+    <span class="tipo">const</span> <span class="tipo">char</span> *s2 = <span class="cadeia">"aspas \" dentro"</span>;
+    <span class="tipo">const</span> <span class="tipo">char</span> *s3 = <span class="cadeia">"// nao e comentario"</span>;
+    <span class="tipo">const</span> <span class="tipo">char</span> *s4 = <span class="cadeia">"/* tambem nao */"</span>;
+    <span class="tipo">const</span> <span class="tipo">char</span> *s5 = <span class="cadeia">"barra no fim \\"</span>;
+    <span class="tipo">const</span> <span class="tipo">char</span> *s6 = <span class="cadeia">"&lt;b&gt;oi&lt;/b&gt; &amp;lt;"</span>;
+    <span class="tipo">char</span> c1 = <span class="cadeia">'"'</span>, c2 = <span class="cadeia">'\''</span>, c3 = <span class="cadeia">'\\'</span>;
+
+    <span class="comentario">// As palavras int e for e as "aspas" continuam sendo comentario.</span>
+    <span class="comando">if</span> (intervalo&lt;LIMITE&amp;&amp;iff&gt;0) {
+        intervalo = SOMA(intervalo, dividir(10, 2));
+    }
+
+    printf(<span class="cadeia">"%s\n%s\n%s\n%s\n%s\n%s\n"</span>, s1, s2, s3, s4, s5, s6);
+    printf(<span class="cadeia">"%c %c %c %c %s %d\n"</span>,
+           c1, c2, c3, ASPA, URL, intervalo + _for + VALOR);
+    <span class="comando">return</span> 0;
+}
+<span class="comentario">// Comentario final sem quebra de linha.</span></pre>
+</body>
+</html>

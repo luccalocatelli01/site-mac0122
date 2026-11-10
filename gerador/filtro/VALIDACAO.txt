@@ -1,0 +1,32 @@
+VALIDACAO TECNICA — PACOTE FINAL DO FILTRO
+Referencia: 09/11/2026.
+
+PALETA
+As cinco cores foram conferidas com o exemplo de C no tema claro em:
+https://en.wikipedia.org/wiki/Syntax_highlighting#Examples
+pragma #9C6500; tipo #B00040; comando #008000;
+comentario #3D7B7B; cadeia #BA2121.
+Comandos em negrito; comentarios em italico.
+Adaptacao as cinco categorias do enunciado, nao copia integral de todos os
+subtipos do realcador da Wikipedia. Nao existe paleta universal imposta no artigo.
+
+CODIGO
+Os fontes C sao identicos a versao que passou pelos 28 casos de classificacao
+e preservacao de texto. O ajuste final foi feito no CSS e nas instrucoes.
+
+VERIFICACAO DA VERSAO FINAL
+Resultado: APROVADO em todos os testes descritos abaixo.
+Compilacao dos tres programas separados com -std=c11 -Wall -Wextra -Werror.
+Teste em pasta nova extraida do ZIP, sem depender da pasta original.
+Teste do programa principal, do modo --trecho e do exemplo de integracao.
+Teste do consumidor independente usando somente filtro.c, filtro.h e estilo.css.
+Comparacao do texto original com o texto extraido dos blocos HTML.
+Conferencia das cinco classes e das cinco cores do CSS.
+Conferencia de duas chamadas na mesma pagina e de escrita posterior pelo chamador.
+Conferencia da integridade do ZIP e igualdade com os arquivos do pacote.
+
+ESCOPO
+Este pacote tecnico esta preparado para incorporacao ao gerador do grupo.
+O gerador real nao foi testado: seus fontes ainda nao estavam disponiveis aqui.
+O grupo deve ajustar os caminhos reais e disponibilizar o CSS no site.
+A documentacao pessoal sera finalizada separadamente por Bernardo.
