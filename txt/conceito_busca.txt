@@ -1,0 +1,22 @@
+Tecnica:
+Algoritmo:
+Autores:
+Data:
+Conceitos: Busca
+Problema:
+---
+Buscar é decidir se um valor x está numa coleção de dados e, se estiver, onde. Para vetores, o curso viu três métodos, que mostram como a organização dos dados muda o custo:
+
+Busca linear: compara x com cada elemento, do começo ao fim. Funciona em qualquer vetor, ordenado ou não. Pior caso O(n).
+Busca com sentinela: a busca linear com x colocado numa posição extra no fim, para o laço não precisar testar se o vetor acabou. Continua O(n), mas faz cerca de metade dos testes.
+Busca binária: compara x com o elemento do meio e descarta metade do trecho a cada passo. Pior caso O(log n).
+
+Pré-requisitos da busca binária: o vetor precisa estar ordenado, senão não dá para saber qual metade descartar; e é preciso acesso direto a qualquer posição em O(1), para chegar ao meio de uma vez. Por isso ela não serve para uma lista ligada, nem ordenada: chegar ao meio da lista já custa O(n).
+
+Na prática: com n = 1 000 000, a busca linear pode fazer um milhão de comparações e a binária, no máximo 20. Mas ordenar o vetor custa O(n log n), então a binária compensa quando o mesmo vetor vai receber muitas buscas.
+
+Referências:
+- BRANDÃO, L. O. Material didático de MAC0122. IME-USP. Disponível em: https://www.ime.usp.br/~leo/mac/mac122/
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semana 3.
+- KNUTH, D. E. The Art of Computer Programming, v. 3: Sorting and Searching. 2. ed. Addison-Wesley, 1998.
+- FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009.

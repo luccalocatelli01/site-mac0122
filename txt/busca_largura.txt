@@ -1,0 +1,33 @@
+Tecnica:
+Algoritmo: Busca em largura (BFS)
+Autores: Konrad Zuse, Edward F. Moore
+Data: 1945
+Conceitos: Grafo, Árvore, Fila
+Problema: Dado um grafo e um vértice inicial, visitar todos os vértices alcançáveis a partir dele.
+---
+A busca em largura (breadth-first search) visita o grafo em camadas: primeiro o vértice inicial, depois todos os vizinhos dele, depois os vizinhos dos vizinhos, e assim por diante. Para respeitar essa ordem, ela usa uma fila: o primeiro vértice descoberto é o primeiro a ser processado.
+
+1. Marca o vértice inicial e o coloca na fila.
+2. Enquanto a fila não estiver vazia: tira o primeiro vértice v da fila e o visita; cada vizinho de v que ainda não foi marcado é marcado e entra no fim da fila.
+Marcar o vértice na hora em que entra na fila impede que ele entre duas vezes.
+
+Exemplo: grafo com os vértices 0 a 4 e as arestas 0-1, 0-2, 1-3, 2-3 e 2-4, a partir do 0 (a fila é mostrada com o início à esquerda).
+Fila {0}. Sai o 0: marca e enfileira 1 e 2. Fila {1, 2}.
+Sai o 1: o 0 já está marcado; marca e enfileira 3. Fila {2, 3}.
+Sai o 2: 0 e 3 já marcados; marca e enfileira 4. Fila {3, 4}.
+Sai o 3, sem vizinhos novos. Sai o 4, sem vizinhos novos. A fila esvazia.
+Ordem de visita: 0, 1, 2, 3, 4. Os vértices 1 e 2 estão a 1 aresta do 0, e os vértices 3 e 4, a 2.
+
+@codigo busca_largura.c
+
+Como a busca avança em camadas, cada vértice é visitado pelo caminho com o menor número de arestas a partir do inicial. Por isso a busca em largura acha distâncias mínimas em grafos sem pesos, como o menor número de movimentos para sair de um labirinto. As arestas usadas para descobrir os vértices formam a árvore de busca em largura.
+
+Consumo de tempo: com listas de vizinhos, cada vértice entra e sai da fila uma vez e cada aresta é examinada um número constante de vezes, O(V + A). A diferença para a busca em profundidade é só a estrutura auxiliar: fila em vez de pilha.
+
+Konrad Zuse usou a busca em largura em 1945, no Plankalkül, para achar as componentes conexas de um grafo; Edward F. Moore a redescobriu em 1959 para achar o caminho mais curto num labirinto.
+
+Referências:
+- BRANDÃO, L. O. Material didático de MAC0122. IME-USP. Disponível em: https://www.ime.usp.br/~leo/mac/mac122/ (código adaptado de grafos/busca_em_largura.html).
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semana 9.
+- CORMEN, T. H. et al. Algoritmos: teoria e prática. 3. ed. Rio de Janeiro: Elsevier, 2012.
+- SZWARCFITER, J. L.; MARKENZON, L. Estruturas de Dados e seus Algoritmos. 3. ed. Rio de Janeiro: LTC, 2010.

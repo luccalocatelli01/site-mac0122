@@ -1,0 +1,29 @@
+Tecnica:
+Algoritmo:
+Autores:
+Data:
+Conceitos: Indução
+Problema:
+---
+A indução matemática prova que uma afirmação P(n) vale para todo n a partir de um valor inicial. A prova tem três partes:
+Base: mostrar que P vale para o primeiro valor (em geral n = 0 ou n = 1).
+Hipótese de indução: supor que P vale para n - 1 (ou para todos os valores menores que n).
+Passo: usando a hipótese, mostrar que P vale para n.
+Com isso, P vale para o primeiro valor, então para o seguinte, e assim por diante, como uma fila de dominós.
+
+Exemplo 1, a soma dos naturais: 1 + 2 + ... + n = n(n + 1) / 2.
+Base: para n = 1, a soma é 1 e a fórmula dá 1 × 2 / 2 = 1.
+Hipótese: 1 + 2 + ... + (n - 1) = (n - 1)n / 2.
+Passo: 1 + 2 + ... + n = (n - 1)n / 2 + n = (n² - n + 2n) / 2 = n(n + 1) / 2.
+
+Exemplo 2, as Torres de Hanói: o algoritmo recursivo faz T(n) = 2^n - 1 movimentos, sabendo que T(1) = 1 e T(n) = 2T(n - 1) + 1.
+Base: T(1) = 1 = 2^1 - 1.
+Hipótese: T(n - 1) = 2^(n-1) - 1.
+Passo: T(n) = 2T(n - 1) + 1 = 2(2^(n-1) - 1) + 1 = 2^n - 2 + 1 = 2^n - 1.
+
+Indução e recursividade são a mesma ideia vista de dois lados: a função recursiva resolve o caso base diretamente e reduz o caso n a casos menores, e a prova de que ela está correta é uma indução, com o caso base como base e a chamada recursiva como hipótese.
+
+Referências:
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semana 2.
+- BRANDÃO, L. O. Torre de Hanói. Apostila do Laboratório de Ensino de Matemática, IME-USP, 1999 (revisão 2021). Disponível em: https://www.ime.usp.br/lem/apostilas.html
+- CORMEN, T. H. et al. Algoritmos: teoria e prática. 3. ed. Rio de Janeiro: Elsevier, 2012.

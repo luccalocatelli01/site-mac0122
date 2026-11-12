@@ -1,0 +1,36 @@
+Tecnica:
+Algoritmo: Busca em profundidade (DFS)
+Autores: Charles Pierre Trémaux
+Data: séc. XIX
+Conceitos: Grafo, Árvore, Pilha
+Problema: Dado um grafo e um vértice inicial, visitar todos os vértices alcançáveis a partir dele.
+---
+A busca em profundidade (depth-first search) anda pelo grafo sempre o mais longe possível: a partir do vértice atual, segue para um vizinho ainda não visitado, depois para um vizinho desse, e só volta quando não há mais para onde ir. Para lembrar os caminhos que ficaram para trás, ela usa uma pilha (ou a pilha da recursão).
+
+Versão com pilha da aula:
+1. Empilha o vértice inicial.
+2. Enquanto a pilha não estiver vazia: desempilha um vértice v. Se v ainda não foi visitado, visita v e empilha todos os vizinhos de v.
+Um vértice pode entrar na pilha mais de uma vez, mas só é visitado na primeira vez em que sai dela.
+
+Exemplo: grafo com os vértices 0 a 4 e as arestas 0-1, 0-2, 1-3, 2-3 e 2-4, a partir do 0 (a pilha é mostrada com o topo à direita).
+Pilha {0}. Sai o 0: visita 0, empilha 1 e 2. Pilha {1, 2}.
+Sai o 2: visita 2, empilha 0, 3 e 4. Pilha {1, 0, 3, 4}.
+Sai o 4: visita 4, empilha 2. Pilha {1, 0, 3, 2}.
+Sai o 2, já visitado. Sai o 3: visita 3, empilha 1 e 2. Pilha {1, 0, 1, 2}.
+Sai o 2, já visitado. Sai o 1: visita 1, empilha 0 e 3.
+Os que sobraram já foram visitados, e a pilha esvazia.
+Ordem de visita: 0, 2, 4, 3, 1.
+
+@codigo busca_profundidade.c
+
+As arestas pelas quais cada vértice foi descoberto formam uma árvore, a árvore de busca em profundidade, com raiz no vértice inicial. Com ela, a busca serve para achar as componentes conexas, detectar ciclos e encontrar a saída de um labirinto.
+
+Consumo de tempo: com o grafo guardado em listas de vizinhos, cada vértice é visitado uma vez e cada aresta é examinada um número constante de vezes, então a busca é O(V + A), para V vértices e A arestas.
+
+A ideia é a do método de Charles Pierre Trémaux, do século XIX, para sair de labirintos marcando os corredores já percorridos.
+
+Referências:
+- BRANDÃO, L. O. Material didático de MAC0122. IME-USP. Disponível em: https://www.ime.usp.br/~leo/mac/mac122/
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semana 9 (pseudocódigo de busca_em_profundidade.txt).
+- CORMEN, T. H. et al. Algoritmos: teoria e prática. 3. ed. Rio de Janeiro: Elsevier, 2012.
+- SZWARCFITER, J. L.; MARKENZON, L. Estruturas de Dados e seus Algoritmos. 3. ed. Rio de Janeiro: LTC, 2010.

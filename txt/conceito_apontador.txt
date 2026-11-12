@@ -1,0 +1,31 @@
+Tecnica:
+Algoritmo:
+Autores:
+Data:
+Conceitos: Apontador
+Problema:
+---
+Um apontador (ponteiro) é uma variável que guarda um endereço de memória: em vez de guardar um valor, ela diz onde o valor está. Em C, int *p declara p como apontador para um int.
+&x é o endereço da variável x.
+*p é o valor que está no endereço guardado em p.
+Exemplo: int x = 5; int *p = &x; agora *p vale 5, e *p = 7 muda o x para 7.
+NULL é o valor de um apontador que não aponta para nada.
+
+Apontadores e vetores: o nome de um vetor é o endereço do seu primeiro elemento, e v[i] é o mesmo que *(v + i). Somar 1 a um apontador avança um elemento inteiro, e não um byte: se p aponta para v[0], p + 1 aponta para v[1]. Isso é a aritmética de apontadores. Por isso, quando um vetor é passado para uma função, só o endereço é copiado, e a função altera o vetor original. Numa matriz m[L][C], guardada linha após linha, m[i][j] está na posição i * C + j a partir do começo.
+
+Registros: struct agrupa variáveis de tipos diferentes num único tipo, e typedef dá um nome curto a ele.
+typedef struct { char nome[50]; int nota; } Aluno;
+Um vetor de structs, como Aluno turma[40], guarda vários registros, e turma[i].nota acessa um campo. Com um apontador para struct, p->nota é o mesmo que (*p).nota.
+
+Alocação dinâmica: malloc(n * sizeof(int)) reserva memória durante a execução e devolve o endereço dela (ou NULL, se não houver memória), e free devolve essa memória quando ela não é mais usada. É assim que se criam os nós de uma lista ligada um a um, conforme for preciso. Esquecer o free deixa memória presa; usar o apontador depois do free é um erro grave. Compilar com -fsanitize=address ajuda a achar os dois.
+
+@codigo apontadores.c
+
+@codigo apontadores_vetor_matriz.c
+
+@codigo vetor_struct.c
+
+Referências:
+- BRANDÃO, L. O. Material didático de MAC0122. IME-USP. Disponível em: https://www.ime.usp.br/~leo/mac/mac122/ (códigos adaptados de introducao_apontadores.html, introducao_apontadores_vetor_matriz.html e modelo_vetor_struct.html).
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semana 7.
+- FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009.

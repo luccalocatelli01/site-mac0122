@@ -1,0 +1,27 @@
+Tecnica:
+Algoritmo:
+Autores:
+Data:
+Conceitos: Autômato finito
+Problema:
+---
+Um autômato de estado finito (AEF) é uma máquina que lê uma sequência de símbolos, um de cada vez, e, a cada símbolo, muda de estado conforme uma tabela fixa. Ele não tem outra memória além do estado atual. Formalmente, é uma quíntupla M = (Q, Σ, δ, q0, F):
+Q: o conjunto finito de estados.
+Σ: o alfabeto, que é o conjunto de símbolos que podem ser lidos.
+δ: a função de transição, δ: Q × Σ → Q, que diz para qual estado ir a partir do estado atual e do símbolo lido.
+q0: o estado inicial.
+F: o conjunto dos estados finais (de aceitação). Se, depois de ler tudo, o autômato estiver num estado de F, a sequência é aceita.
+
+Exemplo: um autômato que aceita os números binários com quantidade par de 1s.
+Q = {par, ímpar}, Σ = {0, 1}, q0 = par e F = {par}.
+δ(par, 0) = par, δ(par, 1) = ímpar, δ(ímpar, 0) = ímpar e δ(ímpar, 1) = par.
+Lendo 1011: par, ímpar (1), ímpar (0), par (1), ímpar (1). Termina em ímpar, que não está em F, então 1011 é rejeitado (tem três 1s).
+Lendo 1001: par, ímpar, ímpar, ímpar, par. Termina em par, e 1001 é aceito.
+
+Uso prático: o analisador léxico de um compilador, que separa o texto do programa em palavras, números e símbolos, é um autômato finito. O estudo complementar da semana 6 foi o analisador léxico do iCG (Computador Gaveteiro interativo).
+
+O filtro colorizador deste site também é um exemplo: ele lê o código C caractere por caractere e tem um estado para cada contexto, NORMAL, PRAGMA (dentro de um #include ou #define), COM_LINHA (comentário //), COM_BLOCO (comentário /* */), CADEIA (entre aspas duplas) e CARACTERE (entre aspas simples). Ler um /* no estado NORMAL leva para COM_BLOCO; ler um */ em COM_BLOCO volta para NORMAL. É o estado que diz se um int deve ser pintado como tipo ou ignorado, porque está dentro de um comentário.
+
+Referências:
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semana 6.
+- HOPCROFT, J. E.; MOTWANI, R.; ULLMAN, J. D. Introdução à Teoria de Autômatos, Linguagens e Computação. Rio de Janeiro: Campus, 2002.

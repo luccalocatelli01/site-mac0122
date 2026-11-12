@@ -1,0 +1,29 @@
+Tecnica:
+Algoritmo:
+Autores:
+Data:
+Conceitos: Fila
+Problema:
+---
+Uma fila é uma estrutura em que o primeiro elemento a entrar é o primeiro a sair (FIFO, first in, first out), como uma fila de banco. Os elementos entram pelo fim e saem pelo início. As operações são inserir no fim, remover do início e testar se a fila está vazia, todas em O(1).
+
+Fila com vetor (circular): dois índices, ini (o primeiro elemento) e fim (o último), e um contador tam. Para não desperdiçar as posições que vão ficando livres no começo do vetor, os índices dão a volta: depois da última posição, vem a posição 0. Isso se faz com o resto da divisão:
+Inserir: fim = (fim + 1) % MAX e fila[fim] = x.
+Remover: x = fila[ini] e ini = (ini + 1) % MAX.
+A fila está vazia quando tam == 0 e cheia quando tam == MAX. No código da aula, dois casos precisam de cuidado: inserir na fila vazia também move o ini, e remover o único elemento também move o fim.
+
+Exemplo com MAX = 4: insere 1, 2, 3 (posições 0, 1, 2); remove o 1 (ini vai para 1); insere 4 (posição 3) e 5. Como depois da posição 3 vem a 0, o 5 fica na posição 0, que tinha sido liberada.
+
+Fila com lista ligada: dois apontadores, para o primeiro e para o último nó. Inserir é ligar um nó novo depois do último; remover é tirar o primeiro nó. As duas operações são O(1), e a fila não tem tamanho máximo.
+
+Uso: a fila aparece sempre que as coisas devem ser atendidas na ordem em que chegaram, como os pedidos de impressão.
+
+@codigo fila_lista.c
+
+@codigo fila_lista.h
+
+Referências:
+- BRANDÃO, L. O. Material didático de MAC0122. IME-USP. Disponível em: https://www.ime.usp.br/~leo/mac/mac122/ (códigos adaptados de lista_ligada/introducao_fila_lista_ligada_struct.html e lista_ligada/fila_lista_ligada_struct.h).
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semana 8.
+- FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009.
+- CORMEN, T. H. et al. Algoritmos: teoria e prática. 3. ed. Rio de Janeiro: Elsevier, 2012.

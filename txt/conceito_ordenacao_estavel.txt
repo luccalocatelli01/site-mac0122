@@ -1,0 +1,27 @@
+Tecnica:
+Algoritmo:
+Autores:
+Data:
+Conceitos: Ordenação estável
+Problema:
+---
+Um método de ordenação é estável quando não altera a posição relativa de elementos com chaves iguais: se a e b têm a mesma chave e a vinha antes de b, depois da ordenação a continua antes de b.
+
+Exemplo: uma lista de alunos já em ordem alfabética, que vai ser ordenada pela nota.
+Antes: (Ana, 7), (Bruno, 5), (Carla, 7), (Davi, 5).
+Ordenação estável: (Bruno, 5), (Davi, 5), (Ana, 7), (Carla, 7). Entre os empatados, a ordem alfabética continua.
+Ordenação não estável: pode sair (Davi, 5), (Bruno, 5), (Carla, 7), (Ana, 7). A nota está certa, mas a ordem alfabética entre os empatados se perdeu.
+
+Por que importa: com um método estável, ordenar por vários critérios é fácil. Basta ordenar primeiro pelo critério menos importante e depois pelo mais importante, como no exemplo, em que o nome é o desempate da nota. É por isso que o radix sort, que ordena dígito por dígito, precisa de uma ordenação estável em cada passada.
+
+Quais métodos são estáveis:
+Estáveis: bolha, inserção direta, ordenação por fusão e ordenação por frequência.
+Não estáveis: seleção direta, quicksort e heapsort.
+Nos estáveis, um elemento só passa à frente de outro estritamente maior (bolha e inserção), ou o empate é resolvido a favor do que veio antes (fusão e frequência). Nos não estáveis, há trocas entre posições distantes que podem pular por cima de um elemento igual: na seleção direta, em {2a, 2b, 1}, o 1 troca com o 2a e o resultado é {1, 2b, 2a}.
+
+Um método não estável pode ficar estável se a chave incluir a posição original como desempate, ao custo de memória extra.
+
+Referências:
+- BRANDÃO, L. O. Material didático de MAC0122. IME-USP. Disponível em: https://www.ime.usp.br/~leo/mac/mac122/ (texto algoritmos_ordenacao_estaveis.html).
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semana 5.
+- KNUTH, D. E. The Art of Computer Programming, v. 3: Sorting and Searching. 2. ed. Addison-Wesley, 1998.

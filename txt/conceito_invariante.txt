@@ -1,0 +1,31 @@
+Tecnica:
+Algoritmo:
+Autores:
+Data:
+Conceitos: Invariante
+Problema:
+---
+Um invariante de laço é uma afirmação sobre as variáveis do algoritmo que é verdadeira no início de toda iteração. Ele é a ferramenta para provar que um laço faz o que deveria, e a prova é uma indução sobre o número de iterações, em três partes:
+Início: o invariante vale antes da primeira iteração.
+Manutenção: se o invariante vale no início de uma iteração, continua valendo no início da próxima.
+Término: quando o laço para, o invariante junto com a condição de parada dá o resultado desejado.
+
+Exemplo 1, o MDC de Euclides: o laço troca (m, n) por (n, m % n) enquanto n != 0.
+Invariante: mdc(m, n) é igual ao MDC dos números originais.
+Início: no começo, m e n são os próprios números originais.
+Manutenção: mdc(m, n) = mdc(n, m % n), porque os divisores comuns de m e n são os mesmos de n e m % n.
+Término: o laço para com n = 0, e mdc(m, 0) = m. Então m é o MDC dos números originais.
+
+Exemplo 2, a busca binária: o laço olha o meio de v[e..d] e descarta uma metade.
+Invariante: se x está no vetor, então x está em v[e..d].
+Início: e = 0 e d = n - 1, o vetor inteiro.
+Manutenção: como o vetor está ordenado, a metade descartada só tem elementos menores ou maiores que x.
+Término: se o laço para com e > d, o trecho é vazio, e pelo invariante x não está no vetor.
+
+Escolher o invariante certo costuma ser o passo mais difícil para entender por que um algoritmo funciona.
+
+Referências:
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semana 3.
+- BRANDÃO, L. O. Material didático de MAC0122. IME-USP. Disponível em: https://www.ime.usp.br/~leo/mac/mac122/
+- CORMEN, T. H. et al. Algoritmos: teoria e prática. 3. ed. Rio de Janeiro: Elsevier, 2012.
+- FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009.

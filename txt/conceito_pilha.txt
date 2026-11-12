@@ -17,7 +17,7 @@ Exemplo: pilha vazia (topo = -1). Empilha 4: topo = 0, pilha = 4. Empilha 7: top
 
 Pilha com lista ligada: o topo é o primeiro nó. Empilhar é inserir um nó no começo e desempilhar é remover o primeiro nó, as duas O(1). A vantagem sobre o vetor é não ter tamanho máximo.
 
-Usos: avaliação de expressões pós-fixas, conversão de infixa para pós-fixa, a pilha de execução das funções recursivas e a busca em profundidade em grafos.
+Usos: avaliação de expressões pós-fixas, conversão de infixa para pós-fixa, e a pilha de execução das funções recursivas.
 
 @codigo pilha_lista.c
 

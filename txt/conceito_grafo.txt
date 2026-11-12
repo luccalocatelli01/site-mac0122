@@ -1,0 +1,29 @@
+Tecnica:
+Algoritmo:
+Autores:
+Data:
+Conceitos: Grafo
+Problema:
+---
+Um grafo G = (V, A) é formado por um conjunto V de vértices e um conjunto A de arestas, em que cada aresta liga dois vértices. Grafos modelam problemas em que o que importa são as ligações entre as coisas: cidades e estradas, pessoas e amizades, esquinas e ruas num aplicativo de mapas.
+
+Grau de um vértice: o número de arestas que tocam nele.
+Caminho: uma sequência de vértices em que cada um está ligado ao seguinte por uma aresta.
+Ciclo: um caminho que volta ao vértice de onde saiu, sem repetir arestas.
+Grafo conexo: existe um caminho entre cada par de vértices. Uma componente conexa é um pedaço do grafo em que todos os vértices se alcançam e que não está ligado ao resto.
+Grafo acíclico: não tem ciclos. Um grafo conexo e acíclico é uma árvore.
+
+Exemplo: V = {1, 2, 3, 4, 5} e A = {1-2, 2-3, 3-1, 4-5}.
+1, 2, 3 é um caminho, e 1, 2, 3, 1 é um ciclo.
+O grafo tem duas componentes conexas, {1, 2, 3} e {4, 5}, e por isso não é conexo.
+Todos os vértices de {1, 2, 3} têm grau 2; os vértices 4 e 5 têm grau 1.
+
+Modelagem com o circuito euleriano (semana 1): um circuito euleriano é um caminho que passa por todas as arestas exatamente uma vez e volta ao início, como um caminhão de lixo que precisa percorrer todas as ruas sem repetir nenhuma. Euler mostrou, em 1736, com o problema das pontes de Königsberg, que um grafo conexo tem circuito euleriano se e somente se todos os vértices têm grau par. A resposta sai de uma contagem de graus, sem precisar testar todos os caminhos possíveis.
+
+Na componente {1, 2, 3} do exemplo, todos os graus são pares, e 1, 2, 3, 1 é um circuito euleriano dela.
+
+Referências:
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semanas 1 e 3.
+- BRANDÃO, L. O. Material didático de MAC0122. IME-USP. Disponível em: https://www.ime.usp.br/~leo/mac/mac122/
+- SZWARCFITER, J. L.; MARKENZON, L. Estruturas de Dados e seus Algoritmos. 3. ed. Rio de Janeiro: LTC, 2010.
+- CORMEN, T. H. et al. Algoritmos: teoria e prática. 3. ed. Rio de Janeiro: Elsevier, 2012.

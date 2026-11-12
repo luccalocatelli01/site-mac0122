@@ -1,0 +1,29 @@
+Tecnica:
+Algoritmo:
+Autores:
+Data:
+Conceitos: Conjunto
+Problema:
+---
+Um conjunto é uma coleção de elementos sem repetição, em que a pergunta principal é se um elemento x pertence ou não a ele. As operações são buscar, inserir, remover e esvaziar, e o custo de cada uma depende de como o conjunto é guardado. O curso viu duas representações em vetor.
+
+Método linear: os elementos ficam um depois do outro em V[0..n-1], e x pertence ao conjunto se existe i com V[i] = x.
+Buscar: percorre o vetor, O(n).
+Inserir: precisa buscar antes, para não repetir, O(n).
+Remover: busca o elemento e preenche o buraco (por exemplo, com o último), O(n).
+Esvaziar: basta fazer n = 0, O(1).
+
+Vetor de bits: para elementos num universo 0..U-1, o vetor tem uma posição para cada valor possível, e x pertence ao conjunto se e só se V[x] = 1.
+Buscar, inserir e remover: basta olhar ou mudar V[x], O(1).
+Esvaziar: precisa zerar todas as U posições, O(U).
+
+Exemplo: o conjunto {1, 4, 6}, no universo 0..7.
+Linear: V = {1, 4, 6} e n = 3. Para saber se 6 pertence, são 3 comparações.
+Vetor de bits: V = {0, 1, 0, 0, 1, 0, 1, 0}. Para saber se 6 pertence, basta olhar V[6] = 1.
+
+O vetor de bits troca memória por tempo: gasta U posições mesmo que o conjunto tenha poucos elementos, e só funciona quando os elementos são inteiros numa faixa pequena. A mesma ideia aparece na ordenação por frequência, e a dificuldade de usá-la com palavras leva ao espalhamento (hashing).
+
+Referências:
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semana 5.
+- BRANDÃO, L. O. Material didático de MAC0122. IME-USP. Disponível em: https://www.ime.usp.br/~leo/mac/mac122/
+- ZIVIANI, N. Projeto de Algoritmos com implementações em Pascal e C. 3. ed. São Paulo: Cengage Learning, 2011.
