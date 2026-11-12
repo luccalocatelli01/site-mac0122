@@ -1,0 +1,27 @@
+Tecnica:
+Algoritmo: MDC de Euclides
+Autores: Euclides
+Data: c. 300 a.C.
+Conceitos: Invariante, Recursividade
+Problema: Dados dois inteiros positivos, achar o maior divisor comum.
+---
+O maior divisor comum (MDC) de m e n é o maior inteiro que divide os dois. O jeito ingênuo é testar os candidatos d a partir do menor dos dois números, descendo até achar um que divida m e n; no pior caso isso faz cerca de min(m, n) testes.
+
+O algoritmo de Euclides usa a propriedade mdc(m, n) = mdc(n, m % n), com mdc(m, 0) = m. A cada passo, o par (m, n) é trocado por (n, m % n), e o resto diminui até chegar a 0; nessa hora, a resposta é o m. Ele aparece nos Elementos de Euclides (livro VII), por volta de 300 a.C., e é um dos algoritmos mais antigos ainda em uso.
+
+Exemplo, mdc(48, 18):
+(48, 18): 48 % 18 = 12, novo par (18, 12).
+(18, 12): 18 % 12 = 6, novo par (12, 6).
+(12, 6): 12 % 6 = 0, novo par (6, 0).
+n = 0, então mdc(48, 18) = 6.
+
+@codigo mdc_euclides.c
+
+Invariante: no início de cada iteração, mdc(m, n) é igual ao MDC dos dois números originais. Ele vale no início e é mantido porque todo divisor comum de m e n também divide m % n = m - q n, e todo divisor comum de n e m % n também divide m. Quando o laço termina, n = 0, e mdc(m, 0) = m é a resposta. A versão recursiva é a mesma ideia: o caso base é n = 0, e o caso geral chama mdc(n, m % n).
+
+Consumo de tempo: a cada dois passos o maior número cai pelo menos pela metade, então o número de passos é O(log min(m, n)). Com números de 1 000 000, o ingênuo pode fazer um milhão de testes, e Euclides faz poucas dezenas de passos.
+
+Referências:
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semana 3 (código adaptado de aula_06_mdc_euclides.c).
+- BRANDÃO, L. O. Material didático de MAC0122. IME-USP. Disponível em: https://www.ime.usp.br/~leo/mac/mac122/
+- CORMEN, T. H. et al. Algoritmos: teoria e prática. 3. ed. Rio de Janeiro: Elsevier, 2012.

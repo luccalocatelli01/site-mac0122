@@ -1,0 +1,32 @@
+Tecnica:
+Algoritmo: Heapsort
+Autores: J. W. J. Williams
+Data: 1964
+Conceitos: Ordenação, Árvore
+Problema: Dado um vetor de n elementos, colocá-los em ordem crescente.
+---
+O heapsort (ordenação por monte) usa um monte (heap) de máximo: uma árvore binária guardada no próprio vetor, em que os filhos de v[k] são v[2k + 1] e v[2k + 2], e cada elemento é maior ou igual aos seus filhos. Com isso, o maior elemento do monte está sempre na raiz, v[0].
+
+O método tem duas fases:
+1. Construir o monte: para k de n / 2 - 1 até 0 (os nós que têm filho, de baixo para cima), o elemento v[k] desce: enquanto for menor que o maior dos seus filhos, troca com esse filho.
+2. Ordenar: troca a raiz (o maior) com o último elemento do monte, que passa a estar na posição definitiva; o monte diminui uma posição, e a nova raiz desce para recuperar a propriedade de monte. Repete até o monte acabar.
+
+Exemplo: v = {5, 3, 8, 1}.
+Construção: k = 1, o 3 é maior que o filho 1, nada muda. k = 0, o 5 é menor que o filho 8, e eles trocam: {8, 3, 5, 1}, que é um monte.
+Troca 8 e 1: {1, 3, 5 | 8}; o 1 desce, trocando com o 5: {5, 3, 1 | 8}.
+Troca 5 e 1: {1, 3 | 5, 8}; o 1 desce, trocando com o 3: {3, 1 | 5, 8}.
+Troca 3 e 1: {1 | 3, 5, 8}. Resultado: {1, 3, 5, 8}.
+
+@codigo heapsort.c
+
+Invariante da fase 2: v[0..N-1] é um monte, e v[N..n-1] tem os n - N maiores elementos, em ordem crescente.
+
+Consumo de tempo: o monte é uma árvore binária completa, de altura cerca de log₂ n, então descer um elemento custa O(log n). A construção custa no máximo O(n log n) (na verdade, O(n)), e a fase 2 faz n descidas, O(n log n). O total é O(n log n) mesmo no pior caso, como a fusão, mas com memória extra O(1), porque tudo acontece dentro do próprio vetor. O heapsort não é estável.
+
+O heapsort foi publicado por J. W. J. Williams em 1964, na Communications of the ACM; no mesmo ano, Robert W. Floyd publicou a forma mais eficiente de construir o monte.
+
+Referências:
+- BRANDÃO, L. O. Material didático de MAC0122. IME-USP. Disponível em: https://www.ime.usp.br/~leo/mac/mac122/ (código adaptado de ordena_monte.html).
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semana 4.
+- CORMEN, T. H. et al. Algoritmos: teoria e prática. 3. ed. Rio de Janeiro: Elsevier, 2012.
+- FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009.

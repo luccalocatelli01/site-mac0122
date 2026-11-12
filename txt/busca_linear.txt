@@ -1,0 +1,23 @@
+Tecnica:
+Algoritmo: Busca linear
+Autores:
+Data:
+Conceitos: Busca, Complexidade
+Problema: Dado um vetor e um valor x, achar uma posição de x no vetor ou dizer que x não está nele.
+---
+A busca linear (ou sequencial) compara x com cada elemento do vetor, na ordem, a partir da posição 0. Se achar um elemento igual a x, devolve a posição; se chegar ao fim sem achar, devolve -1, que não é uma posição válida e significa que x não está no vetor. Ela não precisa que o vetor esteja ordenado.
+
+Exemplo: v = {7, 2, 9, 4} (n = 4).
+Para x = 9: compara com 7, com 2 e com 9, e devolve a posição 2, depois de 3 comparações.
+Para x = 5: compara com os 4 elementos sem achar, e devolve -1.
+
+@codigo busca_linear.c
+
+Consumo de tempo: no melhor caso x está na posição 0 e basta 1 comparação, O(1). No pior caso, x está na última posição ou não está no vetor, e são n comparações, O(n). Se x está no vetor e cada posição é igualmente provável, a média é cerca de n / 2 comparações, que também é O(n).
+
+A cada iteração o laço faz dois testes: se ainda há posições (i < n) e se v[i] é x. A busca com sentinela elimina o primeiro deles. Num vetor ordenado, a busca binária faz só O(log n) comparações.
+
+Referências:
+- BRANDÃO, L. O. Material didático de MAC0122. IME-USP. Disponível em: https://www.ime.usp.br/~leo/mac/mac122/ (código adaptado de busca_nao_ordenado.html).
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semana 3.
+- FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009.

@@ -1,0 +1,33 @@
+Tecnica: Método guloso
+Algoritmo: Bolha
+Autores: Edward H. Friend
+Data: 1956
+Conceitos: Ordenação, Ordenação estável
+Problema: Dado um vetor de n elementos, colocá-los em ordem crescente.
+---
+O método da bolha percorre o vetor comparando cada par de vizinhos, v[j] e v[j + 1], e troca os dois quando estão fora de ordem. Ao fim da primeira passada, o maior elemento chegou à última posição, como uma bolha que sobe. A segunda passada faz o mesmo com v[0..n-2], e assim por diante: depois de k passadas, os k maiores estão no fim, nas posições definitivas.
+
+Exemplo: v = {5, 3, 8, 1}.
+Passada 1: 5 e 3 trocam {3, 5, 8, 1}; 5 e 8 não trocam; 8 e 1 trocam {3, 5, 1, 8}.
+Passada 2: 3 e 5 não trocam; 5 e 1 trocam {3, 1, 5, 8}.
+Passada 3: 3 e 1 trocam {1, 3, 5, 8}.
+
+@codigo bolha.c
+
+Consumo de tempo: as passadas fazem (n - 1) + (n - 2) + ... + 1 = n(n - 1) / 2 comparações, O(n²). No pior caso, com o vetor em ordem inversa, cada comparação gera uma troca. Na versão que para quando uma passada inteira não faz nenhuma troca, o melhor caso (vetor já ordenado) é uma passada só, O(n). A memória extra é O(1).
+
+A bolha é estável: dois elementos iguais nunca trocam entre si, porque a troca só acontece quando v[j] > v[j + 1].
+
+Ordenação de nomes (semana 5): o mesmo método ordena um vetor de cadeias de caracteres, comparando com strcmp. Os nomes podem ser trocados de lugar, ou pode-se deixar os nomes parados e ordenar um vetor de índices (o vetor de ordem), que é mais barato quando cada elemento é grande. O primeiro programa abaixo ordena nomes e o segundo mostra como ler os dados de um arquivo.
+
+@codigo bolha_strings.c
+
+@codigo processa_arquivo.c
+
+A bolha foi descrita por Edward H. Friend em 1956, no artigo Sorting on Electronic Computer Systems.
+
+Referências:
+- BRANDÃO, L. O. Material didático de MAC0122. IME-USP. Disponível em: https://www.ime.usp.br/~leo/mac/mac122/ (códigos adaptados de ordena_bolha.html, ordena_string_bolha.html e exemplo_processa_arquivo.html).
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semanas 4 e 5.
+- KNUTH, D. E. The Art of Computer Programming, v. 3: Sorting and Searching. 2. ed. Addison-Wesley, 1998.
+- FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009.

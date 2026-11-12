@@ -1,15 +1,27 @@
 Tecnica: Método guloso
-Algoritmo: Ordenação por seleção direta
+Algoritmo: Seleção direta
 Autores:
 Data:
 Conceitos: Ordenação, Complexidade
 Problema: Dado um vetor de n elementos, colocá-los em ordem crescente.
 ---
-A cada passo, a seleção direta procura o menor elemento da parte ainda não ordenada e o troca com o primeiro elemento dessa parte.
+A cada passo, a seleção direta procura o menor elemento da parte ainda não ordenada e o troca com o primeiro elemento dessa parte. No passo i (de 0 a n - 2), o menor de v[i..n-1] vai para a posição i, que é a sua posição definitiva. É um método guloso: em cada passo ele faz a escolha que parece melhor naquele momento (o menor que sobrou) e nunca volta atrás.
+
+Exemplo: v = {5, 3, 8, 1}.
+i = 0: o menor de {5, 3, 8, 1} é 1, que troca com o 5: {1, 3, 8, 5}.
+i = 1: o menor de {3, 8, 5} é o próprio 3, e nada muda: {1, 3, 8, 5}.
+i = 2: o menor de {8, 5} é 5, que troca com o 8: {1, 3, 5, 8}.
 
 @codigo selecao_direta.c
 
-O número de comparações é sempre da ordem de n², mesmo com o vetor já ordenado, e a memória extra é constante.
+Invariante: no início do passo i, v[0..i-1] está ordenado e todo elemento de v[0..i-1] é menor ou igual a todo elemento de v[i..n-1]. Por isso, quando o passo n - 2 termina, o vetor inteiro está ordenado.
+
+Consumo de tempo: o passo i faz n - 1 - i comparações para achar o menor, e no total são (n - 1) + (n - 2) + ... + 1 = n(n - 1) / 2 comparações, O(n²), sempre, mesmo com o vetor já ordenado. Em compensação, faz no máximo n - 1 trocas, menos que a bolha e a inserção. A memória extra é O(1).
+
+A seleção direta não é estável: em {2a, 2b, 1}, o 1 troca com o 2a e o vetor fica {1, 2b, 2a}, invertendo a ordem dos dois 2.
 
 Referências:
+- BRANDÃO, L. O. Material didático de MAC0122. IME-USP. Disponível em: https://www.ime.usp.br/~leo/mac/mac122/ (código adaptado de ordena_selecao.html).
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semana 4.
 - FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009.
+- ZIVIANI, N. Projeto de Algoritmos com implementações em Pascal e C. 3. ed. São Paulo: Cengage Learning, 2011.

@@ -1,0 +1,24 @@
+Tecnica:
+Algoritmo: Busca com sentinela
+Autores:
+Data:
+Conceitos: Busca
+Problema: Dado um vetor e um valor x, achar uma posição de x no vetor ou dizer que x não está nele.
+---
+A busca com sentinela é uma busca linear com um truque: antes de começar, o próprio x é colocado numa posição extra, logo depois do último elemento (v[n] = x). Esse elemento é a sentinela. Como agora x com certeza está no vetor, o laço não precisa mais testar se chegou ao fim: ele só avança enquanto v[i] for diferente de x.
+
+Quando o laço para, há dois casos: se i < n, x foi achado numa posição de verdade, e a resposta é i; se i == n, quem foi achado foi a sentinela, e x não está no vetor. O vetor precisa ter espaço para uma posição a mais.
+
+Exemplo: v = {7, 2, 9, 4} (n = 4) e x = 5.
+Coloca a sentinela: v = {7, 2, 9, 4, 5}.
+Compara com 7, 2, 9 e 4 (diferentes) e para em v[4] = 5.
+i = 4 = n, então 5 não está no vetor.
+
+@codigo busca_sentinela.c
+
+Consumo de tempo: continua O(n) no pior caso e O(1) no melhor, como a busca linear. O que muda é a constante: a busca linear faz dois testes por iteração (i < n e v[i] != x) e a sentinela faz só um, então no pior caso são cerca de n comparações em vez de 2n. É um exemplo de melhoria que não muda a ordem de grandeza, mas deixa o programa mais rápido.
+
+Referências:
+- BRANDÃO, L. O. Material didático de MAC0122. IME-USP. Disponível em: https://www.ime.usp.br/~leo/mac/mac122/ (código adaptado de busca_nao_ordenado_sentinela.html).
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semana 3.
+- KNUTH, D. E. The Art of Computer Programming, v. 3: Sorting and Searching. 2. ed. Addison-Wesley, 1998.

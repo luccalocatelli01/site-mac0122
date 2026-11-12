@@ -1,0 +1,28 @@
+Tecnica: Divisão e conquista
+Algoritmo: Torres de Hanói
+Autores: Édouard Lucas
+Data: 1883
+Conceitos: Recursividade, Indução
+Problema: Mover n discos entre três pinos sem nunca pôr um disco maior sobre um menor.
+---
+O jogo tem três pinos, A, B e C, e n discos de tamanhos diferentes, todos no pino A, do maior (embaixo) para o menor (em cima). O objetivo é levar todos para o pino C, movendo um disco por vez e sem nunca colocar um disco maior sobre um menor. O jogo foi publicado em 1883 pelo matemático francês Édouard Lucas.
+
+A solução recursiva divide o problema em problemas menores do mesmo tipo. Para mover n discos de A para C usando B como auxiliar:
+1. mover os n - 1 discos de cima de A para B, usando C como auxiliar;
+2. mover o disco maior de A para C;
+3. mover os n - 1 discos de B para C, usando A como auxiliar.
+O caso base é n = 1: basta mover o disco direto de A para C.
+
+Exemplo com n = 3 (7 movimentos):
+A para C, A para B, C para B (os 2 discos de cima foram para B).
+A para C (o disco maior).
+B para A, B para C, A para C (os 2 discos foram de B para C).
+
+@codigo hanoi.c
+
+Número de movimentos: T(1) = 1 e T(n) = 2T(n - 1) + 1, porque os passos 1 e 3 movem n - 1 discos cada e o passo 2 move um. Resolvendo, T(n) = 2^n - 1: 1, 3, 7, 15, 31... A fórmula se prova por indução (veja a página de Indução). Esse número é o mínimo possível, então nenhum algoritmo resolve o jogo em menos de 2^n - 1 movimentos, e o consumo de tempo é O(2^n). Na lenda que acompanha o jogo, com 64 discos, são 2^64 - 1, cerca de 1,8 × 10^19 movimentos.
+
+Referências:
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semana 2 (código adaptado de aula_04_hanoi.c).
+- BRANDÃO, L. O. Torre de Hanói. Apostila do Laboratório de Ensino de Matemática, IME-USP, 1999 (revisão 2021). Disponível em: https://www.ime.usp.br/lem/apostilas.html
+- FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009.

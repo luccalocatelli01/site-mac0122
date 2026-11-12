@@ -1,0 +1,29 @@
+Tecnica:
+Algoritmo: Fibonacci recursivo e iterativo
+Autores: Leonardo de Pisa (Fibonacci)
+Data: 1202
+Conceitos: Recursividade, Complexidade
+Problema: Dado n, calcular o n-ésimo número de Fibonacci.
+---
+A sequência de Fibonacci começa com fib(0) = 0 e fib(1) = 1, e cada termo seguinte é a soma dos dois anteriores: fib(n) = fib(n - 1) + fib(n - 2). Os primeiros termos são 0, 1, 1, 2, 3, 5, 8, 13, 21. Ela aparece no Liber Abaci, de Leonardo de Pisa, em 1202, no problema do crescimento de uma população de coelhos.
+
+Versão recursiva: copia a definição. Os casos base são n = 0 e n = 1, que devolvem o próprio n; nos outros casos, a função devolve fib(n - 1) + fib(n - 2).
+Versão iterativa: guarda só os dois últimos termos em duas variáveis e, a cada passo, calcula o próximo e desloca os dois, até chegar ao termo n.
+
+Exemplo, chamadas da versão recursiva para fib(5):
+fib(5) chama fib(4) e fib(3).
+fib(4) chama fib(3) e fib(2).
+Cada fib(3) chama fib(2) e fib(1), e cada fib(2) chama fib(1) e fib(0).
+No total são 15 chamadas, com fib(3) calculado 2 vezes e fib(2) calculado 3 vezes.
+A versão iterativa calcula os termos 2, 3, 4 e 5 uma vez cada: 4 passos.
+
+@codigo fibonacci.c
+
+O programa mede o tempo das duas versões. A recursiva fica lenta muito rápido: o número de chamadas C(n) satisfaz C(n) = C(n - 1) + C(n - 2) + 1, que cresce como fib(n), cerca de 1,618^n. É um tempo exponencial, O(1,618^n), e com n perto de 45 já leva segundos. A iterativa faz n - 1 passos, O(n), e usa memória O(1). A recursiva ainda usa memória O(n) na pilha de execução.
+
+A lição da semana 1: o mesmo problema pode ter um algoritmo inviável e outro eficiente, e a diferença está em não recalcular o que já foi calculado.
+
+Referências:
+- BRANDÃO, L. O. Material didático de MAC0122. IME-USP. Disponível em: https://www.ime.usp.br/~leo/mac/mac122/ (código adaptado de introducao_recursividade_fibonacci_gettime.html).
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semana 1.
+- FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009.

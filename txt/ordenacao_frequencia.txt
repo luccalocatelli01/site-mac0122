@@ -1,0 +1,35 @@
+Tecnica:
+Algoritmo: Ordenação por frequência (radix)
+Autores: Herman Hollerith, Harold H. Seward
+Data: 1887
+Conceitos: Ordenação, Ordenação estável
+Problema: Dado um vetor de n elementos, colocá-los em ordem crescente.
+---
+A ordenação por frequência (counting sort) não compara elementos entre si. Ela supõe que os valores estão numa faixa pequena, o universo 0..U-1, e usa a ideia do vetor de bits dos conjuntos: um vetor de contadores com uma posição para cada valor possível.
+
+O método tem três passos:
+1. Contar: percorre o vetor e conta quantas vezes cada valor aparece.
+2. Acumular: transforma as contagens em frequências acumuladas, de modo que, para cada valor x, o contador diga quantos elementos são menores que x. Esse número é a posição onde a primeira cópia de x deve ficar no vetor ordenado.
+3. Distribuir: percorre o vetor original da esquerda para a direita e copia cada elemento x para um vetor auxiliar, na posição indicada pelo contador de x, que depois aumenta 1 (a próxima cópia de x vai para a posição seguinte).
+
+Exemplo: v = {3, 1, 3, 0, 2}, com universo 0..3.
+Contagens: o 0 aparece 1 vez, o 1, 1 vez, o 2, 1 vez, e o 3, 2 vezes.
+Acumuladas (elementos menores que x): para 0, 0; para 1, 1; para 2, 2; para 3, 3.
+Distribuição: o primeiro 3 vai para a posição 3, o 1 para a 1, o segundo 3 para a 4, o 0 para a 0 e o 2 para a 2.
+Resultado: {0, 1, 2, 3, 3}.
+
+@codigo ordenacao_frequencia.c
+
+Consumo de tempo: cada passo percorre o vetor (n) ou o vetor de contadores (U) uma vez, e o total é O(n + U). Quando U é da ordem de n, isso é O(n), mais rápido que qualquer método por comparação, que precisa de O(n log n). O preço é a memória extra, O(n + U), e a restrição de os valores estarem numa faixa conhecida e pequena.
+
+O método é estável: como o vetor original é percorrido da esquerda para a direita e as cópias de cada valor ocupam posições crescentes, elementos iguais mantêm a ordem relativa. É isso que permite o radix sort: ordenar números ou palavras dígito por dígito (ou letra por letra), do menos significativo para o mais significativo, com uma ordenação por frequência estável em cada passada.
+
+A ideia vem das máquinas tabuladoras de Herman Hollerith, de 1887, que ordenavam cartões perfurados coluna por coluna; Harold H. Seward descreveu a ordenação por contagem e o radix sort para computadores em 1954. O programa abaixo compara o tempo da bolha com o da ordenação por frequência para ordenar nomes lidos de um arquivo.
+
+@codigo compara_bolha_radix_strings.c
+
+Referências:
+- BRANDÃO, L. O. Material didático de MAC0122. IME-USP. Disponível em: https://www.ime.usp.br/~leo/mac/mac122/ (códigos adaptados de ordena_por_frequencia.html e ordena_string_compara_metodos.html).
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semana 5.
+- KNUTH, D. E. The Art of Computer Programming, v. 3: Sorting and Searching. 2. ed. Addison-Wesley, 1998.
+- CORMEN, T. H. et al. Algoritmos: teoria e prática. 3. ed. Rio de Janeiro: Elsevier, 2012.

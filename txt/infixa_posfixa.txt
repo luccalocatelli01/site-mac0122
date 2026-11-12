@@ -1,0 +1,34 @@
+Tecnica:
+Algoritmo: Conversão de infixa para pós-fixa
+Autores: Edsger W. Dijkstra
+Data: 1961
+Conceitos: Pilha
+Problema: Dada uma expressão em notação infixa, escrevê-la em notação pós-fixa.
+---
+Na notação infixa, que é a usual, o operador fica entre os operandos e são precisos parênteses e regras de precedência: em A + B * C, a multiplicação é feita antes. Na pós-fixa, o operador vem depois dos operandos, e a mesma expressão fica A B C * +. A conversão usa uma pilha para guardar os operadores que ainda não podem ser escritos.
+
+A expressão é lida da esquerda para a direita:
+Operando: vai direto para a saída.
+Abre parêntese: é empilhado.
+Fecha parêntese: os operadores são desempilhados para a saída até aparecer o abre parêntese, que é descartado.
+Operador: enquanto o topo da pilha for um operador de precedência maior ou igual, ele é desempilhado para a saída; depois, o operador lido é empilhado.
+No fim da expressão, o que sobrou na pilha é desempilhado para a saída.
+
+Exemplo 1: A + B * C.
+A vai para a saída. O + é empilhado. B vai para a saída. O * tem precedência maior que o + do topo, então é empilhado por cima. C vai para a saída. No fim, desempilha o * e depois o +.
+Saída: A B C * +.
+
+Exemplo 2: (A + B) * C.
+O ( é empilhado. A vai para a saída, o + é empilhado, B vai para a saída. O ) desempilha o + para a saída e descarta o (. O * é empilhado, C vai para a saída, e no fim o * é desempilhado.
+Saída: A B + C *.
+
+@codigo infixa_posfixa.c
+
+Consumo de tempo: cada símbolo é lido uma vez e cada operador é empilhado e desempilhado no máximo uma vez, então a conversão é O(n) para uma expressão com n símbolos. Junto com a avaliação da pós-fixa, que também usa uma pilha, isso dá um jeito de calcular expressões infixas em tempo linear.
+
+O método é conhecido como algoritmo do pátio de manobras (shunting-yard) e foi descrito por Edsger W. Dijkstra em 1961.
+
+Referências:
+- BRANDÃO, L. O. Material didático de MAC0122. IME-USP. Disponível em: https://www.ime.usp.br/~leo/mac/mac122/ (código adaptado de expressoes_infixa2posfixa.html).
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semana 8.
+- FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009.
