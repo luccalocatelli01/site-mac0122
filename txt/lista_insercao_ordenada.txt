@@ -1,0 +1,33 @@
+Tecnica:
+Algoritmo: Inserção ordenada em lista ligada
+Autores: Allen Newell, Cliff Shaw, Herbert A. Simon
+Data: 1955
+Conceitos: Lista ligada, Apontador
+Problema: Inserir um elemento numa lista ligada ordenada, mantendo a ordem.
+---
+Numa lista ligada cada nó guarda uma chave e um apontador para o próximo nó; o último aponta para NULL. Para inserir um valor mantendo a lista em ordem crescente, é preciso achar o nó que vai ficar antes do novo e ajustar dois apontadores.
+
+A função recebe No **ptLista, o endereço do apontador para o primeiro nó, e não só o apontador. Isso é necessário porque, quando o novo nó entra no começo, o primeiro nó da lista muda, e a função precisa alterar o apontador que está do lado de quem chamou.
+
+Caso 1, a lista está vazia ou o valor é menor ou igual à primeira chave: o novo nó aponta para o antigo primeiro (novo->prox = *ptLista) e passa a ser o primeiro (*ptLista = novo).
+Caso 2, nos outros casos: um apontador atual começa no primeiro nó e avança enquanto o próximo existe e tem chave menor que o valor (atual->prox != NULL && atual->prox->chave < valor). Quando para, o novo nó entra logo depois de atual: novo->prox = atual->prox e atual->prox = novo.
+
+A ordem dessas duas atribuições importa: se atual->prox = novo viesse primeiro, o endereço do resto da lista se perderia.
+
+Exemplo: lista 2 -> 5 -> 8 e valor 6.
+6 não é menor que 2, então vale o caso 2, com atual no nó 2.
+atual->prox->chave = 5 < 6, então atual avança para o nó 5.
+atual->prox->chave = 8 não é menor que 6, então o laço para.
+novo->prox = nó 8 e atual->prox = novo, e a lista fica 2 -> 5 -> 6 -> 8.
+
+@codigo lista_insercao_ordenada.c
+
+Consumo de tempo: no melhor caso o valor entra no começo, O(1). No pior caso ele entra no fim e o laço percorre a lista inteira, O(n). Ao contrário do vetor, não é preciso deslocar elementos, mas também não dá para fazer busca binária, porque não há acesso direto ao meio da lista.
+
+As listas ligadas surgiram em 1955 e 1956, com Allen Newell, Cliff Shaw e Herbert A. Simon, na linguagem IPL (Information Processing Language).
+
+Referências:
+- BRANDÃO, L. O. Material didático de MAC0122. IME-USP. Disponível em: https://www.ime.usp.br/~leo/mac/mac122/ (código adaptado de lista_ligada/introducao_lista_ligada.html).
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semana 7.
+- FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009.
+- CORMEN, T. H. et al. Algoritmos: teoria e prática. 3. ed. Rio de Janeiro: Elsevier, 2012.

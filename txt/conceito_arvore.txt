@@ -1,0 +1,27 @@
+Tecnica:
+Algoritmo:
+Autores:
+Data:
+Conceitos: Árvore
+Problema:
+---
+Uma árvore é um grafo conexo e sem ciclos. Numa árvore com raiz, um vértice é escolhido como raiz, e isso cria uma relação de precedência: cada vértice, menos a raiz, tem um único pai, e os vértices ligados abaixo dele são seus filhos. Numa árvore binária, cada nó tem no máximo dois filhos, o esquerdo e o direito.
+
+Folha é um nó sem filhos; os outros são nós internos.
+Profundidade de um nó é o número de arestas no caminho da raiz até ele; a raiz tem profundidade 0.
+Altura de um nó é o número de arestas no caminho mais longo dele até uma folha; a altura da árvore é a altura da raiz, que é igual à maior profundidade de uma folha.
+Uma árvore com n nós tem n - 1 arestas. Uma árvore binária de altura h tem no máximo 2^(h+1) - 1 nós e no máximo 2^h folhas.
+
+Exemplo: árvore de expressão de (A + (B * C)) - (D / E).
+A raiz é o -, com profundidade 0. O + e o / têm profundidade 1. A, o *, D e E têm profundidade 2. B e C têm profundidade 3.
+São 9 nós e 5 folhas (A, B, C, D, E). A altura da árvore é 3, e a altura do nó + é 2.
+
+Árvores também representam a execução de funções recursivas: cada chamada é um nó, e as chamadas que ela faz são seus filhos. A árvore do Fibonacci recursivo mostra os valores que são recalculados várias vezes.
+
+Muitos algoritmos em árvore são recursivos, porque cada filho é a raiz de uma subárvore: o caso base é a árvore vazia. Os percursos pré-ordem, em-ordem e pós-ordem visitam os n nós em O(n).
+
+Referências:
+- BRANDÃO, L. O. Material didático de MAC0122. IME-USP. Disponível em: https://www.ime.usp.br/~leo/mac/mac122/
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semanas 3 e 9.
+- SZWARCFITER, J. L.; MARKENZON, L. Estruturas de Dados e seus Algoritmos. 3. ed. Rio de Janeiro: LTC, 2010.
+- FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009.

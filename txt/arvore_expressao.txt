@@ -1,0 +1,33 @@
+Tecnica:
+Algoritmo: Árvore de expressão e percursos
+Autores:
+Data:
+Conceitos: Árvore, Recursividade
+Problema: Dada uma árvore de expressão, escrevê-la nas notações pré-fixa, infixa e pós-fixa.
+---
+Uma árvore de expressão é uma árvore binária em que cada folha é um operando (uma variável ou um número) e cada nó interno é um operador, com os dois operandos como filhos esquerdo e direito. O operador da raiz é o último a ser calculado.
+
+Os três percursos visitam todos os nós e só mudam o momento em que o nó é escrito:
+Pré-ordem: escreve o nó, percorre a subárvore esquerda, percorre a direita. Dá a notação pré-fixa.
+Em-ordem: percorre a esquerda, escreve o nó, percorre a direita. Dá a notação infixa (sem os parênteses).
+Pós-ordem: percorre a esquerda, percorre a direita, escreve o nó. Dá a notação pós-fixa.
+Os três são recursivos: o caso base é a árvore vazia (apontador NULL), em que não se faz nada.
+
+Exemplo: a expressão ((A + (B * C)) - (D / E)).
+A raiz é o -, porque é a última operação. O filho esquerdo é o + (com A e o * de B e C) e o direito é o / (com D e E).
+Pré-ordem: - + A * B C / D E
+Em-ordem: A + B * C - D / E
+Pós-ordem: A B C * + D E / -
+A árvore tem 5 folhas (A, B, C, D, E), e a folha mais à esquerda é A. Com a raiz na profundidade 0, a folha mais funda (B ou C) está na profundidade 3, então a altura da árvore é 3. A altura do nó +, contada como o caminho mais longo dele até uma folha (+, *, B), é 2.
+
+@codigo arvore_expressao.c
+
+O percurso em-ordem sem parênteses perde a estrutura: A + B * C - D / E, calculado da esquerda para a direita, não dá o mesmo valor da expressão original. As notações pré e pós-fixa não têm esse problema, porque a ordem dos símbolos já determina a árvore.
+
+Consumo de tempo: cada percurso visita cada nó uma vez, O(n) para uma árvore com n nós. A memória extra é a pilha da recursão, proporcional à altura da árvore: O(log n) numa árvore balanceada e O(n) no pior caso.
+
+Referências:
+- BRANDÃO, L. O. Material didático de MAC0122. IME-USP. Disponível em: https://www.ime.usp.br/~leo/mac/mac122/ (código adaptado de arvores/arvore_bin_expressao_aleatoria.html).
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semana 9.
+- FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009.
+- SZWARCFITER, J. L.; MARKENZON, L. Estruturas de Dados e seus Algoritmos. 3. ed. Rio de Janeiro: LTC, 2010.

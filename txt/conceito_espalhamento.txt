@@ -1,0 +1,24 @@
+Tecnica:
+Algoritmo:
+Autores:
+Data:
+Conceitos: Espalhamento
+Problema:
+---
+Espalhamento (hashing) é uma forma de guardar e procurar elementos num vetor em tempo O(1) no caso médio. Ele generaliza a ideia do vetor de bits dos conjuntos: lá, x está no conjunto se V[x] = 1; aqui, uma função de espalhamento f transforma a chave (por exemplo, uma palavra) num índice entre 0 e N - 1, e o elemento é guardado nessa posição.
+
+Função de espalhamento da aula: somar os códigos ASCII dos caracteres da palavra e tirar o resto da divisão por N. Com N = 10, f("ab") = (97 + 98) % 10 = 195 % 10 = 5.
+
+Colisão: duas chaves diferentes com o mesmo índice. Com a soma dos ASCII, isso acontece com qualquer anagrama: f("abc") = f("cba"). Não dá para evitar todas as colisões, então é preciso decidir onde guardar a segunda chave.
+Área de colisão (aula): um pedaço no fim do vetor é reservado para as chaves que colidiram, que são guardadas ali uma depois da outra. A busca olha a posição f(chave) e, se não achar, percorre a área de colisão.
+Encadeamento externo (P1): cada posição do vetor guarda o início de uma lista ligada com todas as chaves que caíram nela. Inserir é pôr a chave na lista da posição f(chave); buscar é percorrer só essa lista.
+
+Consumo de tempo com encadeamento externo: se a função espalha bem as n chaves pelas N posições, cada lista tem em média n / N elementos, e com N proporcional a n a busca é O(1) em média. No pior caso todas as chaves caem na mesma posição, viram uma única lista, e a busca é O(n).
+
+Uma boa função de espalhamento usa todos os caracteres da chave e a posição de cada um, para que anagramas não colidam, e o tamanho N costuma ser um número primo.
+
+Referências:
+- BRANDÃO, L. O. Material didático de MAC0122. IME-USP. Disponível em: https://www.ime.usp.br/~leo/mac/mac122/
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semana 5.
+- KNUTH, D. E. The Art of Computer Programming, v. 3: Sorting and Searching. 2. ed. Addison-Wesley, 1998.
+- CORMEN, T. H. et al. Algoritmos: teoria e prática. 3. ed. Rio de Janeiro: Elsevier, 2012.

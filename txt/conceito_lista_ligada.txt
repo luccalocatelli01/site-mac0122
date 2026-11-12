@@ -1,0 +1,32 @@
+Tecnica:
+Algoritmo:
+Autores:
+Data:
+Conceitos: Lista ligada
+Problema:
+---
+Uma lista ligada (ou encadeada) guarda uma sequência de elementos em nós espalhados pela memória, cada um com a informação e um apontador para o próximo nó. Basta guardar o endereço do primeiro nó; o último aponta para NULL, que marca o fim.
+
+Em C, o nó é um registro (struct) que aponta para um registro do mesmo tipo:
+typedef struct No { int chave; struct No *prox; } No;
+Cada nó novo é criado com malloc(sizeof(No)) e, quando não for mais usado, liberado com free.
+
+Lista e vetor:
+Acesso ao i-ésimo elemento: O(1) no vetor; O(i) na lista, que precisa ser percorrida desde o começo.
+Inserir ou remover num ponto já encontrado: O(1) na lista, só mudando apontadores; O(n) no vetor, que precisa deslocar os elementos seguintes.
+Tamanho: o vetor tem tamanho fixo; a lista cresce e diminui conforme os nós são criados e liberados.
+Busca binária: só no vetor ordenado, porque a lista não tem acesso direto ao meio.
+
+O caso do primeiro nó: inserir ou remover no começo muda o endereço do primeiro nó. Por isso as funções que fazem isso recebem No **ptLista, o endereço do apontador para o primeiro nó, e alteram *ptLista. Com só No *lista, a função mudaria uma cópia, e quem chamou continuaria com o endereço antigo.
+
+Lista com nó cabeça: outra solução é começar a lista com um nó extra, que não guarda informação e nunca é removido. Como o primeiro nó de verdade é sempre o seguinte ao nó cabeça, inserir no começo vira um caso igual aos outros, e não é preciso No **.
+
+Percorrer a lista inteira é O(n): um apontador começa no primeiro nó e avança com atual = atual->prox até chegar em NULL.
+
+@codigo lista_ligada.c
+
+Referências:
+- BRANDÃO, L. O. Material didático de MAC0122. IME-USP. Disponível em: https://www.ime.usp.br/~leo/mac/mac122/ (código adaptado de lista_ligada/introducao_lista_ligada.html).
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semana 7.
+- FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009.
+- ZIVIANI, N. Projeto de Algoritmos com implementações em Pascal e C. 3. ed. São Paulo: Cengage Learning, 2011.

@@ -52,7 +52,7 @@ void gerar_pagina_txt(Pagina *pagina, Pagina todas_as_paginas[],
         while (fgets(linha, TAMANHO_DA_LINHA, txt) != NULL) {
             linha[strcspn(linha, "\r\n")] = '\0';
 
-            if(linha[0] == '-'){
+            if(linha[0] == '-' && linha[1] == ' '){
                 char *referencia = linha + 1;
                 while (*referencia == ' ') referencia++;
 

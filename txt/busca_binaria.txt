@@ -1,0 +1,30 @@
+Tecnica: Divisão e conquista
+Algoritmo: Busca binária
+Autores: John Mauchly
+Data: 1946
+Conceitos: Busca, Invariante, Complexidade
+Problema: Dado um vetor e um valor x, achar uma posição de x no vetor ou dizer que x não está nele.
+---
+A busca binária só funciona num vetor ordenado em ordem crescente e com acesso direto a qualquer posição (por isso não serve para lista ligada). A ideia é olhar o elemento do meio do trecho que ainda pode conter x: se ele for x, a busca acaba; se for menor que x, x só pode estar à direita do meio; se for maior, só pode estar à esquerda. A cada passo, metade do trecho é descartada.
+
+O trecho é controlado por dois índices, e (esquerda) e d (direita), e o meio é m = (e + d) / 2. A busca começa com e = 0 e d = n - 1 e termina quando acha x ou quando e > d, o que significa que o trecho ficou vazio e x não está no vetor.
+
+Exemplo: v = {10, 20, 30, 40, 50, 60, 70} (n = 7) e x = 55.
+e = 0, d = 6, m = 3: v[3] = 40 < 55, então e = 4.
+e = 4, d = 6, m = 5: v[5] = 60 > 55, então d = 4.
+e = 4, d = 4, m = 4: v[4] = 50 < 55, então e = 5.
+e = 5 > d = 4: o trecho ficou vazio e 55 não está no vetor.
+
+@codigo busca_binaria.c
+
+Invariante: no início de cada iteração, se x está no vetor, então x está em v[e..d]. Ele vale no início (o trecho é o vetor inteiro) e continua valendo depois de cada iteração, porque só se descarta a metade em que x não pode estar (o vetor está ordenado). Quando o laço termina com e > d, o trecho é vazio, e pelo invariante x não está no vetor.
+
+Consumo de tempo: no melhor caso x está no meio e basta 1 comparação, O(1). No pior caso o trecho é dividido por 2 até ficar vazio: n, n/2, n/4, ..., 1, o que dá cerca de log₂ n + 1 iterações, O(log n). Para comparar, a busca linear faz até n comparações, O(n).
+
+A primeira descrição publicada da busca binária é atribuída a John Mauchly, nas palestras da Moore School de 1946; a primeira versão que funciona para qualquer n só foi publicada em 1960.
+
+Referências:
+- BRANDÃO, L. O. Material didático de MAC0122. IME-USP. Disponível em: https://www.ime.usp.br/~leo/mac/mac122/ (código adaptado de busca_binaria.html).
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semana 3.
+- FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009.
+- KNUTH, D. E. The Art of Computer Programming, v. 3: Sorting and Searching. 2. ed. Addison-Wesley, 1998.

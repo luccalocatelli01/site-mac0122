@@ -1,0 +1,34 @@
+Tecnica:
+Algoritmo: Avaliação de expressão pós-fixa
+Autores: Jan Łukasiewicz, Arthur Burks, Don Warren, Jesse Wright
+Data: 1924
+Conceitos: Pilha
+Problema: Dada uma expressão em notação pós-fixa, calcular seu valor.
+---
+Na notação pós-fixa (ou polonesa reversa) o operador vem depois dos dois operandos: a expressão infixa 2 * 3 + 4 fica 2 3 * 4 +. Ela não precisa de parênteses nem de regras de precedência, porque a ordem dos símbolos já diz em que ordem as operações são feitas.
+
+Para calcular o valor, a expressão é lida da esquerda para a direita com uma pilha. Se o símbolo é um operando, ele é empilhado. Se é um operador, os dois últimos operandos são desempilhados (o primeiro a sair é o segundo operando, op2, e o seguinte é o primeiro, op1), a operação op1 operador op2 é feita e o resultado é empilhado. No fim, o valor da expressão é o único elemento que sobrou na pilha.
+
+Com a pilha num vetor e topo começando em -1, empilhar é pilha[++topo] = valor (primeiro sobe o topo, depois guarda) e desempilhar é pilha[topo--] (primeiro lê, depois desce o topo). O resultado final está em pilha[topo].
+
+Exemplo: 2 3 * 4 + (a pilha é mostrada com o topo à direita).
+Lê 2: empilha, pilha = 2.
+Lê 3: empilha, pilha = 2 3.
+Lê *: op2 = 3, op1 = 2, empilha 2 * 3 = 6, pilha = 6.
+Lê 4: empilha, pilha = 6 4.
+Lê +: op2 = 4, op1 = 6, empilha 6 + 4 = 10, pilha = 10.
+Fim: o valor é 10.
+
+@codigo pilha_posfixa.c
+
+A ordem op1 e op2 importa nas operações que não são comutativas: em 8 2 -, o resultado é 8 - 2 = 6, e não 2 - 8.
+
+Consumo de tempo: cada símbolo é lido uma vez e cada operação de pilha custa O(1), então a avaliação é O(n) para uma expressão com n símbolos. A memória extra é a pilha, também O(n) no pior caso.
+
+A notação prefixa (polonesa) foi criada por Jan Łukasiewicz em 1924; a ideia de pôr o operador depois dos operandos, que é a pós-fixa, foi proposta por Arthur Burks, Don Warren e Jesse Wright em 1954.
+
+Referências:
+- BRANDÃO, L. O. Material didático de MAC0122. IME-USP. Disponível em: https://www.ime.usp.br/~leo/mac/mac122/
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semana 8.
+- FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009.
+- CORMEN, T. H. et al. Algoritmos: teoria e prática. 3. ed. Rio de Janeiro: Elsevier, 2012.

@@ -1,0 +1,28 @@
+Tecnica:
+Algoritmo:
+Autores:
+Data:
+Conceitos: Pilha
+Problema:
+---
+Uma pilha é uma estrutura em que o último elemento a entrar é o primeiro a sair (LIFO, last in, first out), como uma pilha de pratos. Só o elemento do topo pode ser consultado ou retirado. As operações são empilhar (push), desempilhar (pop), consultar o topo e testar se a pilha está vazia, todas em O(1).
+
+Pilha com vetor: um índice topo guarda a posição do último elemento, e a pilha vazia tem topo = -1.
+Empilhar: pilha[++topo] = x. O topo sobe primeiro e depois o valor é guardado na nova posição.
+Desempilhar: x = pilha[topo--]. O valor é lido primeiro e depois o topo desce.
+Topo: pilha[topo]. Vazia: topo == -1. Cheia: topo == MAX - 1.
+A diferença entre ++topo e topo++ é a ordem: ++topo muda o valor antes de usá-lo, topo++ usa o valor antigo e só depois muda. Trocar um pelo outro escreve uma posição acima ou abaixo da certa.
+
+Exemplo: pilha vazia (topo = -1). Empilha 4: topo = 0, pilha = 4. Empilha 7: topo = 1, pilha = 4 7. Desempilha: devolve 7, topo = 0, pilha = 4.
+
+Pilha com lista ligada: o topo é o primeiro nó. Empilhar é inserir um nó no começo e desempilhar é remover o primeiro nó, as duas O(1). A vantagem sobre o vetor é não ter tamanho máximo.
+
+Usos: avaliação de expressões pós-fixas, conversão de infixa para pós-fixa, a pilha de execução das funções recursivas e a busca em profundidade em grafos.
+
+@codigo pilha_lista.c
+
+Referências:
+- BRANDÃO, L. O. Material didático de MAC0122. IME-USP. Disponível em: https://www.ime.usp.br/~leo/mac/mac122/ (código adaptado de lista_ligada/introducao_pilha_lista_ligada_struct.html).
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semana 8.
+- FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009.
+- CORMEN, T. H. et al. Algoritmos: teoria e prática. 3. ed. Rio de Janeiro: Elsevier, 2012.

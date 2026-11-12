@@ -1,0 +1,23 @@
+Tecnica:
+Algoritmo:
+Autores:
+Data:
+Conceitos: Recursividade
+Problema:
+---
+Uma função é recursiva quando chama a si mesma para resolver uma instância menor do mesmo problema. Toda função recursiva tem duas partes: o caso base, uma instância tão pequena que é resolvida diretamente, sem nova chamada; e o caso geral, que reduz o problema a uma ou mais instâncias menores e usa as respostas delas. Sem caso base, ou se as chamadas não se aproximam dele, a recursão não termina.
+
+Exemplo, o fatorial: fat(0) = 1 é o caso base, e fat(n) = n * fat(n - 1) é o caso geral.
+fat(3) chama fat(2), que chama fat(1), que chama fat(0).
+fat(0) devolve 1; fat(1) devolve 1 * 1 = 1; fat(2) devolve 2 * 1 = 2; fat(3) devolve 3 * 2 = 6.
+
+Pilha de execução: cada chamada ainda não terminada fica guardada na memória, com suas variáveis locais, numa pilha. A última chamada feita é a primeira a terminar. Por isso uma recursão com profundidade n usa memória O(n), mesmo quando a versão iterativa usaria O(1).
+
+Por que o Fibonacci recursivo é ineficiente: fib(n) = fib(n - 1) + fib(n - 2) chama as duas instâncias menores, e cada uma chama de novo as suas. Os mesmos valores são recalculados muitas vezes: fib(5) calcula fib(3) duas vezes e fib(2) três vezes. O número de chamadas cresce exponencialmente com n, enquanto a versão iterativa, que guarda os dois últimos valores, faz só n passos, O(n). Foi o exemplo de tempo da semana 1.
+
+A correção de uma função recursiva se prova por indução: o caso base é a base da indução, e supor que as chamadas menores estão certas é a hipótese.
+
+Referências:
+- BRANDÃO, L. O. Material didático de MAC0122. IME-USP. Disponível em: https://www.ime.usp.br/~leo/mac/mac122/ (texto introducao_recursividade.html).
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semanas 1 e 2.
+- FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009.

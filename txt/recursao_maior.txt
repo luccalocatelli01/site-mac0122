@@ -1,0 +1,29 @@
+Tecnica:
+Algoritmo: Índice do maior elemento (recursivo)
+Autores:
+Data:
+Conceitos: Recursividade
+Problema: Dado um vetor v[0..n-1], achar o índice de um elemento máximo.
+---
+A versão recursiva resolve o problema para um vetor menor e usa essa resposta para resolver o problema maior. A função maior(v, k, n) devolve o índice de um elemento máximo do trecho v[k..n-1]; a chamada inicial é maior(v, 0, n).
+
+Caso base: se o trecho tem um elemento só (k == n - 1), esse elemento é o maior, e a resposta é k.
+Caso geral: calcula-se i = maior(v, k + 1, n), o índice do maior de v[k+1..n-1]. Se v[k] >= v[i], a resposta é k; senão, é i.
+
+Exemplo: v = {3, 8, 2, 5} (n = 4).
+maior(v, 3, 4): trecho {5}, caso base, devolve 3.
+maior(v, 2, 4): compara v[2] = 2 com v[3] = 5, devolve 3.
+maior(v, 1, 4): compara v[1] = 8 com v[3] = 5, devolve 1.
+maior(v, 0, 4): compara v[0] = 3 com v[1] = 8, devolve 1.
+O maior elemento é v[1] = 8.
+
+@codigo recursao_maior.c
+
+Por que funciona: por indução no tamanho do trecho. Para um elemento, o caso base está certo. Supondo que a chamada para v[k+1..n-1] devolve o índice do maior desse trecho, comparar esse elemento com v[k] dá o maior de v[k..n-1].
+
+Consumo de tempo: cada chamada faz uma comparação e uma chamada para um trecho com um elemento a menos, então T(n) = T(n - 1) + 1, o que dá T(n) = n, O(n), em qualquer caso. A memória extra também é O(n), porque as n chamadas ficam empilhadas na pilha de execução ao mesmo tempo.
+
+Referências:
+- BRANDÃO, L. O. Material didático de MAC0122. IME-USP. Disponível em: https://www.ime.usp.br/~leo/mac/mac122/ (texto introducao_recursividade.html).
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semana 2.
+- FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009.

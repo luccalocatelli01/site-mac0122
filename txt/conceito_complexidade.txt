@@ -1,0 +1,31 @@
+Tecnica:
+Algoritmo:
+Autores:
+Data:
+Conceitos: Complexidade
+Problema:
+---
+A complexidade de um algoritmo mede quanto tempo (ou memória) ele consome em função do tamanho n da entrada. Em vez de contar segundos, que dependem do computador, conta-se quantas vezes as operações principais são executadas, e interessa como esse número cresce quando n cresce.
+
+Notação O: f(n) é O(g(n)) se existem constantes c > 0 e n0 tais que f(n) <= c * g(n) para todo n >= n0. Na prática, ficam só o termo que cresce mais rápido e sem a constante: 3n² + 5n + 2 é O(n²). Em ordem crescente, as classes mais comuns são O(1), O(log n), O(n), O(n log n), O(n²) e O(2^n).
+
+Como ler a complexidade pelo contador do laço:
+Laço que soma ou subtrai uma constante ao contador (i++): roda n vezes, O(n).
+Laço que multiplica ou divide o contador (i = i * 2): roda cerca de log₂ n vezes, O(log n).
+Laços aninhados: as quantidades se multiplicam. Um laço de n por dentro de um de n dá O(n²); um de r por dentro de um de n dá O(n * r); um de log n por dentro de um de n dá O(n log n).
+Laços em sequência: as quantidades se somam, e vale a maior.
+
+Exemplos (os da Q1 da P1):
+for i de 0 a n, com for j de 0 a r dentro: O(n * r).
+for i = 1; i <= n; i = i * 2: O(log n).
+for i de 0 a n, com for j de i a n dentro: n + (n - 1) + ... + 1 = n(n + 1) / 2 passos, O(n²).
+for i de 0 a n, com for j = 1; j < n; j = j * 2 dentro: O(n log n).
+um único for i de 0 a n: O(n).
+
+Pior caso, melhor caso e caso médio: a mesma entrada de tamanho n pode custar diferente. A busca linear custa 1 comparação se x está na primeira posição e n se não está no vetor. Quando nada é dito, a complexidade é a do pior caso.
+
+Referências:
+- BRANDÃO, L. O. Material didático de MAC0122. IME-USP. Disponível em: https://www.ime.usp.br/~leo/mac/mac122/ (texto introducao_eficiencia_algoritmos.html).
+- BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Semanas 1 e 3.
+- CORMEN, T. H. et al. Algoritmos: teoria e prática. 3. ed. Rio de Janeiro: Elsevier, 2012.
+- FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009.
