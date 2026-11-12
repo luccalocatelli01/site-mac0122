@@ -76,26 +76,54 @@ static FILE *abrir_arquivo_de_saida(const char *pasta, const char *nome) {
     return arquivo;
 }
 
-/* ============== TODO 1 (Camila): ler o cabeçalho do TXT ============== */
+/* =============== leitura do cabeçalho do TXT (Camila) =============== */
 
 /*
  * Lê linha por linha (fgets) até a linha "---" ou até o fim do arquivo.
- * Para cada linha do tipo "Rotulo: valor1, valor2":
- *   1. ache o ':' com strchr; se não tiver ':', ignore a linha
- *   2. troque o ':' por '\0' -> agora a linha tem o nome e, depois, o resto
- *   3. remover_espacos_das_pontas no nome e no resto
- *   4. rotulo = identificar_rotulo(nome); se for -1, ignore a linha
- *   5. se o resto ficou vazio, ignore (rótulo vazio)
- *   6. Algoritmo e Problema: adicionar_valor com o resto inteiro
- *      (o texto do Problema tem vírgulas, não pode quebrar!)
- *      Os outros 4: quebre o resto em cada vírgula; cada pedaço passa por
- *      remover_espacos_das_pontas e, se não ficar vazio, vai pro adicionar_valor
- * Quando achar a linha "---": pagina->posicao_do_corpo = ftell(arquivo)
- * e devolva 1. Se o arquivo acabar sem "---", devolva 0.
+ * Cada linha "Rotulo: valor1, valor2" é cortada no ':' (nome e resto).
+ * Rótulos desconhecidos e vazios são ignorados. Algoritmo e Problema guardam
+ * o resto inteiro (o Problema tem vírgulas); os outros 4 são quebrados em
+ * cada vírgula com strtok. Ao achar "---", guarda em posicao_do_corpo onde o
+ * texto começa (ftell) e devolve 1; se o arquivo acabar antes, devolve 0.
  */
 static int ler_cabecalho(FILE *arquivo, Pagina *pagina) {
-    
-    return 1;
+    char linha[TAMANHO_DA_LINHA];
+
+    while (fgets(linha, sizeof linha, arquivo) != NULL) {
+        char copia_linha[TAMANHO_DA_LINHA];
+        strcpy(copia_linha, linha);
+        remover_espacos_das_pontas(copia_linha);
+        
+        if (strcmp(copia_linha, "---") == 0){
+            pagina->posicao_do_corpo = ftell(arquivo);
+            return 1;
+        }
+
+        char *dois_pontos = strchr(linha, ':');
+        if(dois_pontos == NULL) continue;
+        *dois_pontos = '\0';
+        char *resto = dois_pontos + 1;
+        remover_espacos_das_pontas(linha);
+        remover_espacos_das_pontas(resto);
+
+        int rotulo = identificar_rotulo(linha);
+        if (rotulo == -1) continue;
+        if (resto[0] == '\0') continue;
+
+        if (rotulo == ROTULO_ALGORITMO || rotulo == ROTULO_PROBLEMA) {
+            adicionar_valor(pagina, rotulo, resto);
+        } else {
+            char *pedaco = strtok(resto, ",");
+            while (pedaco != NULL) {
+                remover_espacos_das_pontas(pedaco);
+                if (pedaco[0] != '\0') {
+                    adicionar_valor(pagina, rotulo, pedaco);
+                }
+                pedaco = strtok(NULL, ",");
+            }
+        }
+    }
+    return 0;
 }
 
 /* =================== leitura de uma página (pronta) =================== */
@@ -146,7 +174,7 @@ static int ler_pagina(const char *caminho_do_txt, Pagina *pagina) {
     return 1;
 }
 
-/* ============ TODO 2 (Camila): ordenar as entradas ============ */
+/* ================= ordenação das entradas (Camila) ================= */
 
 /* Valor em algarismos romanos de uma letra (I, V, X, L, C), ou 0. */
 static int valor_romano(char letra) {
@@ -204,45 +232,85 @@ static int comparar_entradas(const Entrada *primeira, const Entrada *segunda, in
 }
 
 /*
- * Ordena entradas[0..quantidade-1] usando comparar_entradas(&a, &b, rotulo)
- * (negativo = a vem antes de b).
- * Sugestão: o mergesort (ordenação por fusão) de MAC0122 — precisa de um
- * vetor auxiliar (malloc). Inserção direta também serve, são poucas entradas.
+ * Ordenação por fusão (mergesort) das entradas, com intervalos semiabertos
+ * [inicio, fim). comparar_entradas(&a, &b, rotulo) negativo = a vem antes de b.
+ *
+ * intercalar: junta as metades ordenadas [inicio, meio) e [meio, fim) no
+ * vetor auxiliar e copia de volta. Em empate pega a da esquerda (estável).
  */
-static void ordenar_entradas(Entrada entradas[], int quantidade, int rotulo) {
-    /* PROVISÓRIO: não ordena */
-    (void) entradas;
-    (void) quantidade;
-    (void) rotulo;
-    (void) comparar_entradas;
+static void intercalar(Entrada entradas[], Entrada auxiliar[], int inicio, int meio, int fim, int rotulo) {
+    int esquerda = inicio;
+    int direita = meio;
+    int destino = inicio;
+    while (esquerda < meio && direita < fim) {
+        if (comparar_entradas(&entradas[esquerda], &entradas[direita], rotulo) <= 0) {
+            auxiliar[destino++] = entradas[esquerda++];
+        } else {
+            auxiliar[destino++] = entradas[direita++];
+        }
+    }
+    while (esquerda < meio) {
+        auxiliar[destino++] = entradas[esquerda++];
+    }
+    while (direita < fim) {
+        auxiliar[destino++] = entradas[direita++];
+    }
+    for (int posicao = inicio; posicao < fim; posicao++) {
+        entradas[posicao] = auxiliar[posicao];
+    }
 }
 
-/* ============ TODO 3 (Camila): escrever os grupos ============ */
+static void mergesort_entradas(Entrada entradas[], Entrada auxiliar[], int inicio, int fim, int rotulo) {
+    if (fim - inicio <= 1) return;
+    int meio = inicio + (fim - inicio) / 2;
+    mergesort_entradas(entradas, auxiliar, inicio, meio, rotulo);
+    mergesort_entradas(entradas, auxiliar, meio, fim, rotulo);
+    intercalar(entradas, auxiliar, inicio, meio, fim, rotulo);
+}
+
+static void ordenar_entradas(Entrada entradas[], int quantidade, int rotulo) {
+    if (quantidade <= 1) return;
+    Entrada *auxiliar = malloc(quantidade * sizeof(Entrada));
+    if (auxiliar == NULL) return;
+    mergesort_entradas(entradas, auxiliar, 0, quantidade, rotulo);
+    free(auxiliar);
+}
+
+/* ================ escrita dos grupos (Camila) ================ */
 
 /*
  * Usada em Técnica, Autores e Data. As entradas já estão ordenadas, então
- * chaves iguais estão vizinhas. Para cada grupo de chaves iguais
- * (comparar_textos_sem_acento == 0), escreva:
+ * chaves iguais estão vizinhas. Cada grupo de chaves iguais
+ * (comparar_textos_sem_acento == 0) vira um cartão:
  *
+ *   <section class="cartao grupo cor-N">       <- N = número do grupo % 5 (cor da borda)
  *   <h2>chave</h2>
  *   <ul>
  *   <li><a href="nome_do_html">titulo</a></li>     <- uma por entrada do grupo
  *   </ul>
+ *   </section>
  *
- * Use escrever_texto_html para a chave e escrever_link_para_pagina para o
- * link (ela já põe em negrito os destaques).
+ * inicio_do_grupo marca a primeira entrada do grupo e atual anda enquanto a
+ * chave for igual; o próximo grupo começa onde atual parou.
  */
 static void escrever_grupos(FILE *saida, Entrada entradas[], int quantidade, Pagina paginas[]) {
-    /* PROVISÓRIO: uma linha por entrada, sem agrupar */
-    fprintf(saida, "<ul>\n");
-    for (int indice = 0; indice < quantidade; indice++) {
-        fprintf(saida, "<li>");
-        escrever_texto_html(saida, entradas[indice].chave);
-        fprintf(saida, ": ");
-        escrever_link_para_pagina(saida, &paginas[entradas[indice].indice_da_pagina]);
-        fprintf(saida, "</li>\n");
+    int inicio_do_grupo = 0;
+    int contador_de_grupos = 0;
+    while (inicio_do_grupo < quantidade) {
+        fprintf(saida, "<section class=\"cartao grupo cor-%d\">\n<h2>", contador_de_grupos % 5);
+        escrever_texto_html(saida, entradas[inicio_do_grupo].chave);
+        fprintf(saida, "</h2>\n<ul>\n");
+        int atual = inicio_do_grupo;
+        while (atual < quantidade && comparar_textos_sem_acento(entradas[inicio_do_grupo].chave, entradas[atual].chave) == 0) {
+            fprintf(saida, "<li>");
+            escrever_link_para_pagina(saida, &paginas[entradas[atual].indice_da_pagina]);
+            fprintf(saida, "</li>\n");
+            atual++;
+        }
+        fprintf(saida, "</ul>\n</section>\n");
+        inicio_do_grupo = atual;
+        contador_de_grupos++;
     }
-    fprintf(saida, "</ul>\n");
 }
 
 /* ============ índices de Técnica, Autores e Data (prontos) ============ */

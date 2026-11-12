@@ -8,10 +8,10 @@
 </head>
 <body>
 <header class="topo">
-<a class="marca" href="index.html">MAC0122</a>
+<a class="marca" href="index.html"><span>Página-guia de</span> MAC0122</a>
 <nav class="menu">
 <a href="tecnica.html">Técnica</a>
-<a href="algoritmo.html">Algoritmo</a>
+<a href="algoritmo.html">Algoritmos</a>
 <a href="autores.html">Autores</a>
 <a href="data.html">Data</a>
 <a href="conceitos.html">Conceitos</a>
@@ -21,6 +21,703 @@
 <main>
 <h1>Problemas e exercícios</h1>
 <p class="apresentacao">Para cada conceito: os problemas que os algoritmos do curso resolvem e exercícios extras de livros, com a resolução escondida (tente antes de abrir).</p>
+<section class="cartao conceito cor-0">
+<h2><a href="conceito_ordenacao.html"><strong>Ordenação</strong></a></h2>
+<h3>Problemas</h3>
+<ul class="problemas">
+<li><span class="problema">Dado um vetor v[0..n-1] de inteiros, rearranjá-lo em ordem crescente, usando a &lt;fusão&gt; de dois vetores ordenados &amp; recursão.</span><span class="resolvido-por">resolvido por: <a href="fusao.html">Ordenação por fusão (mergesort)</a></span></li>
+<li><span class="problema">Dado um vetor de n elementos, colocá-los em ordem crescente.</span><span class="resolvido-por">resolvido por: <a href="selecao_direta.html">Ordenação por seleção direta</a></span></li>
+</ul>
+<h3>Exercícios extras de livros</h3>
+<div class="exercicio">
+<h4>Exercício 1</h4>
+<p class="fonte">Fonte: FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009. Disponível em https://www.ime.usp.br/~pf/algoritmos-livro/. Exercício 8.2.1 (adaptado).</p>
+<p>Na ordenação por inserção direta, o laço interno anda para a esquerda enquanto v[i] &gt; x. O que acontece se trocarmos a condição por v[i] &gt;= x? O vetor continua sendo ordenado? O algoritmo continua estável?</p>
+<details class="resolucao">
+<summary>Ver resolução</summary>
+<p>Continua ordenando: cada x ainda é colocado numa posição em que tudo à esquerda é menor ou igual a ele e tudo à direita é maior ou igual. Mas deixa de ser estável. Com &gt;=, quando x encontra um elemento igual a ele, esse elemento também é empurrado para a direita, e x passa à frente dele. Exemplo: ordenando pela nota os pares (Ana, 7) e (Bia, 7), nessa ordem, a Bia termina antes da Ana, invertendo a ordem original dos empatados. Além disso, faz deslocamentos inúteis: elementos iguais são movidos sem necessidade. Por isso a versão com &gt; é a correta.</p>
+</details>
+</div>
+<div class="exercicio">
+<h4>Exercício 2</h4>
+<p class="fonte">Fonte: FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009. Disponível em https://www.ime.usp.br/~pf/algoritmos-livro/. Exercício 11.4.1 (adaptado).</p>
+<p>Mostre que, se o vetor já estiver em ordem crescente, o quicksort que usa o último elemento como pivô faz cerca de n²/2 comparações. Por que isso acontece, e como evitar?</p>
+<details class="resolucao">
+<summary>Ver resolução</summary>
+<p>Com o vetor ordenado, o último elemento é o maior. A separação compara o pivô com os outros n − 1 elementos, todos ficam à esquerda dele, e sobra um subvetor de tamanho n − 1 e outro vazio. Na chamada seguinte acontece o mesmo com n − 2, e assim por diante. O total é (n − 1) + (n − 2) + ... + 1 = n(n − 1)/2 comparações, O(n²): o quicksort cai no seu pior caso exatamente na entrada mais fácil. O programa abaixo conta as comparações e confirma: para n = 1000, são 499 500 no vetor ordenado contra cerca de 10 500 num vetor aleatório.</p>
+<p class="nome-do-codigo"><code>exercicio_ordenacao_2.c</code></p>
+<pre class="codigo"><span class="comentario">/* Exercício: quantas comparações o quicksort faz num vetor já ordenado? */</span>
+<span class="pragma">#include &lt;stdio.h&gt;</span>
+<span class="pragma">#include &lt;stdlib.h&gt;</span>
+
+<span class="tipo">long</span> comparacoes = 0;
+
+<span class="comentario">/* separa v[inicio..fim] usando o último elemento como pivô */</span>
+<span class="tipo">int</span> separa(<span class="tipo">int</span> vetor[], <span class="tipo">int</span> inicio, <span class="tipo">int</span> fim) {
+    <span class="tipo">int</span> pivo = vetor[fim], posicao = inicio;
+    <span class="comando">for</span> (<span class="tipo">int</span> indice = inicio; indice &lt; fim; indice++) {
+        comparacoes++;
+        <span class="comando">if</span> (vetor[indice] &lt;= pivo) {
+            <span class="tipo">int</span> temporario = vetor[indice]; vetor[indice] = vetor[posicao]; vetor[posicao] = temporario;
+            posicao++;
+        }
+    }
+    <span class="tipo">int</span> temporario = vetor[fim]; vetor[fim] = vetor[posicao]; vetor[posicao] = temporario;
+    <span class="comando">return</span> posicao;
+}
+
+<span class="tipo">void</span> quicksort(<span class="tipo">int</span> vetor[], <span class="tipo">int</span> inicio, <span class="tipo">int</span> fim) {
+    <span class="comando">if</span> (inicio &gt;= fim) <span class="comando">return</span>;
+    <span class="tipo">int</span> posicao_do_pivo = separa(vetor, inicio, fim);
+    quicksort(vetor, inicio, posicao_do_pivo - 1);
+    quicksort(vetor, posicao_do_pivo + 1, fim);
+}
+
+<span class="tipo">int</span> main(<span class="tipo">void</span>) {
+    <span class="tipo">int</span> tamanhos[] = {10, 100, 1000};
+    <span class="comando">for</span> (<span class="tipo">int</span> teste = 0; teste &lt; 3; teste++) {
+        <span class="tipo">int</span> quantidade = tamanhos[teste];
+        <span class="tipo">int</span> *ordenado = malloc(quantidade * <span class="comando">sizeof</span>(<span class="tipo">int</span>));
+        <span class="tipo">int</span> *embaralhado = malloc(quantidade * <span class="comando">sizeof</span>(<span class="tipo">int</span>));
+        srand(1);
+        <span class="comando">for</span> (<span class="tipo">int</span> indice = 0; indice &lt; quantidade; indice++) {
+            ordenado[indice] = indice;
+            embaralhado[indice] = rand() % 100000;
+        }
+        comparacoes = 0; quicksort(ordenado, 0, quantidade - 1);
+        <span class="tipo">long</span> no_ordenado = comparacoes;
+        comparacoes = 0; quicksort(embaralhado, 0, quantidade - 1);
+        printf(<span class="cadeia">"n=%4d  ordenado: %6ld comparações (n(n-1)/2 = %6d)  aleatório: %6ld\n"</span>,
+               quantidade, no_ordenado, quantidade * (quantidade - 1) / 2, comparacoes);
+        free(ordenado); free(embaralhado);
+    }
+    <span class="comando">return</span> 0;
+}
+</pre>
+<p>Para evitar, escolha o pivô de outro jeito: sorteando uma posição (quicksort aleatorizado, exercício 11.5.3 do mesmo livro) ou usando a mediana entre o primeiro, o do meio e o último.</p>
+</details>
+</div>
+</section>
+<section class="cartao conceito cor-1">
+<h2>Árvore</h2>
+<h3>Exercícios extras de livros</h3>
+<div class="exercicio">
+<h4>Exercício 1</h4>
+<p class="fonte">Fonte: FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009. Disponível em https://www.ime.usp.br/~pf/algoritmos-livro/. Exercício 14.2.2 (adaptado).</p>
+<p>Escreva uma função recursiva que conta os nós de uma árvore binária.</p>
+<details class="resolucao">
+<summary>Ver resolução</summary>
+<p>A definição recursiva da árvore dá a função quase pronta: uma árvore vazia tem 0 nós; senão, tem a raiz mais os nós da subárvore esquerda mais os da direita. Cada nó é visitado uma vez, então o consumo de tempo é O(n). O mesmo esquema calcula a altura (1 + o maior entre as alturas das subárvores) e a quantidade de folhas, que caíram na Q5 da P1. O programa abaixo resolve este exercício e o próximo.</p>
+<p class="nome-do-codigo"><code>exercicio_arvore_1.c</code></p>
+<pre class="codigo"><span class="comentario">/* Exercício: contar os nós e imprimir as folhas (em ordem e-r-d) de uma árvore binária. */</span>
+<span class="pragma">#include &lt;stdio.h&gt;</span>
+<span class="pragma">#include &lt;stdlib.h&gt;</span>
+
+<span class="tipo">typedef</span> <span class="tipo">struct</span> NoDaArvore {
+    <span class="tipo">int</span> conteudo;
+    <span class="tipo">struct</span> NoDaArvore *esquerda, *direita;
+} NoDaArvore;
+
+<span class="comentario">/* nós da árvore = 0 se vazia; senão 1 (a raiz) + nós da esquerda + nós da direita */</span>
+<span class="tipo">int</span> contar_nos(NoDaArvore *raiz) {
+    <span class="comando">if</span> (raiz == NULL) <span class="comando">return</span> 0;
+    <span class="comando">return</span> 1 + contar_nos(raiz-&gt;esquerda) + contar_nos(raiz-&gt;direita);
+}
+
+<span class="comentario">/* e-r-d: esquerda, raiz, direita; só imprime quem não tem filhos */</span>
+<span class="tipo">void</span> imprimir_folhas(NoDaArvore *raiz) {
+    <span class="comando">if</span> (raiz == NULL) <span class="comando">return</span>;
+    imprimir_folhas(raiz-&gt;esquerda);
+    <span class="comando">if</span> (raiz-&gt;esquerda == NULL &amp;&amp; raiz-&gt;direita == NULL) printf(<span class="cadeia">"%d "</span>, raiz-&gt;conteudo);
+    imprimir_folhas(raiz-&gt;direita);
+}
+
+NoDaArvore *novo_no(<span class="tipo">int</span> conteudo, NoDaArvore *esquerda, NoDaArvore *direita) {
+    NoDaArvore *no = malloc(<span class="comando">sizeof</span>(NoDaArvore));
+    no-&gt;conteudo = conteudo;
+    no-&gt;esquerda = esquerda;
+    no-&gt;direita = direita;
+    <span class="comando">return</span> no;
+}
+
+<span class="tipo">void</span> liberar(NoDaArvore *raiz) {
+    <span class="comando">if</span> (raiz == NULL) <span class="comando">return</span>;
+    liberar(raiz-&gt;esquerda);
+    liberar(raiz-&gt;direita);
+    free(raiz);
+}
+
+<span class="tipo">int</span> main(<span class="tipo">void</span>) {
+    <span class="comentario">/*        1
+            /   \
+           2     3
+          / \     \
+         4   5     6      */</span>
+    NoDaArvore *raiz = novo_no(1, novo_no(2, novo_no(4, NULL, NULL), novo_no(5, NULL, NULL)),
+                                  novo_no(3, NULL, novo_no(6, NULL, NULL)));
+    printf(<span class="cadeia">"nós: %d\n"</span>, contar_nos(raiz));   <span class="comentario">/* 6 */</span>
+    printf(<span class="cadeia">"folhas: "</span>);
+    imprimir_folhas(raiz);                    <span class="comentario">/* 4 5 6 */</span>
+    printf(<span class="cadeia">"\n"</span>);
+    liberar(raiz);
+    <span class="comando">return</span> 0;
+}
+</pre>
+</details>
+</div>
+<div class="exercicio">
+<h4>Exercício 2</h4>
+<p class="fonte">Fonte: FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009. Disponível em https://www.ime.usp.br/~pf/algoritmos-livro/. Exercício 14.2.3 (adaptado).</p>
+<p>Escreva uma função que imprime somente as folhas de uma árvore binária, na ordem e-r-d (em-ordem).</p>
+<details class="resolucao">
+<summary>Ver resolução</summary>
+<p>Faça o percurso em-ordem normal (esquerda, raiz, direita), mas só imprima a raiz quando ela não tiver filhos (esquerda == NULL e direita == NULL). Na árvore do programa (1 com filhos 2 e 3; 2 com filhos 4 e 5; 3 com filho direito 6), as folhas saem na ordem 4 5 6. Trocando a posição do printf em relação às duas chamadas recursivas, obtemos os percursos pré-ordem (r-e-d) e pós-ordem (e-d-r).</p>
+</details>
+</div>
+</section>
+<section class="cartao conceito cor-2">
+<h2>Busca</h2>
+<h3>Exercícios extras de livros</h3>
+<div class="exercicio">
+<h4>Exercício 1</h4>
+<p class="fonte">Fonte: FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009. Disponível em https://www.ime.usp.br/~pf/algoritmos-livro/. Exercício 7.3.2 (adaptado).</p>
+<p>Faça o rastreamento da busca binária no vetor v = {10, 20, 30, 40, 50, 60, 70} (n = 7), mostrando os valores de e (esquerda), m (meio) e d (direita) a cada iteração, primeiro para x = 55 e depois para x = 20. Quantas iterações cada busca faz?</p>
+<details class="resolucao">
+<summary>Ver resolução</summary>
+<p>Para x = 55 (não está no vetor):</p>
+<pre class="rastreio">e=0 m=3 d=6  v[3]=40 &lt; 55  -&gt; e = 4
+e=4 m=5 d=6  v[5]=60 &gt; 55  -&gt; d = 4
+e=4 m=4 d=4  v[4]=50 &lt; 55  -&gt; e = 5
+e=5 &gt; d=4: para, x não está no vetor
+</pre>
+<p>Para x = 20 (está na posição 1):</p>
+<pre class="rastreio">e=0 m=3 d=6  v[3]=40 &gt; 20  -&gt; d = 2
+e=0 m=1 d=2  v[1]=20 = 20  -&gt; achou na posição 1
+</pre>
+<p>A busca sem sucesso fez 3 iterações e a com sucesso, 2. Com n = 7, nenhuma busca passa de 3 iterações, porque cada uma corta o intervalo pela metade: 7, 3, 1. Em geral são no máximo cerca de log₂ n + 1 iterações, O(log n). O programa abaixo imprime esse rastreamento.</p>
+<p class="nome-do-codigo"><code>exercicio_busca_1.c</code></p>
+<pre class="codigo"><span class="comentario">/* Exercício: rastrear a busca binária, mostrando e, m e d a cada passo. */</span>
+<span class="pragma">#include &lt;stdio.h&gt;</span>
+
+<span class="tipo">int</span> busca_binaria(<span class="tipo">int</span> vetor[], <span class="tipo">int</span> quantidade, <span class="tipo">int</span> procurado) {
+    <span class="tipo">int</span> esquerda = 0, direita = quantidade - 1;
+    <span class="comando">while</span> (esquerda &lt;= direita) {
+        <span class="tipo">int</span> meio = esquerda + (direita - esquerda) / 2;   <span class="comentario">/* sem overflow */</span>
+        printf(<span class="cadeia">"e=%d m=%d d=%d v[m]=%d\n"</span>, esquerda, meio, direita, vetor[meio]);
+        <span class="comando">if</span> (vetor[meio] == procurado) <span class="comando">return</span> meio;
+        <span class="comando">if</span> (vetor[meio] &lt; procurado) esquerda = meio + 1;
+        <span class="comando">else</span> direita = meio - 1;
+    }
+    <span class="comando">return</span> -1;
+}
+
+<span class="tipo">int</span> main(<span class="tipo">void</span>) {
+    <span class="tipo">int</span> vetor[] = {10, 20, 30, 40, 50, 60, 70};
+    printf(<span class="cadeia">"-&gt; resultado %d\n\n"</span>, busca_binaria(vetor, 7, 55));
+    printf(<span class="cadeia">"-&gt; resultado %d\n"</span>, busca_binaria(vetor, 7, 20));
+    <span class="comando">return</span> 0;
+}
+</pre>
+</details>
+</div>
+<div class="exercicio">
+<h4>Exercício 2</h4>
+<p class="fonte">Fonte: FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009. Disponível em https://www.ime.usp.br/~pf/algoritmos-livro/. Exercício 7.5.3 (adaptado).</p>
+<p>Na busca binária, o meio costuma ser calculado como m = (e + d) / 2. Explique por que essa conta pode dar errado para vetores muito grandes e como evitar o problema.</p>
+<details class="resolucao">
+<summary>Ver resolução</summary>
+<p>Em C, int tem um valor máximo (2 147 483 647 com 32 bits). Se o vetor for enorme, e + d pode passar desse máximo antes da divisão por 2: é um overflow, e o resultado vira um número negativo ou sem sentido, mesmo que e e d sozinhos sejam válidos. A solução é calcular o meio como m = e + (d − e) / 2. Matematicamente é o mesmo valor, mas d − e é sempre pequeno (é o tamanho do intervalo), então nenhuma conta passa do máximo. O programa do exercício anterior já usa essa forma.</p>
+</details>
+</div>
+</section>
+<section class="cartao conceito cor-3">
+<h2>Complexidade</h2>
+<h3>Problemas</h3>
+<ul class="problemas">
+<li><span class="problema">Dado um vetor v[0..n-1] de inteiros, rearranjá-lo em ordem crescente, usando a &lt;fusão&gt; de dois vetores ordenados &amp; recursão.</span><span class="resolvido-por">resolvido por: <a href="fusao.html">Ordenação por fusão (mergesort)</a></span></li>
+<li><span class="problema">Dado um vetor de n elementos, colocá-los em ordem crescente.</span><span class="resolvido-por">resolvido por: <a href="selecao_direta.html">Ordenação por seleção direta</a></span></li>
+</ul>
+<h3>Exercícios extras de livros</h3>
+<div class="exercicio">
+<h4>Exercício 1</h4>
+<p class="fonte">Fonte: FEOFILOFF, P. Análise de Algoritmos: repositório de exercícios. São Paulo: IME-USP, 2018. Exercício 4.11 (adaptado).</p>
+<p>Quantas vezes o corpo do laço abaixo é executado quando n = 100? E para um n qualquer? Qual é a ordem de grandeza do consumo de tempo?</p>
+<pre class="rastreio">while (n &gt; 1)
+    n = n / 2;
+</pre>
+<details class="resolucao">
+<summary>Ver resolução</summary>
+<p>Para n = 100, o valor de n passa por 100, 50, 25, 12, 6, 3 e 1: o corpo roda 6 vezes. Em geral, cada volta divide n por 2, então depois de k voltas sobra mais ou menos n / 2^k. O laço para quando isso chega a 1, ou seja, quando 2^k passa de n. O número de voltas é o piso de log₂ n (para n = 100, log₂ 100 ≈ 6,6, piso 6). É a regra que caiu na P1: quando o contador é multiplicado ou dividido a cada passo, o laço é O(log n).</p>
+</details>
+</div>
+<div class="exercicio">
+<h4>Exercício 2</h4>
+<p class="fonte">Fonte: FEOFILOFF, P. Análise de Algoritmos: repositório de exercícios. São Paulo: IME-USP, 2018. Exercícios 4.1 e 4.2 (adaptado).</p>
+<p>Na ordenação por inserção direta, conte quantas comparações v[i] &gt; x são feitas no melhor caso e no pior caso para um vetor de n elementos. Que vetores produzem cada caso? Escreva o resultado em notação O.</p>
+<details class="resolucao">
+<summary>Ver resolução</summary>
+<p>O laço externo pega v[j] (j = 1, ..., n − 1) e o laço interno anda para a esquerda enquanto v[i] &gt; x. Melhor caso: vetor já em ordem crescente. Para cada j, a primeira comparação já falha, então é 1 comparação por j: n − 1 no total, O(n). Pior caso: vetor em ordem decrescente. Para cada j, x é menor que todos os anteriores e o laço interno percorre as j posições: 1 + 2 + ... + (n − 1) = n(n − 1)/2 comparações, O(n²). Por isso a inserção direta é boa para vetores quase ordenados, mesmo sendo quadrática no pior caso.</p>
+</details>
+</div>
+</section>
+<section class="cartao conceito cor-4">
+<h2>Espalhamento</h2>
+<h3>Exercícios extras de livros</h3>
+<div class="exercicio">
+<h4>Exercício 1</h4>
+<p class="fonte">Fonte: CORMEN, T. H.; LEISERSON, C. E.; RIVEST, R. L.; STEIN, C. Algoritmos: teoria e prática. 3. ed. Rio de Janeiro: Elsevier, 2012. Exercício 11.2-2 (adaptado).</p>
+<p>Insira as chaves 5, 28, 19, 15, 20, 33, 12, 17, 10, nessa ordem, numa tabela de espalhamento com 9 posições, função h(k) = k mod 9 e colisões tratadas por encadeamento externo (cada nova chave entra no começo da lista da sua posição). Desenhe a tabela final.</p>
+<details class="resolucao">
+<summary>Ver resolução</summary>
+<p>Calculando h(k) = k mod 9: 5→5, 28→1, 19→1, 15→6, 20→2, 33→6, 12→3, 17→8, 10→1.</p>
+<pre class="rastreio">0: (vazia)
+1: 10 -&gt; 19 -&gt; 28
+2: 20
+3: 12
+4: (vazia)
+5: 5
+6: 33 -&gt; 15
+7: (vazia)
+8: 17
+</pre>
+<p>As colisões aconteceram nas posições 1 (28, 19 e 10) e 6 (15 e 33). Como cada chave nova entra no começo da lista, a última inserida fica na frente. Se a inserção fosse no fim da lista, as listas seriam 28 -&gt; 19 -&gt; 10 e 15 -&gt; 33; as duas formas estão certas, mas inserir no começo custa O(1).</p>
+</details>
+</div>
+<div class="exercicio">
+<h4>Exercício 2</h4>
+<p class="fonte">Fonte: CORMEN, T. H.; LEISERSON, C. E.; RIVEST, R. L.; STEIN, C. Algoritmos: teoria e prática. 3. ed. Rio de Janeiro: Elsevier, 2012. Seção 11.2, análise do encadeamento (adaptado).</p>
+<p>Na tabela do exercício anterior (9 posições, h(k) = k mod 9), escolha 5 chaves que façam a busca ficar o mais lenta possível. Com n chaves, quanto custa uma busca sem sucesso no pior caso? E no caso médio, supondo que a função espalha bem?</p>
+<details class="resolucao">
+<summary>Ver resolução</summary>
+<p>Basta que todas as chaves tenham o mesmo resto na divisão por 9, por exemplo 1, 10, 19, 28 e 37: todas vão para a lista da posição 1 e a tabela vira uma lista ligada comum. Pior caso: as n chaves na mesma lista, e uma busca sem sucesso percorre todas, O(n). Caso médio: se a função espalha as chaves de maneira uniforme pelas m posições, cada lista tem em média n/m chaves (o fator de carga α). Uma busca sem sucesso calcula h(k) e percorre uma lista inteira, custo O(1 + α). Se m cresce junto com n, α fica constante e a busca é O(1), que é o resultado da P1: O(1) no caso médio e O(n) no pior. É o mesmo problema da função vista em aula que soma os códigos ASCII: anagramas como &quot;abc&quot; e &quot;cba&quot; sempre colidem, então ela espalha mal conjuntos de palavras parecidas.</p>
+</details>
+</div>
+</section>
+<section class="cartao conceito cor-0">
+<h2>Fila</h2>
+<h3>Exercícios extras de livros</h3>
+<div class="exercicio">
+<h4>Exercício 1</h4>
+<p class="fonte">Fonte: CORMEN, T. H.; LEISERSON, C. E.; RIVEST, R. L.; STEIN, C. Algoritmos: teoria e prática. 3. ed. Rio de Janeiro: Elsevier, 2012. Exercício 10.1-6 (adaptado).</p>
+<p>Mostre como implementar uma fila usando duas pilhas e analise o consumo de tempo das operações de inserir e remover.</p>
+<details class="resolucao">
+<summary>Ver resolução</summary>
+<p>Use uma pilha entrada, que recebe quem chega, e uma pilha saida, de onde sai o próximo da fila. Inserir: empilha em entrada. Remover: se saida estiver vazia, desempilha tudo de entrada e empilha em saida (isso inverte a ordem e deixa o mais antigo no topo); depois desempilha de saida. Inserir custa O(1). Remover custa O(n) no pior caso, quando precisa passar tudo de uma pilha para a outra. Mas cada elemento passa de entrada para saida no máximo uma vez, então numa sequência de operações o custo médio por operação é O(1) (custo amortizado).</p>
+<p class="nome-do-codigo"><code>exercicio_fila_1.c</code></p>
+<pre class="codigo"><span class="comentario">/* Exercício: fila feita com duas pilhas. */</span>
+<span class="pragma">#include &lt;stdio.h&gt;</span>
+
+<span class="pragma">#define TAMANHO 100</span>
+
+<span class="tipo">typedef</span> <span class="tipo">struct</span> {
+    <span class="tipo">int</span> itens[TAMANHO];
+    <span class="tipo">int</span> topo;                 <span class="comentario">/* -1 = vazia */</span>
+} Pilha;
+
+<span class="tipo">void</span> empilhar(Pilha *pilha, <span class="tipo">int</span> valor) { pilha-&gt;itens[++pilha-&gt;topo] = valor; }
+<span class="tipo">int</span> desempilhar(Pilha *pilha) { <span class="comando">return</span> pilha-&gt;itens[pilha-&gt;topo--]; }
+<span class="tipo">int</span> pilha_vazia(<span class="tipo">const</span> Pilha *pilha) { <span class="comando">return</span> pilha-&gt;topo == -1; }
+
+<span class="comentario">/* entrada recebe quem chega; saida entrega quem sai.
+   Ao passar tudo de entrada para saida, a ordem se inverte e o mais antigo
+   fica no topo de saida. */</span>
+<span class="tipo">typedef</span> <span class="tipo">struct</span> {
+    Pilha entrada;
+    Pilha saida;
+} Fila;
+
+<span class="tipo">void</span> inserir(Fila *fila, <span class="tipo">int</span> valor) {
+    empilhar(&amp;fila-&gt;entrada, valor);
+}
+
+<span class="tipo">int</span> remover(Fila *fila) {
+    <span class="comando">if</span> (pilha_vazia(&amp;fila-&gt;saida)) {
+        <span class="comando">while</span> (!pilha_vazia(&amp;fila-&gt;entrada)) {
+            empilhar(&amp;fila-&gt;saida, desempilhar(&amp;fila-&gt;entrada));
+        }
+    }
+    <span class="comando">return</span> desempilhar(&amp;fila-&gt;saida);   <span class="comentario">/* supõe fila não vazia */</span>
+}
+
+<span class="tipo">int</span> main(<span class="tipo">void</span>) {
+    Fila fila = { .entrada = { .topo = -1 }, .saida = { .topo = -1 } };
+    inserir(&amp;fila, 1); inserir(&amp;fila, 2); inserir(&amp;fila, 3);
+    printf(<span class="cadeia">"%d "</span>, remover(&amp;fila));      <span class="comentario">/* 1 */</span>
+    inserir(&amp;fila, 4);
+    printf(<span class="cadeia">"%d "</span>, remover(&amp;fila));      <span class="comentario">/* 2 */</span>
+    printf(<span class="cadeia">"%d "</span>, remover(&amp;fila));      <span class="comentario">/* 3 */</span>
+    printf(<span class="cadeia">"%d\n"</span>, remover(&amp;fila));     <span class="comentario">/* 4 */</span>
+    <span class="comando">return</span> 0;
+}
+</pre>
+</details>
+</div>
+<div class="exercicio">
+<h4>Exercício 2</h4>
+<p class="fonte">Fonte: FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009. Disponível em https://www.ime.usp.br/~pf/algoritmos-livro/. Exercício 5.3.1 (adaptado).</p>
+<p>Implemente uma fila circular num vetor de capacidade fixa, com as funções tamanho, inserir (que avisa quando a fila está cheia) e remover.</p>
+<details class="resolucao">
+<summary>Ver resolução</summary>
+<p>Guarde a posição do primeiro elemento (inicio) e a quantidade de elementos. O fim da fila é (inicio + quantidade) % CAPACIDADE: o resto da divisão faz a fila dar a volta no vetor, reaproveitando as posições liberadas no começo. A fila está cheia quando quantidade == CAPACIDADE, e vazia quando quantidade == 0. Guardar a quantidade evita a ambiguidade da versão com dois índices, em que inicio == fim pode significar cheia ou vazia. Todas as operações são O(1).</p>
+<p class="nome-do-codigo"><code>exercicio_fila_2.c</code></p>
+<pre class="codigo"><span class="comentario">/* Exercício: fila circular num vetor, com tamanho e aviso de fila cheia. */</span>
+<span class="pragma">#include &lt;stdio.h&gt;</span>
+
+<span class="pragma">#define CAPACIDADE 5</span>
+
+<span class="tipo">typedef</span> <span class="tipo">struct</span> {
+    <span class="tipo">int</span> itens[CAPACIDADE];
+    <span class="tipo">int</span> inicio;        <span class="comentario">/* posição do primeiro da fila */</span>
+    <span class="tipo">int</span> quantidade;    <span class="comentario">/* quantos elementos há na fila */</span>
+} Fila;
+
+<span class="tipo">int</span> tamanho(<span class="tipo">const</span> Fila *fila) { <span class="comando">return</span> fila-&gt;quantidade; }
+
+<span class="comentario">/* Devolve 0 se a fila estava cheia. */</span>
+<span class="tipo">int</span> inserir(Fila *fila, <span class="tipo">int</span> valor) {
+    <span class="comando">if</span> (fila-&gt;quantidade == CAPACIDADE) <span class="comando">return</span> 0;
+    <span class="tipo">int</span> fim = (fila-&gt;inicio + fila-&gt;quantidade) % CAPACIDADE;   <span class="comentario">/* dá a volta no vetor */</span>
+    fila-&gt;itens[fim] = valor;
+    fila-&gt;quantidade++;
+    <span class="comando">return</span> 1;
+}
+
+<span class="comentario">/* Supõe fila não vazia. */</span>
+<span class="tipo">int</span> remover(Fila *fila) {
+    <span class="tipo">int</span> valor = fila-&gt;itens[fila-&gt;inicio];
+    fila-&gt;inicio = (fila-&gt;inicio + 1) % CAPACIDADE;
+    fila-&gt;quantidade--;
+    <span class="comando">return</span> valor;
+}
+
+<span class="tipo">int</span> main(<span class="tipo">void</span>) {
+    Fila fila = { .inicio = 0, .quantidade = 0 };
+    <span class="comando">for</span> (<span class="tipo">int</span> valor = 1; valor &lt;= 5; valor++) inserir(&amp;fila, valor);
+    printf(<span class="cadeia">"inserir 6 na fila cheia: %s\n"</span>, inserir(&amp;fila, 6) ? <span class="cadeia">"ok"</span> : <span class="cadeia">"fila cheia"</span>);
+    <span class="tipo">int</span> primeiro = remover(&amp;fila);
+    <span class="tipo">int</span> segundo = remover(&amp;fila);
+    printf(<span class="cadeia">"%d %d\n"</span>, primeiro, segundo);                <span class="comentario">/* 1 2 */</span>
+    inserir(&amp;fila, 6); inserir(&amp;fila, 7);                 <span class="comentario">/* usam as posições 0 e 1 de novo */</span>
+    printf(<span class="cadeia">"tamanho: %d\n"</span>, tamanho(&amp;fila));              <span class="comentario">/* 5 */</span>
+    <span class="comando">while</span> (tamanho(&amp;fila) &gt; 0) printf(<span class="cadeia">"%d "</span>, remover(&amp;fila));   <span class="comentario">/* 3 4 5 6 7 */</span>
+    printf(<span class="cadeia">"\n"</span>);
+    <span class="comando">return</span> 0;
+}
+</pre>
+</details>
+</div>
+</section>
+<section class="cartao conceito cor-1">
+<h2>Indução</h2>
+<h3>Exercícios extras de livros</h3>
+<div class="exercicio">
+<h4>Exercício 1</h4>
+<p class="fonte">Fonte: FEOFILOFF, P. Análise de Algoritmos: repositório de exercícios. São Paulo: IME-USP, 2018. Exercício 1.23 (adaptado).</p>
+<p>Prove por indução que, para todo n ≥ 0, 1 + 2 + 2² + ... + 2ⁿ = 2ⁿ⁺¹ − 1.</p>
+<details class="resolucao">
+<summary>Ver resolução</summary>
+<p>Base (n = 0): o lado esquerdo é só 1 e o direito é 2¹ − 1 = 1. Vale. Hipótese de indução: suponha que a igualdade vale para n − 1, ou seja, 1 + 2 + ... + 2ⁿ⁻¹ = 2ⁿ − 1. Passo: 1 + 2 + ... + 2ⁿ⁻¹ + 2ⁿ = (2ⁿ − 1) + 2ⁿ = 2 · 2ⁿ − 1 = 2ⁿ⁺¹ − 1, usando a hipótese na primeira igualdade. Logo vale para n. Essa soma aparece nas Torres de Hanói: o número de movimentos para n discos é 2ⁿ − 1, e uma árvore binária completa de altura h tem 2ʰ⁺¹ − 1 nós.</p>
+</details>
+</div>
+<div class="exercicio">
+<h4>Exercício 2</h4>
+<p class="fonte">Fonte: FEOFILOFF, P. Análise de Algoritmos: repositório de exercícios. São Paulo: IME-USP, 2018. Exercício 8.2 (adaptado).</p>
+<p>Uma árvore binária é cheia quando cada nó tem 0 ou 2 filhos. Prove por indução que uma árvore binária cheia com f folhas tem exatamente f − 1 nós internos (nós com filhos).</p>
+<details class="resolucao">
+<summary>Ver resolução</summary>
+<p>Indução no número de nós. Base: a árvore com um só nó. Ele é folha, então f = 1, e há 0 = f − 1 nós internos. Vale. Hipótese: a afirmação vale para toda árvore binária cheia com menos nós que a árvore T. Passo: se T tem mais de um nó, a raiz é interna e tem duas subárvores, E e D, ambas cheias e menores que T. Se E tem f₁ folhas e D tem f₂, pela hipótese elas têm f₁ − 1 e f₂ − 1 nós internos. As folhas de T são as de E e de D: f = f₁ + f₂. Os nós internos de T são os de E, os de D e a raiz: (f₁ − 1) + (f₂ − 1) + 1 = f₁ + f₂ − 1 = f − 1. Vale para T. Aplicação: a árvore de expressão da P1 é cheia (cada operador tem dois operandos), então uma expressão com f números tem f − 1 operadores.</p>
+</details>
+</div>
+</section>
+<section class="cartao conceito cor-2">
+<h2>Lista ligada</h2>
+<h3>Exercícios extras de livros</h3>
+<div class="exercicio">
+<h4>Exercício 1</h4>
+<p class="fonte">Fonte: FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009. Disponível em https://www.ime.usp.br/~pf/algoritmos-livro/. Exercício 4.7.11 (adaptado).</p>
+<p>Escreva uma função que inverte a ordem das células de uma lista ligada sem criar células novas: só os ponteiros podem mudar.</p>
+<details class="resolucao">
+<summary>Ver resolução</summary>
+<p>A ideia é andar pela lista virando a seta de cada célula para trás. São necessários três ponteiros: anterior (a parte já invertida), atual (a célula sendo virada) e seguinte (guardado antes de virar a seta, senão o resto da lista se perde). Invariante: no começo de cada volta, anterior aponta para a parte já invertida e atual para o resto, ainda na ordem original. Quando atual fica NULL, anterior é o novo primeiro nó. O consumo de tempo é O(n) e a memória extra é constante.</p>
+<p class="nome-do-codigo"><code>exercicio_lista_ligada_1.c</code></p>
+<pre class="codigo"><span class="comentario">/* Exercício: inverter uma lista ligada sem criar células novas. */</span>
+<span class="pragma">#include &lt;stdio.h&gt;</span>
+<span class="pragma">#include &lt;stdlib.h&gt;</span>
+
+<span class="tipo">typedef</span> <span class="tipo">struct</span> No {
+    <span class="tipo">int</span> conteudo;
+    <span class="tipo">struct</span> No *proximo;
+} No;
+
+<span class="comentario">/* Inverte a lista e devolve o endereço do novo primeiro nó.
+   Cada nó tem o ponteiro "proximo" virado para trás, um de cada vez. */</span>
+No *inverter(No *lista) {
+    No *anterior = NULL;
+    No *atual = lista;
+    <span class="comando">while</span> (atual != NULL) {
+        No *seguinte = atual-&gt;proximo;   <span class="comentario">/* guarda antes de perder */</span>
+        atual-&gt;proximo = anterior;       <span class="comentario">/* vira a seta */</span>
+        anterior = atual;                <span class="comentario">/* anda os dois um passo */</span>
+        atual = seguinte;
+    }
+    <span class="comando">return</span> anterior;                     <span class="comentario">/* o antigo último nó */</span>
+}
+
+No *inserir_no_comeco(No *lista, <span class="tipo">int</span> valor) {
+    No *novo = malloc(<span class="comando">sizeof</span>(No));
+    novo-&gt;conteudo = valor;
+    novo-&gt;proximo = lista;
+    <span class="comando">return</span> novo;
+}
+
+<span class="tipo">void</span> imprimir(No *lista) {
+    <span class="comando">for</span> (No *atual = lista; atual != NULL; atual = atual-&gt;proximo) printf(<span class="cadeia">"%d "</span>, atual-&gt;conteudo);
+    printf(<span class="cadeia">"\n"</span>);
+}
+
+<span class="tipo">int</span> main(<span class="tipo">void</span>) {
+    No *lista = NULL;
+    <span class="comando">for</span> (<span class="tipo">int</span> valor = 5; valor &gt;= 1; valor--) lista = inserir_no_comeco(lista, valor);
+    imprimir(lista);            <span class="comentario">/* 1 2 3 4 5 */</span>
+    lista = inverter(lista);
+    imprimir(lista);            <span class="comentario">/* 5 4 3 2 1 */</span>
+    <span class="comando">while</span> (lista != NULL) { No *proximo = lista-&gt;proximo; free(lista); lista = proximo; }
+    <span class="comando">return</span> 0;
+}
+</pre>
+</details>
+</div>
+<div class="exercicio">
+<h4>Exercício 2</h4>
+<p class="fonte">Fonte: FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009. Disponível em https://www.ime.usp.br/~pf/algoritmos-livro/. Exercício 4.6.3 (adaptado; aqui com No **, como na P1).</p>
+<p>Escreva uma função que remove de uma lista ligada todas as células cujo conteúdo é x. A primeira célula também pode ter que ser removida.</p>
+<details class="resolucao">
+<summary>Ver resolução</summary>
+<p>Usando um ponteiro para ponteiro (No **), o caso da primeira célula deixa de ser especial: ponteiro_atual aponta sempre para o campo que guarda o endereço da célula examinada (no começo, a própria variável lista; depois, o campo proximo da célula anterior). Se a célula tem x, esse campo passa a apontar para a seguinte, a célula é liberada e ponteiro_atual não anda, porque a nova célula naquela posição ainda não foi examinada. Se não tem x, ponteiro_atual avança para &amp;(célula)-&gt;proximo. Cuidado comum: avançar depois de remover, o que pula células e falha em casos como 7 -&gt; 7 -&gt; 3.</p>
+<p class="nome-do-codigo"><code>exercicio_lista_ligada_2.c</code></p>
+<pre class="codigo"><span class="comentario">/* Exercício: remover de uma lista ligada todas as células com conteúdo x. */</span>
+<span class="pragma">#include &lt;stdio.h&gt;</span>
+<span class="pragma">#include &lt;stdlib.h&gt;</span>
+
+<span class="tipo">typedef</span> <span class="tipo">struct</span> No {
+    <span class="tipo">int</span> conteudo;
+    <span class="tipo">struct</span> No *proximo;
+} No;
+
+<span class="comentario">/* ponteiro_para_lista aponta para o ponteiro que guarda o primeiro nó
+   (o mesmo truque do No **ptLista da P1): assim o primeiro nó não é um
+   caso especial. */</span>
+<span class="tipo">void</span> remover_todos(No **ponteiro_para_lista, <span class="tipo">int</span> valor) {
+    No **ponteiro_atual = ponteiro_para_lista;
+    <span class="comando">while</span> (*ponteiro_atual != NULL) {
+        <span class="comando">if</span> ((*ponteiro_atual)-&gt;conteudo == valor) {
+            No *removido = *ponteiro_atual;
+            *ponteiro_atual = removido-&gt;proximo;   <span class="comentario">/* quem apontava para ele pula ele */</span>
+            free(removido);
+            <span class="comentario">/* não anda: o novo *ponteiro_atual ainda não foi examinado */</span>
+        } <span class="comando">else</span> {
+            ponteiro_atual = &amp;(*ponteiro_atual)-&gt;proximo;
+        }
+    }
+}
+
+No *inserir_no_comeco(No *lista, <span class="tipo">int</span> valor) {
+    No *novo = malloc(<span class="comando">sizeof</span>(No));
+    novo-&gt;conteudo = valor;
+    novo-&gt;proximo = lista;
+    <span class="comando">return</span> novo;
+}
+
+<span class="tipo">void</span> imprimir(No *lista) {
+    <span class="comando">for</span> (No *atual = lista; atual != NULL; atual = atual-&gt;proximo) printf(<span class="cadeia">"%d "</span>, atual-&gt;conteudo);
+    printf(<span class="cadeia">"\n"</span>);
+}
+
+<span class="tipo">int</span> main(<span class="tipo">void</span>) {
+    <span class="tipo">int</span> valores[] = {7, 7, 3, 7, 5, 7};
+    No *lista = NULL;
+    <span class="comando">for</span> (<span class="tipo">int</span> indice = 5; indice &gt;= 0; indice--) lista = inserir_no_comeco(lista, valores[indice]);
+    imprimir(lista);              <span class="comentario">/* 7 7 3 7 5 7 */</span>
+    remover_todos(&amp;lista, 7);
+    imprimir(lista);              <span class="comentario">/* 3 5 */</span>
+    <span class="comando">while</span> (lista != NULL) { No *proximo = lista-&gt;proximo; free(lista); lista = proximo; }
+    <span class="comando">return</span> 0;
+}
+</pre>
+</details>
+</div>
+</section>
+<section class="cartao conceito cor-3">
+<h2>Pilha</h2>
+<h3>Exercícios extras de livros</h3>
+<div class="exercicio">
+<h4>Exercício 1</h4>
+<p class="fonte">Fonte: CORMEN, T. H.; LEISERSON, C. E.; RIVEST, R. L.; STEIN, C. Algoritmos: teoria e prática. 3. ed. Rio de Janeiro: Elsevier, 2012. Exercício 10.1-1 (adaptado).</p>
+<p>Uma pilha está guardada num vetor S[0..5] e começa vazia (topo = −1). Mostre o conteúdo do vetor e o valor de topo depois de cada operação: empilha(4), empilha(1), empilha(3), desempilha, empilha(8), desempilha.</p>
+<details class="resolucao">
+<summary>Ver resolução</summary>
+<pre class="rastreio">operação       S[0] S[1] S[2]   topo   devolve
+empilha(4)      4                  0
+empilha(1)      4    1             1
+empilha(3)      4    1    3        2
+desempilha      4    1   (3)       1      3
+empilha(8)      4    1    8        2
+desempilha      4    1   (8)       1      8
+</pre>
+<p>No fim, a pilha contém 4 e 1, com o 1 no topo. Repare que desempilhar só diminui topo: o valor continua no vetor (entre parênteses), mas não faz mais parte da pilha e é sobrescrito no próximo empilha. É o mesmo esquema da P1: topo = −1 vazia, ++topo empilha, topo−− desempilha.</p>
+</details>
+</div>
+<div class="exercicio">
+<h4>Exercício 2</h4>
+<p class="fonte">Fonte: FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009. Disponível em https://www.ime.usp.br/~pf/algoritmos-livro/. Exercício 6.1.3 (adaptado).</p>
+<p>Os números 1, 2, 3, 4 chegam nessa ordem. A cada passo podemos empilhar o próximo número que chega ou desempilhar o topo e escrevê-lo na saída. Quais das 24 ordens de 1, 2, 3, 4 podem aparecer na saída? Dê uma regra para reconhecer as impossíveis.</p>
+<details class="resolucao">
+<summary>Ver resolução</summary>
+<p>14 das 24 ordens são possíveis. As 10 impossíveis são:</p>
+<pre class="rastreio">1 4 2 3    2 4 1 3    3 1 2 4    3 1 4 2    3 4 1 2
+4 1 2 3    4 1 3 2    4 2 1 3    4 2 3 1    4 3 1 2
+</pre>
+<p>Regra: uma ordem é impossível quando tem um número grande, depois um pequeno, depois um médio (o padrão &quot;3 1 2&quot;). Por exemplo, em 3 1 2 4: para escrever o 3, o 1 e o 2 tiveram que ser empilhados antes dele, com o 2 por cima do 1. Então o 2 sai antes do 1, e a ordem 3 1 2 não pode acontecer. O programa abaixo testa as 24 ordens simulando a pilha.</p>
+<p class="nome-do-codigo"><code>exercicio_pilha_2.c</code></p>
+<pre class="codigo"><span class="comentario">/* Exercício: quais permutações de 1 2 3 4 saem de uma pilha?
+   Os números entram em ordem (1, 2, 3, 4); a cada passo podemos empilhar o
+   próximo da entrada ou desempilhar o topo para a saída. */</span>
+<span class="pragma">#include &lt;stdio.h&gt;</span>
+
+<span class="pragma">#define QUANTIDADE 4</span>
+
+<span class="comentario">/* Simula: devolve 1 se a pilha consegue produzir a sequência desejada. */</span>
+<span class="tipo">int</span> pilha_produz(<span class="tipo">const</span> <span class="tipo">int</span> desejada[]) {
+    <span class="tipo">int</span> pilha[QUANTIDADE], topo = -1;
+    <span class="tipo">int</span> proximo_da_entrada = 1;
+    <span class="comando">for</span> (<span class="tipo">int</span> posicao = 0; posicao &lt; QUANTIDADE; posicao++) {
+        <span class="comentario">/* empilha até o número desejado aparecer no topo */</span>
+        <span class="comando">while</span> (proximo_da_entrada &lt;= QUANTIDADE &amp;&amp; (topo == -1 || pilha[topo] != desejada[posicao])) {
+            pilha[++topo] = proximo_da_entrada++;
+        }
+        <span class="comando">if</span> (topo == -1 || pilha[topo] != desejada[posicao]) <span class="comando">return</span> 0;   <span class="comentario">/* ficou embaixo de outro */</span>
+        topo--;
+    }
+    <span class="comando">return</span> 1;
+}
+
+<span class="comentario">/* Gera as 24 permutações em ordem crescente e testa cada uma. */</span>
+<span class="tipo">void</span> testar_permutacoes(<span class="tipo">int</span> permutacao[], <span class="tipo">int</span> usados[], <span class="tipo">int</span> posicao, <span class="tipo">int</span> *possiveis) {
+    <span class="comando">if</span> (posicao == QUANTIDADE) {
+        <span class="tipo">int</span> produz = pilha_produz(permutacao);
+        *possiveis += produz;
+        printf(<span class="cadeia">"%d %d %d %d  %s\n"</span>, permutacao[0], permutacao[1], permutacao[2], permutacao[3],
+               produz ? <span class="cadeia">"sim"</span> : <span class="cadeia">"NÃO"</span>);
+        <span class="comando">return</span>;
+    }
+    <span class="comando">for</span> (<span class="tipo">int</span> valor = 1; valor &lt;= QUANTIDADE; valor++) {
+        <span class="comando">if</span> (usados[valor]) <span class="comando">continue</span>;
+        usados[valor] = 1;
+        permutacao[posicao] = valor;
+        testar_permutacoes(permutacao, usados, posicao + 1, possiveis);
+        usados[valor] = 0;
+    }
+}
+
+<span class="tipo">int</span> main(<span class="tipo">void</span>) {
+    <span class="tipo">int</span> permutacao[QUANTIDADE], usados[QUANTIDADE + 1] = {0}, possiveis = 0;
+    testar_permutacoes(permutacao, usados, 0, &amp;possiveis);
+    printf(<span class="cadeia">"possíveis: %d de 24\n"</span>, possiveis);
+    <span class="comando">return</span> 0;
+}
+</pre>
+</details>
+</div>
+</section>
+<section class="cartao conceito cor-4">
+<h2>Recursividade</h2>
+<h3>Problemas</h3>
+<ul class="problemas">
+<li><span class="problema">Dado um vetor v[0..n-1] de inteiros, rearranjá-lo em ordem crescente, usando a &lt;fusão&gt; de dois vetores ordenados &amp; recursão.</span><span class="resolvido-por">resolvido por: <a href="fusao.html">Ordenação por fusão (mergesort)</a></span></li>
+</ul>
+<h3>Exercícios extras de livros</h3>
+<div class="exercicio">
+<h4>Exercício 1</h4>
+<p class="fonte">Fonte: FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009. Disponível em https://www.ime.usp.br/~pf/algoritmos-livro/. Exercício 2.3.3 (adaptado).</p>
+<p>Escreva uma função recursiva que calcula a soma dos elementos positivos de um vetor v[0..n−1]. Quanto deve valer a soma quando n = 0?</p>
+<details class="resolucao">
+<summary>Ver resolução</summary>
+<p>A soma dos positivos de v[0..n−1] é a soma dos positivos de v[0..n−2], mais v[n−1] se ele for positivo. É o mesmo formato da questão do maior elemento da P1: resolve o problema para os n − 1 primeiros e decide o que fazer com o último. Base: n = 0 (vetor vazio). A soma de nenhum número é 0, e é isso que faz a recursão funcionar: o primeiro elemento positivo é somado a 0. Para v = {3, −2, 5, 0, −7, 4}, o resultado é 3 + 5 + 4 = 12.</p>
+<p class="nome-do-codigo"><code>exercicio_recursividade_1.c</code></p>
+<pre class="codigo"><span class="comentario">/* Exercício: soma dos elementos positivos de v[0..n-1], recursiva. */</span>
+<span class="pragma">#include &lt;stdio.h&gt;</span>
+
+<span class="comentario">/* Ideia: a soma dos positivos de v[0..n-1] é a soma dos positivos de
+   v[0..n-2] mais v[n-1], se v[n-1] for positivo. Base: n == 0 -&gt; soma 0
+   (um vetor vazio não tem positivos). */</span>
+<span class="tipo">int</span> soma_dos_positivos(<span class="tipo">int</span> vetor[], <span class="tipo">int</span> quantidade) {
+    <span class="comando">if</span> (quantidade == 0) <span class="comando">return</span> 0;
+    <span class="tipo">int</span> soma_do_resto = soma_dos_positivos(vetor, quantidade - 1);
+    <span class="tipo">int</span> ultimo = vetor[quantidade - 1];
+    <span class="comando">return</span> ultimo &gt; 0 ? soma_do_resto + ultimo : soma_do_resto;
+}
+
+<span class="tipo">int</span> main(<span class="tipo">void</span>) {
+    <span class="tipo">int</span> vetor[] = {3, -2, 5, 0, -7, 4};
+    printf(<span class="cadeia">"%d\n"</span>, soma_dos_positivos(vetor, 6));   <span class="comentario">/* 12 */</span>
+    printf(<span class="cadeia">"%d\n"</span>, soma_dos_positivos(vetor, 0));   <span class="comentario">/* 0 */</span>
+    <span class="comando">return</span> 0;
+}
+</pre>
+</details>
+</div>
+<div class="exercicio">
+<h4>Exercício 2</h4>
+<p class="fonte">Fonte: FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009. Disponível em https://www.ime.usp.br/~pf/algoritmos-livro/. Exercício 2.3.6 (adaptado).</p>
+<p>Escreva o cálculo do n-ésimo número de Fibonacci (F(0) = 0, F(1) = 1, F(n) = F(n−1) + F(n−2)) de forma recursiva e de forma iterativa, e compare a eficiência das duas.</p>
+<details class="resolucao">
+<summary>Ver resolução</summary>
+<p>A versão recursiva copia a definição, mas recalcula os mesmos valores muitas vezes: F(n) chama F(n−1) e F(n−2), F(n−1) chama de novo F(n−2), e assim por diante. O número de chamadas é 2F(n+1) − 1, que cresce exponencialmente (cerca de 1,6^n). A versão iterativa guarda só os dois últimos valores e faz n − 1 somas: O(n).</p>
+<pre class="rastreio">n     F(n)      chamadas da recursiva
+5     5         15
+10    55        177
+20    6765      21 891
+30    832040    2 692 537
+</pre>
+<p>É o exemplo da semana 1 (tempo_fibonacci_it_rec.c): a recursão é elegante, mas aqui é inviável.</p>
+<p class="nome-do-codigo"><code>exercicio_recursividade_2.c</code></p>
+<pre class="codigo"><span class="comentario">/* Exercício: Fibonacci recursivo x iterativo — quantas chamadas e quantas somas. */</span>
+<span class="pragma">#include &lt;stdio.h&gt;</span>
+
+<span class="tipo">long</span> chamadas = 0;
+
+<span class="tipo">long</span> fibonacci_recursivo(<span class="tipo">int</span> posicao) {
+    chamadas++;
+    <span class="comando">if</span> (posicao &lt;= 1) <span class="comando">return</span> posicao;
+    <span class="comando">return</span> fibonacci_recursivo(posicao - 1) + fibonacci_recursivo(posicao - 2);
+}
+
+<span class="tipo">long</span> fibonacci_iterativo(<span class="tipo">int</span> posicao) {
+    <span class="tipo">long</span> anterior = 0, atual = 1;          <span class="comentario">/* F(0) e F(1) */</span>
+    <span class="comando">if</span> (posicao == 0) <span class="comando">return</span> 0;
+    <span class="comando">for</span> (<span class="tipo">int</span> passo = 2; passo &lt;= posicao; passo++) {
+        <span class="tipo">long</span> proximo = anterior + atual;   <span class="comentario">/* uma soma por passo: n - 1 somas */</span>
+        anterior = atual;
+        atual = proximo;
+    }
+    <span class="comando">return</span> atual;
+}
+
+<span class="tipo">int</span> main(<span class="tipo">void</span>) {
+    <span class="tipo">int</span> posicoes[] = {5, 10, 20, 30};
+    <span class="comando">for</span> (<span class="tipo">int</span> indice = 0; indice &lt; 4; indice++) {
+        <span class="tipo">int</span> posicao = posicoes[indice];
+        chamadas = 0;
+        <span class="tipo">long</span> resultado = fibonacci_recursivo(posicao);
+        printf(<span class="cadeia">"F(%d) = %ld | recursivo: %ld chamadas | iterativo: %ld\n"</span>,
+               posicao, resultado, chamadas, fibonacci_iterativo(posicao));
+    }
+    <span class="comando">return</span> 0;
+}
+</pre>
+</details>
+</div>
+</section>
 </main>
 </body>
 </html>

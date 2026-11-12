@@ -13,7 +13,7 @@ const char *NOMES_DOS_ROTULOS[NUMERO_DE_ROTULOS] = {
 };
 
 const char *TITULOS_DOS_ROTULOS[NUMERO_DE_ROTULOS] = {
-    "Técnica", "Algoritmo", "Autores", "Data", "Conceitos", "Problema"
+    "Técnica", "Algoritmos", "Autores", "Data", "Conceitos", "Problema"
 };
 
 const char *ARQUIVOS_DOS_INDICES[NUMERO_DE_ROTULOS] = {
@@ -23,7 +23,8 @@ const char *ARQUIVOS_DOS_INDICES[NUMERO_DE_ROTULOS] = {
 
 const char *pasta_dos_codigos = "../codigos";
 
-void escrever_inicio_html(FILE *saida, const char *titulo) {
+/* <!DOCTYPE> e <head>, iguais em todas as páginas */
+static void escrever_cabeca(FILE *saida, const char *titulo) {
     fprintf(saida, "<!DOCTYPE html>\n<html lang=\"pt-BR\">\n<head>\n");
     fprintf(saida, "<meta charset=\"UTF-8\">\n");
     fprintf(saida, "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n");
@@ -31,18 +32,40 @@ void escrever_inicio_html(FILE *saida, const char *titulo) {
     escrever_texto_html(saida, titulo);
     fprintf(saida, " - MAC0122</title>\n");
     fprintf(saida, "<link rel=\"stylesheet\" href=\"estilo.css\">\n</head>\n<body>\n");
+}
 
-    /* menu: início + os 6 índices, em toda página */
-    fprintf(saida, "<header class=\"topo\">\n");
-    fprintf(saida, "<a class=\"marca\" href=\"index.html\">MAC0122</a>\n");
-    fprintf(saida, "<nav class=\"menu\">\n");
+/* Os 6 botões dos índices; o da página atual fica marcado. */
+static void escrever_botoes(FILE *saida, const char *classe, const char *titulo_da_pagina) {
+    fprintf(saida, "<nav class=\"%s\">\n", classe);
     for (int rotulo = 0; rotulo < NUMERO_DE_ROTULOS; rotulo++) {
-        fprintf(saida, "<a href=\"%s\">%s</a>\n",
-                ARQUIVOS_DOS_INDICES[rotulo], TITULOS_DOS_ROTULOS[rotulo]);
+        int atual = titulo_da_pagina != NULL && strcmp(titulo_da_pagina, TITULOS_DOS_ROTULOS[rotulo]) == 0;
+        fprintf(saida, "<a href=\"%s\"%s>%s</a>\n", ARQUIVOS_DOS_INDICES[rotulo],
+                atual ? " aria-current=\"page\"" : "", TITULOS_DOS_ROTULOS[rotulo]);
     }
-    fprintf(saida, "</nav>\n</header>\n<main>\n<h1>");
+    fprintf(saida, "</nav>\n");
+}
+
+void escrever_inicio_html(FILE *saida, const char *titulo) {
+    escrever_cabeca(saida, titulo);
+    fprintf(saida, "<header class=\"topo\">\n");
+    fprintf(saida, "<a class=\"marca\" href=\"index.html\"><span>Página-guia de</span> MAC0122</a>\n");
+    escrever_botoes(saida, "menu", titulo);
+    fprintf(saida, "</header>\n<main>\n<h1>");
     escrever_texto_html(saida, titulo);
     fprintf(saida, "</h1>\n");
+}
+
+void escrever_inicio_html_da_capa(FILE *saida) {
+    escrever_cabeca(saida, "Página-guia");
+    fprintf(saida, "<header class=\"capa\">\n");
+    fprintf(saida, "<p class=\"capa-chamada\">Página-guia de</p>\n");
+    fprintf(saida, "<h1 class=\"capa-titulo\">MAC0122</h1>\n");
+    fprintf(saida, "<div class=\"capa-faixa\">\n");
+    fprintf(saida, "<img class=\"capa-computador\" src=\"imagens/computador.png\" alt=\"\">\n");
+    fprintf(saida, "<img class=\"capa-grafo\" src=\"imagens/grafo.png\" alt=\"\">\n");
+    fprintf(saida, "</div>\n");
+    escrever_botoes(saida, "botoes", NULL);
+    fprintf(saida, "</header>\n<main>\n");
 }
 
 void escrever_fim_html(FILE *saida) {

@@ -130,8 +130,10 @@ static int semana_tem(int indice_da_semana, Pagina paginas[], int quer_conceitos
     return 0;
 }
 
-static void escrever_titulo_da_semana(FILE *saida, int indice_da_semana) {
-    fprintf(saida, "<h2 id=\"semana-%d\">Semana %d · ",
+/* Abre o cartão da semana; a cor da borda vai alternando (cor-0 a cor-4). */
+static void abrir_semana(FILE *saida, int indice_da_semana) {
+    fprintf(saida, "<section class=\"cartao semana cor-%d\">\n", indice_da_semana % 5);
+    fprintf(saida, "<h2 id=\"semana-%d\">semana %d - ",
             semanas[indice_da_semana].numero, semanas[indice_da_semana].numero);
     escrever_texto_html(saida, semanas[indice_da_semana].titulo);
     fprintf(saida, "</h2>\n");
@@ -177,14 +179,15 @@ static void escrever_outras(FILE *saida, Pagina paginas[], int quantidade_de_pag
         if (pagina->semana != 0) continue;
         if (quer_conceitos ? !pagina->eh_pagina_de_conceito : !eh_algoritmo(pagina)) continue;
         if (primeira) {
-            fprintf(saida, "<h2>Outras páginas</h2>\n<ul class=\"lista-da-semana\">\n");
+            fprintf(saida, "<section class=\"cartao semana cor-4\">\n<h2>outras páginas</h2>\n"
+                           "<ul class=\"lista-da-semana\">\n");
             primeira = 0;
         }
         fprintf(saida, "<li>");
         escrever_link_para_pagina(saida, pagina);
         fprintf(saida, "</li>\n");
     }
-    if (!primeira) fprintf(saida, "</ul>\n");
+    if (!primeira) fprintf(saida, "</ul>\n</section>\n");
 }
 
 /* ============================ index.html ============================ */
@@ -192,26 +195,25 @@ static void escrever_outras(FILE *saida, Pagina paginas[], int quantidade_de_pag
 void gerar_pagina_inicial(const char *pasta, Pagina paginas[], int quantidade_de_paginas) {
     FILE *saida = abrir_saida(pasta, "index.html");
     if (saida == NULL) return;
-    escrever_inicio_html(saida, "MAC0122 · Princípios de Desenvolvimento de Algoritmos");
+    escrever_inicio_html_da_capa(saida);
 
-    fprintf(saida, "<p class=\"apresentacao\">Conteúdo da Avaliação 1, organizado pelas "
-                   "semanas do curso. Os destaques em negrito são os assuntos que caíram na "
-                   "prova. Pelo menu, dá pra procurar os mesmos algoritmos por técnica, autor, "
-                   "data, conceito ou problema.</p>\n");
+    fprintf(saida, "<p class=\"chamada\">Ou veja por aqui...</p>\n");
+    fprintf(saida, "<h2 class=\"titulo-de-secao\">Conteúdo por semanas</h2>\n");
+    fprintf(saida, "<p class=\"apresentacao\">Conteúdo da Avaliação 1 de MAC0122, na ordem das "
+                   "semanas do curso. Em negrito, os assuntos que caíram na prova.</p>\n");
 
     for (int semana = 0; semana < quantidade_de_semanas; semana++) {
         int tem_algoritmos = semana_tem(semana, paginas, 0);
         int tem_conceitos = semana_tem(semana, paginas, 1);
         if (!tem_algoritmos && !tem_conceitos) continue;
 
-        fprintf(saida, "<section class=\"semana\">\n");
-        escrever_titulo_da_semana(saida, semana);
+        abrir_semana(saida, semana);
         if (tem_algoritmos) {
-            fprintf(saida, "<h3>Algoritmos</h3>\n");
+            fprintf(saida, "<p class=\"rotulo-da-lista\">algoritmos</p>\n");
             escrever_lista_da_semana(saida, semana, paginas, 0, quantidade_de_paginas, 0);
         }
         if (tem_conceitos) {
-            fprintf(saida, "<h3>Conceitos</h3>\n");
+            fprintf(saida, "<p class=\"rotulo-da-lista\">conceitos</p>\n");
             escrever_lista_da_semana(saida, semana, paginas, 1, quantidade_de_paginas, 0);
         }
         fprintf(saida, "</section>\n");
@@ -231,8 +233,7 @@ void gerar_indice_de_algoritmos(const char *pasta, Pagina paginas[], int quantid
 
     for (int semana = 0; semana < quantidade_de_semanas; semana++) {
         if (!semana_tem(semana, paginas, 0)) continue;
-        fprintf(saida, "<section class=\"semana\">\n");
-        escrever_titulo_da_semana(saida, semana);
+        abrir_semana(saida, semana);
         escrever_lista_da_semana(saida, semana, paginas, 0, quantidade_de_paginas, 0);
         fprintf(saida, "</section>\n");
     }
@@ -251,8 +252,7 @@ void gerar_indice_de_conceitos(const char *pasta, Pagina paginas[], int quantida
 
     for (int semana = 0; semana < quantidade_de_semanas; semana++) {
         if (!semana_tem(semana, paginas, 1)) continue;
-        fprintf(saida, "<section class=\"semana\">\n");
-        escrever_titulo_da_semana(saida, semana);
+        abrir_semana(saida, semana);
         escrever_lista_da_semana(saida, semana, paginas, 1, quantidade_de_paginas, 1);
         fprintf(saida, "</section>\n");
     }
@@ -416,7 +416,8 @@ static void escrever_bloco_do_conceito(FILE *saida, const char *conceito,
     }
     if (!tem_problema && exercicios == NULL) return;
 
-    fprintf(saida, "<section class=\"conceito\">\n<h2>");
+    static int blocos_escritos = 0;
+    fprintf(saida, "<section class=\"cartao conceito cor-%d\">\n<h2>", blocos_escritos++ % 5);
     if (pagina_do_conceito != NULL) escrever_link_para_pagina(saida, pagina_do_conceito);
     else escrever_texto_html(saida, conceito);
     fprintf(saida, "</h2>\n");

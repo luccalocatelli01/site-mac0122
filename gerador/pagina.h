@@ -68,6 +68,8 @@ extern const char *pasta_dos_codigos;
 /* Escreve <!DOCTYPE>, <head> com o estilo.css, o menu com os 6 índices e o
    título em <h1>. Depois dela vem o conteúdo da página. */
 void escrever_inicio_html(FILE *saida, const char *titulo);
+/* Igual à anterior, mas para o index.html: título grande, faixa e os 6 botões. */
+void escrever_inicio_html_da_capa(FILE *saida);
 /* Fecha o <main>, o <body> e o <html>. */
 void escrever_fim_html(FILE *saida);
 /* Escreve um texto trocando &, <, > e " pelos códigos HTML. */

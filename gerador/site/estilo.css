@@ -18,24 +18,269 @@ pre.codigo {
 .comentario { color: #3D7B7B; font-style: italic; }
 .cadeia     { color: #BA2121; }
 
-/* ===== Layout provisório do site (a Camila vai trocar pelo design do Canva) ===== */
-body { margin: 0; font-family: system-ui, sans-serif; color: #222; background: #fafafa; line-height: 1.55; }
-.topo { display: flex; flex-wrap: wrap; gap: .5em 1.5em; align-items: center; padding: .8em 1.5em; background: #1f2a44; }
-.topo a { color: #fff; text-decoration: none; }
-.marca { font-weight: bold; font-size: 1.15em; }
-.menu { display: flex; flex-wrap: wrap; gap: .3em 1.1em; }
-.menu a:hover { text-decoration: underline; }
-main { max-width: 820px; margin: 0 auto; padding: 1em 1.2em 3em; }
-h2 { margin-top: 1.8em; border-bottom: 1px solid #ddd; padding-bottom: .2em; }
-.apresentacao { color: #555; }
-.lista-da-semana li { margin: .25em 0; }
-.usado-em, .resolvido-por { display: block; font-size: .85em; color: #666; }
-.ficha { display: grid; grid-template-columns: max-content 1fr; gap: .3em 1em; background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: .8em 1em; }
-.ficha dt { font-weight: bold; } .ficha dd { margin: 0; }
-.problemas li { margin: .5em 0; }
-.exercicio { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: .2em 1em .8em; margin: 1em 0; }
-.fonte { font-size: .85em; color: #666; }
-.resolucao summary { cursor: pointer; color: #1f4fa3; font-weight: bold; }
-.rastreio { background: #f3f3f3; padding: .6em; overflow-x: auto; }
-.aviso { color: #a33; font-size: .9em; }
-.nome-do-codigo { margin-bottom: 0; font-size: .85em; color: #666; }
+/* =====================================================================
+   Visual do site (design da Camila no Canva)
+   Paleta: faixa em degradê ciano -> azul -> malva -> laranja; cartões
+   cinza-claro com borda colorida à esquerda; títulos em League Spartan.
+   ===================================================================== */
+
+@font-face { font-family: "League Spartan"; font-weight: 400; font-display: swap;
+             src: url("fontes/league-spartan-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "League Spartan"; font-weight: 600; font-display: swap;
+             src: url("fontes/league-spartan-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "League Spartan"; font-weight: 700; font-display: swap;
+             src: url("fontes/league-spartan-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "League Spartan"; font-weight: 800; font-display: swap;
+             src: url("fontes/league-spartan-latin-800-normal.woff2") format("woff2"); }
+
+:root {
+    --texto: #111111;
+    --texto-suave: #4a4a55;
+    --fundo: #ffffff;
+    --cartao: #f2f2f2;
+    --borda-botao: #2a3060;
+    --link: #3d3fd6;
+
+    --degrade: linear-gradient(90deg, #cdf5fc 0%, #9dbfff 25%, #82a6ff 48%, #c3a0b6 72%, #fd946c 100%);
+
+    /* cada cor: a da borda do cartão e a do título */
+    --cor-0: #f7aaa7;  --titulo-0: #c48a87;   /* rosa */
+    --cor-1: #82a6ff;  --titulo-1: #7c9cf6;   /* azul */
+    --cor-2: #c3a0b6;  --titulo-2: #a27a93;   /* malva */
+    --cor-3: #9edfee;  --titulo-3: #4fa6bb;   /* ciano */
+    --cor-4: #fd946c;  --titulo-4: #df7650;   /* laranja */
+
+    --titulos: "League Spartan", "Arial Black", Arial, sans-serif;
+
+    /* largura do site: ocupa até 1400px e respira mais nas telas grandes */
+    --largura: 1400px;
+    --margem: clamp(20px, 4vw, 56px);
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: var(--fundo);
+    color: var(--texto);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 17px;
+    line-height: 1.55;
+}
+
+main, .capa, .topo { max-width: var(--largura); margin: 0 auto; padding-left: var(--margem); padding-right: var(--margem); }
+main { padding-bottom: 72px; }
+
+a { color: var(--link); text-underline-offset: 2px; }
+a:hover { text-decoration-thickness: 2px; }
+strong { font-weight: 700; }
+
+h1, h2, h3, h4, .capa-titulo, .botoes a, .menu a, .marca {
+    font-family: var(--titulos);
+    letter-spacing: -0.01em;
+}
+
+/* ---------- capa (index.html) ---------- */
+
+/* Proporções tiradas do design do Canva: tudo é medido em relação à largura
+   da faixa (cqw = 1% da largura da .capa), então a capa inteira cresce e
+   encolhe junto, igual ao Canva, em qualquer tamanho de tela. */
+.capa { padding-top: 28px; container-type: inline-size; }
+.capa-chamada { margin: 0 0 -1.2cqw 2.2cqw; font-size: clamp(15px, 2.7cqw, 30px); }
+.capa-titulo {
+    margin: 0 0 0 1.4cqw;
+    font-size: 18.8cqw;
+    font-weight: 800;
+    line-height: 1;
+    padding-top: .06em;
+}
+.capa-faixa {                        /* faixa em degradê com as duas ilustrações */
+    position: relative;
+    aspect-ratio: 1021 / 182;
+    margin-top: -3.1cqw;             /* o título fica pouco acima da faixa, o "C" encosta nela */
+    border-radius: 2cqw;
+    background: var(--degrade);
+}
+.capa-computador, .capa-grafo { position: absolute; height: auto; }
+.capa-computador {                   /* sai por cima da faixa, sobre o título, e encosta embaixo */
+    left: 11.6%;
+    width: 23.9%;
+    bottom: 0;
+}
+.capa-grafo {                        /* canto direito; só a bolinha de cima sai da faixa */
+    right: 1.1%;
+    width: 25.7%;
+    bottom: 2.7%;                    /* um tiquinho "voando", sem encostar embaixo */
+}
+
+.botoes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px 36px;
+    margin: 28px 8px 0;
+}
+.botoes a, .menu a {
+    display: block;
+    text-align: center;
+    color: var(--texto);
+    text-decoration: none;
+    background: var(--cartao);
+    border: 1.5px solid var(--borda-botao);
+    border-radius: 14px;
+    font-weight: 700;
+    transition: background .15s, transform .15s;
+}
+.botoes a { padding: 26px 12px 20px; font-size: 32px; }
+.botoes a:hover, .menu a:hover { background: #e6e9ff; transform: translateY(-2px); }
+
+.chamada { margin: 72px 0 0 14px; font-size: 26px; }
+.titulo-de-secao { margin: 0 0 10px 14px; font-size: clamp(34px, 6vw, 52px); font-weight: 800; line-height: 1.05; }
+.apresentacao { margin: 0 0 22px 14px; color: var(--texto-suave); }
+
+/* ---------- cabeçalho das outras páginas ---------- */
+
+.topo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px 24px;
+    padding-top: 22px;
+    padding-bottom: 22px;
+    position: relative;
+}
+.topo::after {                       /* faixa em degradê embaixo do cabeçalho */
+    content: "";
+    position: absolute;
+    left: var(--margem); right: var(--margem); bottom: 0;
+    height: 10px;
+    border-radius: 10px;
+    background: var(--degrade);
+}
+.marca { color: var(--texto); text-decoration: none; font-size: 34px; font-weight: 800; line-height: 1; }
+.marca span { display: block; font-family: Arial, sans-serif; font-weight: 400; font-size: 15px; letter-spacing: 0; margin-bottom: 2px; }
+.menu { display: flex; flex-wrap: wrap; gap: 10px; }
+.menu a { padding: 9px 16px 6px; font-size: 17px; border-radius: 11px; }
+.menu a[aria-current="page"] { background: var(--borda-botao); color: #fff; }
+
+main > h1 { margin: 36px 0 18px 4px; font-size: clamp(36px, 6vw, 56px); font-weight: 800; line-height: 1.05; }
+
+/* ---------- cartões (semanas, grupos, conceitos) ---------- */
+
+.cartao {
+    background: var(--cartao);
+    border-radius: 16px;
+    border-left: 14px solid var(--cor-0);
+    padding: 22px 28px 20px;
+    margin: 20px 0;
+}
+.cartao > h2 { margin: 0 0 10px; font-size: 30px; font-weight: 700; line-height: 1.15; color: var(--titulo-0); }
+.cartao > h2 a { color: inherit; text-decoration: none; }
+.cartao > h2 a:hover { text-decoration: underline; }
+.cor-1 { border-left-color: var(--cor-1); } .cor-1 > h2 { color: var(--titulo-1); }
+.cor-2 { border-left-color: var(--cor-2); } .cor-2 > h2 { color: var(--titulo-2); }
+.cor-3 { border-left-color: var(--cor-3); } .cor-3 > h2 { color: var(--titulo-3); }
+.cor-4 { border-left-color: var(--cor-4); } .cor-4 > h2 { color: var(--titulo-4); }
+
+.cartao ul { margin: 4px 0 8px; padding-left: 52px; }
+.cartao li { margin: 6px 0; font-size: 19px; }
+.cartao .problemas li, .cartao .exercicio li { font-size: 17px; }
+.cartao li::marker { color: var(--link); }
+
+.rotulo-da-lista {
+    margin: 14px 0 0 24px;
+    font-family: var(--titulos);
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--texto-suave);
+}
+
+.usado-em, .resolvido-por { display: block; font-size: 14px; color: var(--texto-suave); }
+
+/* ---------- página de algoritmo ---------- */
+
+.ficha {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 8px 22px;
+    margin: 0 0 28px;
+    padding: 22px 28px;
+    background: var(--cartao);
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+}
+.ficha::before {                     /* filete em degradê no topo da ficha */
+    content: "";
+    position: absolute; left: 0; right: 0; top: 0;
+    height: 8px;
+    background: var(--degrade);
+}
+.ficha dt { font-family: var(--titulos); font-weight: 700; font-size: 18px; }
+.ficha dd { margin: 0; }
+
+main > p { max-width: 72ch; }
+
+.nome-do-codigo { margin: 26px 0 0; font-size: 14px; color: var(--texto-suave); }
+pre.codigo {
+    background: #fbfbfd;
+    border: 1.5px solid #dfe2ef;
+    border-radius: 14px;
+    padding: 18px 22px;
+    font-size: 15px;
+}
+.aviso { color: #b0413e; font-size: 15px; }
+
+/* ---------- problemas e exercícios ---------- */
+
+.cartao h3 { margin: 18px 0 6px; font-size: 21px; font-weight: 700; }
+.problemas li { margin: 10px 0; }
+.problema { font-weight: 600; }
+
+.exercicio {
+    background: #fff;
+    border: 1.5px solid #e1e3ec;
+    border-radius: 14px;
+    padding: 6px 22px 16px;
+    margin: 14px 0;
+}
+.exercicio h4 { margin: 12px 0 2px; font-size: 19px; }
+.fonte { font-size: 13.5px; color: var(--texto-suave); }
+
+.resolucao summary {
+    display: inline-block;
+    cursor: pointer;
+    list-style: none;
+    padding: 8px 16px 6px;
+    border: 1.5px solid var(--borda-botao);
+    border-radius: 11px;
+    background: var(--cartao);
+    font-family: var(--titulos);
+    font-weight: 700;
+}
+.resolucao summary::-webkit-details-marker { display: none; }
+.resolucao[open] summary { background: var(--borda-botao); color: #fff; margin-bottom: 6px; }
+.rastreio {
+    background: #f6f7fb;
+    border-radius: 10px;
+    padding: 12px 16px;
+    overflow-x: auto;
+    font-size: 14px;
+}
+
+/* ---------- celular ---------- */
+
+@media (max-width: 700px) {
+    body { font-size: 16px; }
+    .botoes { grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 18px 0 0; }
+    .botoes a { padding: 18px 8px 14px; font-size: 22px; }
+    .chamada { font-size: 20px; margin-top: 44px; }
+    .cartao { padding: 18px 18px 14px; border-left-width: 10px; }
+    .cartao > h2 { font-size: 23px; }
+    .cartao ul { padding-left: 26px; }
+    .ficha { grid-template-columns: 1fr; gap: 2px; padding: 20px 18px; }
+    .ficha dd { margin-bottom: 8px; }
+    .menu a { padding: 7px 11px 5px; font-size: 15px; }
+}

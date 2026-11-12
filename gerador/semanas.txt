@@ -51,6 +51,7 @@ conceito_apontador
 
 Semana 8: Pilhas e filas
 *pilha_posfixa
+infixa_posfixa
 *conceito_pilha
 conceito_fila
 
