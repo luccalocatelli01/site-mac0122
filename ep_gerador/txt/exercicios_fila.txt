@@ -1,0 +1,20 @@
+Conceitos: Fila
+---
+@exercicio
+Fonte: CORMEN, T. H.; LEISERSON, C. E.; RIVEST, R. L.; STEIN, C. Algoritmos: teoria e prática. 3. ed. Rio de Janeiro: Elsevier, 2012. Exercício 10.1-6 (adaptado).
+Mostre como implementar uma fila usando duas pilhas e analise o consumo de tempo das operações de inserir e remover.
+@resolucao
+Use uma pilha entrada, que recebe quem chega, e uma pilha saida, de onde sai o próximo da fila. Inserir: empilha em entrada. Remover: se saida estiver vazia, desempilha tudo de entrada e empilha em saida (isso inverte a ordem e deixa o mais antigo no topo); depois desempilha de saida.
+Inserir custa O(1). Remover custa O(n) no pior caso, quando precisa passar tudo de uma pilha para a outra. Mas cada elemento passa de entrada para saida no máximo uma vez, então numa sequência de operações o custo médio por operação é O(1) (custo amortizado).
+@codigo exercicio_fila_1.c
+@fim
+
+@exercicio
+Fonte: FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009. Disponível em https://www.ime.usp.br/~pf/algoritmos-livro/. Exercício 5.3.1 (adaptado).
+Implemente uma fila circular num vetor de capacidade fixa, com as funções tamanho, inserir (que avisa quando a fila está cheia) e remover.
+@resolucao
+Guarde a posição do primeiro elemento (inicio) e a quantidade de elementos. O fim da fila é (inicio + quantidade) % CAPACIDADE: o resto da divisão faz a fila dar a volta no vetor, reaproveitando as posições liberadas no começo.
+A fila está cheia quando quantidade == CAPACIDADE, e vazia quando quantidade == 0. Guardar a quantidade evita a ambiguidade da versão com dois índices, em que inicio == fim pode significar cheia ou vazia.
+Todas as operações são O(1).
+@codigo exercicio_fila_2.c
+@fim

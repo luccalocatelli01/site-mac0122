@@ -1,0 +1,28 @@
+Conceitos: Recursividade
+---
+@exercicio
+Fonte: FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009. Disponível em https://www.ime.usp.br/~pf/algoritmos-livro/. Exercício 2.3.3 (adaptado).
+Escreva uma função recursiva que calcula a soma dos elementos positivos de um vetor v[0..n−1]. Quanto deve valer a soma quando n = 0?
+@resolucao
+A soma dos positivos de v[0..n−1] é a soma dos positivos de v[0..n−2], mais v[n−1] se ele for positivo. É o mesmo formato da questão do maior elemento da P1: resolve o problema para os n − 1 primeiros e decide o que fazer com o último.
+Base: n = 0 (vetor vazio). A soma de nenhum número é 0, e é isso que faz a recursão funcionar: o primeiro elemento positivo é somado a 0.
+Para v = {3, −2, 5, 0, −7, 4}, o resultado é 3 + 5 + 4 = 12.
+@codigo exercicio_recursividade_1.c
+@fim
+
+@exercicio
+Fonte: FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009. Disponível em https://www.ime.usp.br/~pf/algoritmos-livro/. Exercício 2.3.6 (adaptado).
+Escreva o cálculo do n-ésimo número de Fibonacci (F(0) = 0, F(1) = 1, F(n) = F(n−1) + F(n−2)) de forma recursiva e de forma iterativa, e compare a eficiência das duas.
+@resolucao
+A versão recursiva copia a definição, mas recalcula os mesmos valores muitas vezes: F(n) chama F(n−1) e F(n−2), F(n−1) chama de novo F(n−2), e assim por diante. O número de chamadas é 2F(n+1) − 1, que cresce exponencialmente (cerca de 1,6^n).
+A versão iterativa guarda só os dois últimos valores e faz n − 1 somas: O(n).
+@pre
+n     F(n)      chamadas da recursiva
+5     5         15
+10    55        177
+20    6765      21 891
+30    832040    2 692 537
+@fimpre
+É o exemplo da semana 1 (tempo_fibonacci_it_rec.c): a recursão é elegante, mas aqui é inviável.
+@codigo exercicio_recursividade_2.c
+@fim

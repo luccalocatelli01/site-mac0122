@@ -1,0 +1,30 @@
+Conceitos: Espalhamento
+---
+@exercicio
+Fonte: CORMEN, T. H.; LEISERSON, C. E.; RIVEST, R. L.; STEIN, C. Algoritmos: teoria e prática. 3. ed. Rio de Janeiro: Elsevier, 2012. Exercício 11.2-2 (adaptado).
+Insira as chaves 5, 28, 19, 15, 20, 33, 12, 17, 10, nessa ordem, numa tabela de espalhamento com 9 posições, função h(k) = k mod 9 e colisões tratadas por encadeamento externo (cada nova chave entra no começo da lista da sua posição). Desenhe a tabela final.
+@resolucao
+Calculando h(k) = k mod 9: 5→5, 28→1, 19→1, 15→6, 20→2, 33→6, 12→3, 17→8, 10→1.
+@pre
+0: (vazia)
+1: 10 -> 19 -> 28
+2: 20
+3: 12
+4: (vazia)
+5: 5
+6: 33 -> 15
+7: (vazia)
+8: 17
+@fimpre
+As colisões aconteceram nas posições 1 (28, 19 e 10) e 6 (15 e 33). Como cada chave nova entra no começo da lista, a última inserida fica na frente. Se a inserção fosse no fim da lista, as listas seriam 28 -> 19 -> 10 e 15 -> 33; as duas formas estão certas, mas inserir no começo custa O(1).
+@fim
+
+@exercicio
+Fonte: CORMEN, T. H.; LEISERSON, C. E.; RIVEST, R. L.; STEIN, C. Algoritmos: teoria e prática. 3. ed. Rio de Janeiro: Elsevier, 2012. Seção 11.2, análise do encadeamento (adaptado).
+Na tabela do exercício anterior (9 posições, h(k) = k mod 9), escolha 5 chaves que façam a busca ficar o mais lenta possível. Com n chaves, quanto custa uma busca sem sucesso no pior caso? E no caso médio, supondo que a função espalha bem?
+@resolucao
+Basta que todas as chaves tenham o mesmo resto na divisão por 9, por exemplo 1, 10, 19, 28 e 37: todas vão para a lista da posição 1 e a tabela vira uma lista ligada comum.
+Pior caso: as n chaves na mesma lista, e uma busca sem sucesso percorre todas, O(n).
+Caso médio: se a função espalha as chaves de maneira uniforme pelas m posições, cada lista tem em média n/m chaves (o fator de carga α). Uma busca sem sucesso calcula h(k) e percorre uma lista inteira, custo O(1 + α). Se m cresce junto com n, α fica constante e a busca é O(1), que é o resultado da P1: O(1) no caso médio e O(n) no pior.
+É o mesmo problema da função vista em aula que soma os códigos ASCII: anagramas como "abc" e "cba" sempre colidem, então ela espalha mal conjuntos de palavras parecidas.
+@fim

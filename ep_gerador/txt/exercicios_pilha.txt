@@ -1,0 +1,31 @@
+Conceitos: Pilha
+---
+@exercicio
+Fonte: CORMEN, T. H.; LEISERSON, C. E.; RIVEST, R. L.; STEIN, C. Algoritmos: teoria e prática. 3. ed. Rio de Janeiro: Elsevier, 2012. Exercício 10.1-1 (adaptado).
+Uma pilha está guardada num vetor S[0..5] e começa vazia (topo = −1). Mostre o conteúdo do vetor e o valor de topo depois de cada operação: empilha(4), empilha(1), empilha(3), desempilha, empilha(8), desempilha.
+@resolucao
+@pre
+operação       S[0] S[1] S[2]   topo   devolve
+empilha(4)      4                  0
+empilha(1)      4    1             1
+empilha(3)      4    1    3        2
+desempilha      4    1   (3)       1      3
+empilha(8)      4    1    8        2
+desempilha      4    1   (8)       1      8
+@fimpre
+No fim, a pilha contém 4 e 1, com o 1 no topo. Repare que desempilhar só diminui topo: o valor continua no vetor (entre parênteses), mas não faz mais parte da pilha e é sobrescrito no próximo empilha. É o mesmo esquema da P1: topo = −1 vazia, ++topo empilha, topo−− desempilha.
+@fim
+
+@exercicio
+Fonte: FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009. Disponível em https://www.ime.usp.br/~pf/algoritmos-livro/. Exercício 6.1.3 (adaptado).
+Os números 1, 2, 3, 4 chegam nessa ordem. A cada passo podemos empilhar o próximo número que chega ou desempilhar o topo e escrevê-lo na saída. Quais das 24 ordens de 1, 2, 3, 4 podem aparecer na saída? Dê uma regra para reconhecer as impossíveis.
+@resolucao
+14 das 24 ordens são possíveis. As 10 impossíveis são:
+@pre
+1 4 2 3    2 4 1 3    3 1 2 4    3 1 4 2    3 4 1 2
+4 1 2 3    4 1 3 2    4 2 1 3    4 2 3 1    4 3 1 2
+@fimpre
+Regra: uma ordem é impossível quando tem um número grande, depois um pequeno, depois um médio (o padrão "3 1 2"). Por exemplo, em 3 1 2 4: para escrever o 3, o 1 e o 2 tiveram que ser empilhados antes dele, com o 2 por cima do 1. Então o 2 sai antes do 1, e a ordem 3 1 2 não pode acontecer.
+O programa abaixo testa as 24 ordens simulando a pilha.
+@codigo exercicio_pilha_2.c
+@fim

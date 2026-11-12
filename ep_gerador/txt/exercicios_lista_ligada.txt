@@ -1,0 +1,21 @@
+Conceitos: Lista ligada
+---
+@exercicio
+Fonte: FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009. Disponível em https://www.ime.usp.br/~pf/algoritmos-livro/. Exercício 4.7.11 (adaptado).
+Escreva uma função que inverte a ordem das células de uma lista ligada sem criar células novas: só os ponteiros podem mudar.
+@resolucao
+A ideia é andar pela lista virando a seta de cada célula para trás. São necessários três ponteiros: anterior (a parte já invertida), atual (a célula sendo virada) e seguinte (guardado antes de virar a seta, senão o resto da lista se perde).
+Invariante: no começo de cada volta, anterior aponta para a parte já invertida e atual para o resto, ainda na ordem original. Quando atual fica NULL, anterior é o novo primeiro nó.
+O consumo de tempo é O(n) e a memória extra é constante.
+@codigo exercicio_lista_ligada_1.c
+@fim
+
+@exercicio
+Fonte: FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009. Disponível em https://www.ime.usp.br/~pf/algoritmos-livro/. Exercício 4.6.3 (adaptado; aqui com No **, como na P1).
+Escreva uma função que remove de uma lista ligada todas as células cujo conteúdo é x. A primeira célula também pode ter que ser removida.
+@resolucao
+Usando um ponteiro para ponteiro (No **), o caso da primeira célula deixa de ser especial: ponteiro_atual aponta sempre para o campo que guarda o endereço da célula examinada (no começo, a própria variável lista; depois, o campo proximo da célula anterior).
+Se a célula tem x, esse campo passa a apontar para a seguinte, a célula é liberada e ponteiro_atual não anda, porque a nova célula naquela posição ainda não foi examinada. Se não tem x, ponteiro_atual avança para &(célula)->proximo.
+Cuidado comum: avançar depois de remover, o que pula células e falha em casos como 7 -> 7 -> 3.
+@codigo exercicio_lista_ligada_2.c
+@fim

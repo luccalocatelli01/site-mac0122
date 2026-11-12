@@ -1,0 +1,24 @@
+Conceitos: Complexidade
+---
+@exercicio
+Fonte: FEOFILOFF, P. Análise de Algoritmos: repositório de exercícios. São Paulo: IME-USP, 2018. Exercício 4.11 (adaptado).
+Quantas vezes o corpo do laço abaixo é executado quando n = 100? E para um n qualquer? Qual é a ordem de grandeza do consumo de tempo?
+@pre
+while (n > 1)
+    n = n / 2;
+@fimpre
+@resolucao
+Para n = 100, o valor de n passa por 100, 50, 25, 12, 6, 3 e 1: o corpo roda 6 vezes.
+Em geral, cada volta divide n por 2, então depois de k voltas sobra mais ou menos n / 2^k. O laço para quando isso chega a 1, ou seja, quando 2^k passa de n. O número de voltas é o piso de log₂ n (para n = 100, log₂ 100 ≈ 6,6, piso 6).
+É a regra que caiu na P1: quando o contador é multiplicado ou dividido a cada passo, o laço é O(log n).
+@fim
+
+@exercicio
+Fonte: FEOFILOFF, P. Análise de Algoritmos: repositório de exercícios. São Paulo: IME-USP, 2018. Exercícios 4.1 e 4.2 (adaptado).
+Na ordenação por inserção direta, conte quantas comparações v[i] > x são feitas no melhor caso e no pior caso para um vetor de n elementos. Que vetores produzem cada caso? Escreva o resultado em notação O.
+@resolucao
+O laço externo pega v[j] (j = 1, ..., n − 1) e o laço interno anda para a esquerda enquanto v[i] > x.
+Melhor caso: vetor já em ordem crescente. Para cada j, a primeira comparação já falha, então é 1 comparação por j: n − 1 no total, O(n).
+Pior caso: vetor em ordem decrescente. Para cada j, x é menor que todos os anteriores e o laço interno percorre as j posições: 1 + 2 + ... + (n − 1) = n(n − 1)/2 comparações, O(n²).
+Por isso a inserção direta é boa para vetores quase ordenados, mesmo sendo quadrática no pior caso.
+@fim

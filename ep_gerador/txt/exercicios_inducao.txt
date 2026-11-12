@@ -1,0 +1,22 @@
+Conceitos: Indução
+---
+@exercicio
+Fonte: FEOFILOFF, P. Análise de Algoritmos: repositório de exercícios. São Paulo: IME-USP, 2018. Exercício 1.23 (adaptado).
+Prove por indução que, para todo n ≥ 0, 1 + 2 + 2² + ... + 2ⁿ = 2ⁿ⁺¹ − 1.
+@resolucao
+Base (n = 0): o lado esquerdo é só 1 e o direito é 2¹ − 1 = 1. Vale.
+Hipótese de indução: suponha que a igualdade vale para n − 1, ou seja, 1 + 2 + ... + 2ⁿ⁻¹ = 2ⁿ − 1.
+Passo: 1 + 2 + ... + 2ⁿ⁻¹ + 2ⁿ = (2ⁿ − 1) + 2ⁿ = 2 · 2ⁿ − 1 = 2ⁿ⁺¹ − 1, usando a hipótese na primeira igualdade. Logo vale para n.
+Essa soma aparece nas Torres de Hanói: o número de movimentos para n discos é 2ⁿ − 1, e uma árvore binária completa de altura h tem 2ʰ⁺¹ − 1 nós.
+@fim
+
+@exercicio
+Fonte: FEOFILOFF, P. Análise de Algoritmos: repositório de exercícios. São Paulo: IME-USP, 2018. Exercício 8.2 (adaptado).
+Uma árvore binária é cheia quando cada nó tem 0 ou 2 filhos. Prove por indução que uma árvore binária cheia com f folhas tem exatamente f − 1 nós internos (nós com filhos).
+@resolucao
+Indução no número de nós.
+Base: a árvore com um só nó. Ele é folha, então f = 1, e há 0 = f − 1 nós internos. Vale.
+Hipótese: a afirmação vale para toda árvore binária cheia com menos nós que a árvore T.
+Passo: se T tem mais de um nó, a raiz é interna e tem duas subárvores, E e D, ambas cheias e menores que T. Se E tem f₁ folhas e D tem f₂, pela hipótese elas têm f₁ − 1 e f₂ − 1 nós internos. As folhas de T são as de E e de D: f = f₁ + f₂. Os nós internos de T são os de E, os de D e a raiz: (f₁ − 1) + (f₂ − 1) + 1 = f₁ + f₂ − 1 = f − 1. Vale para T.
+Aplicação: a árvore de expressão da P1 é cheia (cada operador tem dois operandos), então uma expressão com f números tem f − 1 operadores.
+@fim

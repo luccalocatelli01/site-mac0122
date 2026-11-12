@@ -1,0 +1,31 @@
+Conceitos: Busca
+---
+@exercicio
+Fonte: FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009. Disponível em https://www.ime.usp.br/~pf/algoritmos-livro/. Exercício 7.3.2 (adaptado).
+Faça o rastreamento da busca binária no vetor v = {10, 20, 30, 40, 50, 60, 70} (n = 7), mostrando os valores de e (esquerda), m (meio) e d (direita) a cada iteração, primeiro para x = 55 e depois para x = 20. Quantas iterações cada busca faz?
+@resolucao
+Para x = 55 (não está no vetor):
+@pre
+e=0 m=3 d=6  v[3]=40 < 55  -> e = 4
+e=4 m=5 d=6  v[5]=60 > 55  -> d = 4
+e=4 m=4 d=4  v[4]=50 < 55  -> e = 5
+e=5 > d=4: para, x não está no vetor
+@fimpre
+Para x = 20 (está na posição 1):
+@pre
+e=0 m=3 d=6  v[3]=40 > 20  -> d = 2
+e=0 m=1 d=2  v[1]=20 = 20  -> achou na posição 1
+@fimpre
+A busca sem sucesso fez 3 iterações e a com sucesso, 2. Com n = 7, nenhuma busca passa de 3 iterações, porque cada uma corta o intervalo pela metade: 7, 3, 1. Em geral são no máximo cerca de log₂ n + 1 iterações, O(log n).
+O programa abaixo imprime esse rastreamento.
+@codigo exercicio_busca_1.c
+@fim
+
+@exercicio
+Fonte: FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009. Disponível em https://www.ime.usp.br/~pf/algoritmos-livro/. Exercício 7.5.3 (adaptado).
+Na busca binária, o meio costuma ser calculado como m = (e + d) / 2. Explique por que essa conta pode dar errado para vetores muito grandes e como evitar o problema.
+@resolucao
+Em C, int tem um valor máximo (2 147 483 647 com 32 bits). Se o vetor for enorme, e + d pode passar desse máximo antes da divisão por 2: é um overflow, e o resultado vira um número negativo ou sem sentido, mesmo que e e d sozinhos sejam válidos.
+A solução é calcular o meio como m = e + (d − e) / 2. Matematicamente é o mesmo valor, mas d − e é sempre pequeno (é o tamanho do intervalo), então nenhuma conta passa do máximo.
+O programa do exercício anterior já usa essa forma.
+@fim

@@ -1,0 +1,11 @@
+Tecnica:
+Algoritmo:
+Autores:
+Data:
+Conceitos: Ordenação
+Problema:
+---
+Ordenar é rearranjar os elementos de um vetor de modo que fiquem em ordem crescente (ou decrescente).
+
+Referências:
+- FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009.

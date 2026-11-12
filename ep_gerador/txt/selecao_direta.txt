@@ -1,0 +1,15 @@
+Tecnica: Método guloso
+Algoritmo: Ordenação por seleção direta
+Autores:
+Data:
+Conceitos: Ordenação, Complexidade
+Problema: Dado um vetor de n elementos, colocá-los em ordem crescente.
+---
+A cada passo, a seleção direta procura o menor elemento da parte ainda não ordenada e o troca com o primeiro elemento dessa parte.
+
+@codigo selecao_direta.c
+
+O número de comparações é sempre da ordem de n², mesmo com o vetor já ordenado, e a memória extra é constante.
+
+Referências:
+- FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009.

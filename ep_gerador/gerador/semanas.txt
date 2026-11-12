@@ -1,0 +1,60 @@
+# semanas.txt — organização do site pelas semanas do curso
+#
+# "Semana N: título" abre uma semana. Embaixo, uma página por linha, pelo
+# nome do TXT sem ".txt", na ordem em que aparece no site.
+# "*" na frente = destaque (aparece em negrito; usamos para o que caiu na P1).
+# Linhas com # são comentários. Página que não estiver aqui vai para
+# "Outras páginas" no fim do índice.
+
+Semana 1: Problema, modelagem e eficiência
+fibonacci
+
+Semana 2: Indução, recursividade e divisão e conquista
+hanoi
+*recursao_maior
+conceito_inducao
+*conceito_recursividade
+
+Semana 3: Grafos, árvores, complexidade e busca
+mdc_euclides
+busca_linear
+busca_sentinela
+*busca_binaria
+conceito_grafo
+*conceito_arvore
+*conceito_complexidade
+conceito_invariante
+conceito_busca
+
+Semana 4: Ordenação
+selecao_direta
+bolha
+insercao_direta
+quicksort
+fusao
+heapsort
+*conceito_ordenacao
+
+Semana 5: Ordenação estável, conjuntos e espalhamento
+ordenacao_frequencia
+conceito_ordenacao_estavel
+conceito_conjunto
+*conceito_espalhamento
+
+Semana 6: Autômatos finitos (estudo complementar)
+conceito_automato_finito
+
+Semana 7: Listas ligadas, apontadores e registros
+*lista_insercao_ordenada
+conceito_apontador
+*conceito_lista_ligada
+
+Semana 8: Pilhas e filas
+*pilha_posfixa
+*conceito_pilha
+conceito_fila
+
+Semana 9: Aplicações de pilhas e filas
+*arvore_expressao
+busca_profundidade
+busca_largura

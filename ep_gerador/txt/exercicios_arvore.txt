@@ -1,0 +1,19 @@
+Conceitos: Árvore
+---
+@exercicio
+Fonte: FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009. Disponível em https://www.ime.usp.br/~pf/algoritmos-livro/. Exercício 14.2.2 (adaptado).
+Escreva uma função recursiva que conta os nós de uma árvore binária.
+@resolucao
+A definição recursiva da árvore dá a função quase pronta: uma árvore vazia tem 0 nós; senão, tem a raiz mais os nós da subárvore esquerda mais os da direita.
+Cada nó é visitado uma vez, então o consumo de tempo é O(n). O mesmo esquema calcula a altura (1 + o maior entre as alturas das subárvores) e a quantidade de folhas, que caíram na Q5 da P1.
+O programa abaixo resolve este exercício e o próximo.
+@codigo exercicio_arvore_1.c
+@fim
+
+@exercicio
+Fonte: FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009. Disponível em https://www.ime.usp.br/~pf/algoritmos-livro/. Exercício 14.2.3 (adaptado).
+Escreva uma função que imprime somente as folhas de uma árvore binária, na ordem e-r-d (em-ordem).
+@resolucao
+Faça o percurso em-ordem normal (esquerda, raiz, direita), mas só imprima a raiz quando ela não tiver filhos (esquerda == NULL e direita == NULL).
+Na árvore do programa (1 com filhos 2 e 3; 2 com filhos 4 e 5; 3 com filho direito 6), as folhas saem na ordem 4 5 6. Trocando a posição do printf em relação às duas chamadas recursivas, obtemos os percursos pré-ordem (r-e-d) e pós-ordem (e-d-r).
+@fim

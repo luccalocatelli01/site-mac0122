@@ -1,0 +1,21 @@
+Conceitos: Ordenação
+---
+@exercicio
+Fonte: FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009. Disponível em https://www.ime.usp.br/~pf/algoritmos-livro/. Exercício 8.2.1 (adaptado).
+Na ordenação por inserção direta, o laço interno anda para a esquerda enquanto v[i] > x. O que acontece se trocarmos a condição por v[i] >= x? O vetor continua sendo ordenado? O algoritmo continua estável?
+@resolucao
+Continua ordenando: cada x ainda é colocado numa posição em que tudo à esquerda é menor ou igual a ele e tudo à direita é maior ou igual.
+Mas deixa de ser estável. Com >=, quando x encontra um elemento igual a ele, esse elemento também é empurrado para a direita, e x passa à frente dele. Exemplo: ordenando pela nota os pares (Ana, 7) e (Bia, 7), nessa ordem, a Bia termina antes da Ana, invertendo a ordem original dos empatados.
+Além disso, faz deslocamentos inúteis: elementos iguais são movidos sem necessidade. Por isso a versão com > é a correta.
+@fim
+
+@exercicio
+Fonte: FEOFILOFF, P. Algoritmos em linguagem C. Rio de Janeiro: Elsevier, 2009. Disponível em https://www.ime.usp.br/~pf/algoritmos-livro/. Exercício 11.4.1 (adaptado).
+Mostre que, se o vetor já estiver em ordem crescente, o quicksort que usa o último elemento como pivô faz cerca de n²/2 comparações. Por que isso acontece, e como evitar?
+@resolucao
+Com o vetor ordenado, o último elemento é o maior. A separação compara o pivô com os outros n − 1 elementos, todos ficam à esquerda dele, e sobra um subvetor de tamanho n − 1 e outro vazio. Na chamada seguinte acontece o mesmo com n − 2, e assim por diante.
+O total é (n − 1) + (n − 2) + ... + 1 = n(n − 1)/2 comparações, O(n²): o quicksort cai no seu pior caso exatamente na entrada mais fácil.
+O programa abaixo conta as comparações e confirma: para n = 1000, são 499 500 no vetor ordenado contra cerca de 10 500 num vetor aleatório.
+@codigo exercicio_ordenacao_2.c
+Para evitar, escolha o pivô de outro jeito: sorteando uma posição (quicksort aleatorizado, exercício 11.5.3 do mesmo livro) ou usando a mediana entre o primeiro, o do meio e o último.
+@fim
