@@ -18,3 +18,21 @@ A fila está cheia quando quantidade == CAPACIDADE, e vazia quando quantidade ==
 Todas as operações são O(1).
 @codigo exercicio_fila_2.c
 @fim
+
+@exercicio
+Fonte: lista de exercícios de estudo para a P1 de MAC0122, 2026.
+Guarde até cinco senhas numa estrutura Fila, com um vetor senhas[5] e um inteiro quantidade, em que a próxima senha a ser atendida fica sempre na posição 0. Implemente int entraFila(Fila *f, int senha), que coloca a senha depois das que já esperam (ou devolve 0 se a fila estiver cheia), e int atendeFila(Fila *f, int *atendida), que guarda a primeira senha em *atendida, a retira e desloca as restantes uma posição para a esquerda (ou devolve 0 se a fila estiver vazia). O programa executa comandos "E numero" (entra) e "A" (atende), imprimindo cheia, vazia ou a senha atendida.
+@resolucao
+@pre
+comando   fila           saída
+A         []             vazia
+E 10      [10]
+E 20      [10, 20]
+E 30      [10, 20, 30]
+A         [20, 30]       10
+A         [30]           20
+@fimpre
+Essa fila é simples, mas atender custa O(n), porque todas as senhas andam uma posição. A fila circular resolve isso com dois índices, ini e fim, que dão a volta no vetor: aí ninguém precisa andar, e as duas operações ficam O(1).
+Erro corrigido: a main imprimia uma linha "Resposta:" antes da saída, que não faz parte do enunciado.
+@codigo exercicio_fila_3.c
+@fim

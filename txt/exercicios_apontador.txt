@@ -1,0 +1,46 @@
+Conceitos: Apontador
+---
+@exercicio
+Fonte: lista de exercícios de estudo para a P1 de MAC0122, 2026.
+Uma função recebe um apontador p e deve fazê-lo apontar para outra variável. Escreva duas versões: void trocaErrado(int *p, int *novo), que faz p = novo, e void trocaCerto(int **pp, int *novo), que faz *pp = novo. Na main, com p apontando para a (que vale 1), chame as duas com o endereço de b (que vale 2) e imprima *p depois de cada uma.
+@resolucao
+@pre
+dentro de trocaErrado: 2
+main, depois de trocaErrado: 1
+main, depois de trocaCerto: 2
+@fimpre
+Em C, os argumentos são passados por cópia. trocaErrado recebe uma cópia do apontador: dentro dela, a cópia passa a apontar para b (e o printf de dentro mostra 2), mas o p da main continua apontando para a. Para mudar o apontador da main, a função precisa do endereço dele, um int **, e mudar *pp. É o mesmo motivo de a inserção ordenada em lista ligada receber No **ptLista: quando o primeiro nó muda, a função precisa alterar o apontador de quem chamou.
+@codigo exercicio_apontador_1.c
+@fim
+
+@exercicio
+Fonte: lista de exercícios de estudo para a P1 de MAC0122, 2026.
+Uma loja guarda, para cada produto, o código e a quantidade em estoque. Defina o tipo Produto com typedef struct e dois campos int, codigo e estoque. Escreva int vender(Produto *p, int quantidade): se a quantidade for positiva e não passar do estoque, desconta do produto e devolve 1; senão, devolve 0 e não altera nada. O programa lê o código e o estoque inicial, depois três pedidos de venda, faz as três vendas na ordem e imprime os três resultados numa linha e o código e o estoque final na outra.
+@resolucao
+@pre
+entrada:  17 10      (código 17, estoque 10)
+          3 8 7      (pedidos)
+vender 3: 3 <= 10, estoque 7, devolve 1
+vender 8: 8 > 7, não vende, devolve 0
+vender 7: 7 <= 7, estoque 0, devolve 1
+saída:    1 0 1
+          17 0
+@fimpre
+A função recebe Produto *p, o endereço do produto, e por isso o desconto em p->estoque muda o produto da main. Se recebesse Produto p, mudaria só uma cópia. p->estoque é o mesmo que (*p).estoque.
+@codigo exercicio_apontador_2.c
+@fim
+
+@exercicio
+Fonte: lista de exercícios de estudo para a P1 de MAC0122, 2026.
+Defina um registro Registro com os campos id (int), cpf (double) e nome (vetor de 50 char) e escreva as funções recursivas int buscaPorId(Registro vet[], int n, int id) e int buscaPorNome(Registro vet[], int n, char *nome), que devolvem o índice do primeiro registro com aquele id (ou nome) ou -1 se não houver. Teste com um vetor de quatro registros com ids e nomes repetidos.
+@resolucao
+@pre
+vet:  0: id 2, ana    1: id 1, bia    2: id 2, caio    3: id 1, ana
+buscaPorId(1)        -> 1
+buscaPorId(9)        -> -1
+buscaPorNome("caio") -> 2
+buscaPorNome("ze")   -> -1
+@fimpre
+As duas usam uma função auxiliar com um parâmetro a mais, a posição i, porque a recursão precisa saber de onde continuar: a função "pública" chama a auxiliar com i = 0. Caso base: i == n, devolve -1. Os ids se comparam com ==, mas os nomes, que são vetores de char, precisam de strcmp: vet[i].nome == nome compararia endereços, e não o texto. Como a busca vai do começo para o fim, o id 1, que aparece nas posições 1 e 3, é achado na posição 1.
+@codigo exercicio_apontador_3.c
+@fim

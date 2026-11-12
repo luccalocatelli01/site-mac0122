@@ -19,3 +19,62 @@ Se a célula tem x, esse campo passa a apontar para a seguinte, a célula é lib
 Cuidado comum: avançar depois de remover, o que pula células e falha em casos como 7 -> 7 -> 3.
 @codigo exercicio_lista_ligada_2.c
 @fim
+
+@exercicio
+Fonte: lista de exercícios de estudo para a P1 de MAC0122, 2026.
+Defina com typedef o tipo tipoRegistro (struct registro), com os campos id (int), nome (20 char) e prox (apontador para struct registro). Na main, sem funções auxiliares e sem malloc, declare duas variáveis, ana (1, "Ana") e bruno (2, "Bruno"), faça ana.prox apontar para bruno e bruno.prox ser NULL. Com um apontador p que começa em ana e um laço while, percorra a sequência imprimindo o id e o nome de cada aluno, até p chegar a NULL.
+@resolucao
+@pre
+p = &ana    -> imprime "1 Ana",   p = ana.prox = &bruno
+p = &bruno  -> imprime "2 Bruno", p = bruno.prox = NULL
+p = NULL    -> o laço termina
+@fimpre
+É a menor lista ligada possível, com nós que são variáveis comuns em vez de memória alocada. O laço while (p != NULL) com p = p->prox é o jeito padrão de percorrer qualquer lista ligada, de qualquer tamanho.
+Erro corrigido: a versão original imprimia ana e bruno diretamente, com dois printf, sem o laço while que o enunciado pede; a saída era a mesma, mas não percorria a lista.
+@codigo exercicio_lista_ligada_3.c
+@fim
+
+@exercicio
+Fonte: lista de exercícios de estudo para a P1 de MAC0122, 2026.
+Defina o tipo Produto, com código (int), estoque (int) e prox (apontador para o próximo produto). Escreva void lerProduto(Produto *p), que lê o código e o estoque e deixa prox igual a NULL, e void mostrarLista(Produto *p), que imprime o código e o estoque de cada produto, seguindo prox até o fim. Na main, declare dois produtos a e b, leia cada um com lerProduto, ligue a a b e chame mostrarLista uma vez, começando por a.
+@resolucao
+@pre
+entrada: 11 5
+         22 8
+saída:   11 5
+         22 8
+@fimpre
+A ordem da main importa: lerProduto deixa prox = NULL, então a ligação a.prox = &b tem que vir depois das duas leituras; se viesse antes, a leitura de a apagaria a ligação.
+Erros corrigidos: lerProduto não deixava prox igual a NULL; a main ligava os produtos antes de ler e lia com um laço, em vez de duas chamadas; e duas funções extras (avancaInicio e somaEstoque) e uma variável sem uso foram tiradas, porque o enunciado pede só a lista na saída.
+@codigo exercicio_lista_ligada_4.c
+@fim
+
+@exercicio
+Fonte: lista de exercícios de estudo para a P1 de MAC0122, 2026.
+Mantenha uma lista ligada de alunos (id, nome com 20 char e prox) com quatro funções: tipoRegistro *criaRegistro(char *nome, int id), que cria um registro com alocação dinâmica (ou devolve NULL se a alocação falhar); void insereFim(tipoRegistro **primeiro, tipoRegistro *novo), que coloca o registro no fim da lista; void imprimeLista(tipoRegistro *p); e void liberaLista(tipoRegistro **primeiro), que libera todos os registros e deixa a lista vazia. Na main, insira os alunos (1, "aluno 1") a (5, "aluno 5"), imprima e libere a lista.
+@resolucao
+@pre
+1 aluno 1
+2 aluno 2
+3 aluno 3
+4 aluno 4
+5 aluno 5
+@fimpre
+insereFim e liberaLista recebem tipoRegistro **, porque podem mudar o primeiro registro: na lista vazia, o novo passa a ser o primeiro; e, no fim da liberação, o apontador da main tem que ficar NULL. Em liberaLista, o endereço do próximo é guardado antes do free: depois de liberar um registro, ler o seu campo prox é um erro. insereFim percorre a lista toda para achar o último, então inserir n alunos custa 1 + 2 + ... + n, O(n²); guardar também um apontador para o último registro deixaria cada inserção O(1).
+@codigo exercicio_lista_ligada_5.c
+@fim
+
+@exercicio
+Fonte: Avaliação 1 de MAC0122, 2026, Q3 (adaptado).
+Implemente void inserir(No **ptLista, int valor), que insere valor numa lista ligada mantendo a ordem crescente, e uma função recursiva que imprime a lista. Insira, nessa ordem, 5, 2, 8, 1 e 6, e imprima.
+@resolucao
+@pre
+inserir 5:  5
+inserir 2:  2 5        (menor que o primeiro: entra no começo)
+inserir 8:  2 5 8      (vai até o fim)
+inserir 1:  1 2 5 8    (entra no começo)
+inserir 6:  1 2 5 6 8  (atual para no 5, o 6 entra depois dele)
+@fimpre
+São as lacunas da Q3 da P1: o caso do começo é *ptLista == NULL ou (*ptLista)->chave >= valor, com novo->prox = *ptLista e *ptLista = novo; o laço avança com atual = atual->prox; e o encaixe é novo->prox = atual->prox, nessa ordem, antes de atual->prox = novo. A página Inserção ordenada em lista ligada explica cada caso.
+@codigo exercicio_lista_ligada_6.c
+@fim

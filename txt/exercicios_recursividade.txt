@@ -26,3 +26,54 @@ n     F(n)      chamadas da recursiva
 É o exemplo da semana 1 (tempo_fibonacci_it_rec.c): a recursão é elegante, mas aqui é inviável.
 @codigo exercicio_recursividade_2.c
 @fim
+
+@exercicio
+Fonte: lista de exercícios de estudo para a P1 de MAC0122, 2026.
+Escreva duas funções recursivas: int soma_rec(int n), que devolve 1 + 2 + ... + n, e int fatorial(int n), que devolve n! = 1 × 2 × ... × n. O programa lê n e imprime a soma e o fatorial, um por linha.
+@resolucao
+As duas seguem o mesmo molde. Caso base: para n <= 1, a soma é o próprio n (0 ou 1) e o fatorial é 1. Caso geral: a soma de 1 a n é n mais a soma de 1 a n - 1, e o fatorial de n é n vezes o fatorial de n - 1. Cada chamada reduz n em 1, então são n chamadas, O(n), com n chamadas empilhadas ao mesmo tempo.
+@pre
+entrada: 5
+soma_rec(5) = 5 + soma_rec(4) = 5 + 4 + 3 + 2 + 1 = 15
+fatorial(5) = 5 * fatorial(4) = 5 * 4 * 3 * 2 * 1 = 120
+saída:
+15
+120
+@fimpre
+@codigo exercicio_recursividade_3.c
+@fim
+
+@exercicio
+Fonte: BRANDÃO, L. O. MAC0122: Princípios de Desenvolvimento de Algoritmos. Moodle da disciplina, IME-USP, 2026. Exercício da semana 2 (adaptado).
+Implemente uma função recursiva para buscar um elemento num vetor de inteiros. O programa lê o número de elementos n, os n inteiros do vetor e o inteiro x a ser buscado. Se x for encontrado (primeiro) na posição i, imprime "x encontrado em i"; senão, imprime "x nao encontrado". Não imprima nenhum outro texto.
+@resolucao
+A função devolve_pos(x, k, n, v) procura x em v[k..n-1]. Caso base 1: se k == n, o trecho está vazio e a resposta é -1 (não encontrado). Caso base 2: se v[k] == x, a resposta é k, e como a busca vai da esquerda para a direita, é a primeira ocorrência. Caso geral: procura em v[k+1..n-1]. A chamada inicial é com k = 0. No pior caso são n + 1 chamadas, O(n).
+@pre
+entrada: 3 4 5 6 5   (n = 3, v = {4, 5, 6}, x = 5)
+saída:   5 encontrado em 1
+
+entrada: 3 4 5 6 2   (n = 3, v = {4, 5, 6}, x = 2)
+saída:   2 nao encontrado
+@fimpre
+O enunciado é corrigido automaticamente, então a mensagem tem que ser exatamente "x nao encontrado", sem acento e sem ponto.
+@codigo exercicio_recursividade_4.c
+@fim
+
+@exercicio
+Fonte: lista de exercícios de estudo para a P1 de MAC0122, 2026.
+Escreva versões recursivas de: (a) contaOcorrencias(v, n, x), que conta quantas vezes x aparece em v[0..n-1]; (b) maximo(v, n), que devolve o maior valor de v[0..n-1]; (c) somaDigitos(n), a soma dos dígitos decimais de n; (d) potencia(a, n), que calcula a elevado a n; (e) inverte(v, e, d), que inverte o trecho v[e..d]; (f) palindromo(s, e, d), que diz se s[e..d] é igual lido ao contrário.
+@resolucao
+Todas olham para um pedaço do problema e chamam a si mesmas no resto. (a) e (b) olham o último elemento, v[n-1], e resolvem v[0..n-2] recursivamente. (c) separa o último dígito com n % 10 e continua com n / 10, até n == 0. (e) e (f) trabalham com as duas pontas: trocam ou comparam s[e] e s[d] e continuam em e + 1 e d - 1, até as pontas se cruzarem (e >= d).
+(d) usa a ideia da potência rápida: se n é par, a^n = (a^(n/2))², e basta uma chamada com n / 2; se é ímpar, a^n = a × a^(n-1). Com isso, o número de chamadas é O(log n), e não O(n): para 2^16, são 5 chamadas que dividem por 2 (16, 8, 4, 2, 1) mais o caso base.
+@pre
+Ocorrencias de 1: 3          v = {1, 2, 1, 2, 1}
+Maximo: 9                    v = {0, 2, 2, 3, 5, 6, 7, 7, 9}
+Soma dos digitos de 1234: 10
+2 elevado a 16: 65536
+3 elevado a 5: 243
+Vetor invertido: 5 4 3 2 1   v = {1, 2, 3, 4, 5}
+arara e palindromo: 1
+arrow e palindromo: 0
+@fimpre
+@codigo exercicio_recursividade_5.c
+@fim

@@ -19,3 +19,92 @@ O programa abaixo conta as comparações e confirma: para n = 1000, são 499 500
 @codigo exercicio_ordenacao_2.c
 Para evitar, escolha o pivô de outro jeito: sorteando uma posição (quicksort aleatorizado, exercício 11.5.3 do mesmo livro) ou usando a mediana entre o primeiro, o do meio e o último.
 @fim
+
+@exercicio
+Fonte: lista de exercícios de estudo para a P1 de MAC0122, 2026. Vetor da Lista de exercícios 1 (Moodle, semana 5).
+Escreva a seleção direta, a bolha (com a variável trocou, que para quando uma passada não troca nada) e a inserção direta, com contadores de comparações e de trocas (ou deslocamentos, na inserção). Rode os três no vetor {7, 5, 3, 6, 3, 9, 8, 4} e compare os números.
+@resolucao
+@pre
+método      comparações   trocas / deslocamentos
+seleção          28                5
+bolha            27               13
+inserção         18               13
+@fimpre
+A seleção faz sempre n(n - 1) / 2 = 28 comparações, qualquer que seja o vetor, mas é a que menos troca: no máximo uma troca por passo. A bolha e a inserção fazem o mesmo número de trocas (13), porque cada troca da bolha e cada deslocamento da inserção desfaz exatamente uma inversão, e o vetor tem 13 inversões (pares fora de ordem). A diferença é nas comparações: a inserção para de comparar assim que acha a posição do elemento, e por isso faz só 18. A bolha parou uma passada antes do fim graças ao trocou, e fez 27 em vez de 28.
+@codigo exercicio_ordenacao_3.c
+@fim
+
+@exercicio
+Fonte: lista de exercícios de estudo para a P1 de MAC0122, 2026.
+Escreva int particiona(int V[], int esq, int dir), com pivô V[dir] (versão do professor), e void ordenaRapido(int V[], int esq, int dir). Conte as comparações feitas na partição e rode no vetor {7, 5, 3, 6, 3, 9, 8, 4} e no vetor já ordenado {1, 2, 3, 4, 5, 6, 7, 8}.
+@resolucao
+@pre
+{7, 5, 3, 6, 3, 9, 8, 4}:  14 comparações
+{1, 2, 3, 4, 5, 6, 7, 8}:  28 comparações
+@fimpre
+No vetor já ordenado, o pivô V[dir] é sempre o maior do trecho, então cada partição só tira o pivô do lugar e deixa um trecho com um elemento a menos: 7 + 6 + 5 + 4 + 3 + 2 + 1 = 28 = n(n - 1) / 2 comparações. É o pior caso do quicksort, O(n²), e responde à questão 2 da Lista 1 (um vetor de 8 elementos em que o método fica quadrático). No vetor desordenado, os pivôs dividem melhor os trechos, e as comparações caem para 14. O programa também imprime cada trecho logo depois de ordenado, o que mostra a ordem das chamadas recursivas.
+@codigo exercicio_ordenacao_4.c
+@fim
+
+@exercicio
+Fonte: lista de exercícios de estudo para a P1 de MAC0122, 2026. Vetor da Lista de exercícios 1 (Moodle, semana 5).
+Implemente a ordenação por fusão, com a função fusao(v, esq, med, dir), que intercala v[esq..med] e v[med+1..dir] usando um vetor auxiliar, e ordena_por_fusao(v, esq, dir). Simule e rode no vetor {7, 5, 3, 6, 3, 9, 8, 4}.
+@resolucao
+@pre
+divide:     {7, 5, 3, 6}            {3, 9, 8, 4}
+divide:     {7, 5}   {3, 6}         {3, 9}   {8, 4}
+intercala:  {5, 7}   {3, 6}         {3, 9}   {4, 8}
+intercala:  {3, 5, 6, 7}            {3, 4, 8, 9}
+intercala:  {3, 3, 4, 5, 6, 7, 8, 9}
+@fimpre
+Na intercalação, o teste v[i] <= v[j] faz o elemento da metade esquerda sair primeiro em caso de empate. É isso que deixa a fusão estável: o 3 que estava na posição 2 continua antes do 3 da posição 4. Com < no lugar de <=, o resultado continuaria ordenado, mas não seria mais estável.
+@codigo exercicio_ordenacao_5.c
+@fim
+
+@exercicio
+Fonte: lista de exercícios de estudo para a P1 de MAC0122, 2026.
+Escreva void ajustaHeap(int v[], int n, int i), que recebe um vetor em que as subárvores dos dois filhos de i (posições 2i + 1 e 2i + 2) já são montes de máximo e corrige a posição i: compara o nó com seus filhos, troca com o maior deles se algum for maior e continua a correção na posição para onde o valor desceu. Teste com [2, 7, 8, 4, 3, 6, 5], n = 7 e i = 0. Depois, use a função para escrever o heapsort.
+@resolucao
+@pre
+[2, 7, 8, 4, 3, 6, 5]   o 2 é menor que os filhos 7 e 8; troca com o 8 (posição 2)
+[8, 7, 2, 4, 3, 6, 5]   o 2 é menor que os filhos 6 e 5; troca com o 6 (posição 5)
+[8, 7, 6, 4, 3, 2, 5]   a posição 5 não tem filhos: termina
+heapsort de {7, 5, 3, 6, 3, 9, 8, 4}: 3 3 4 5 6 7 8 9
+@fimpre
+A função trata três casos: o nó não tem filhos (2i + 1 >= n), tem só o filho esquerdo (2i + 1 == n - 1) ou tem os dois. Cada chamada desce um nível, então ajustaHeap é O(log n). O heapsort chama a função para i de n / 2 - 1 até 0, para construir o monte, e depois troca a raiz com o último e ajusta de novo, n - 1 vezes: O(n log n).
+@codigo exercicio_ordenacao_6.c
+@fim
+
+@exercicio
+Fonte: lista de exercícios de estudo para a P1 de MAC0122, 2026.
+Implemente a ordenação por contagem (counting sort) para um vetor com valores entre 0 e k - 1, usando um vetor de contagens e um vetor auxiliar, de forma estável. Teste com {3, 1, 3, 0, 2} e k = 4.
+@resolucao
+@pre
+contagens:    count = {1, 1, 1, 2}    (quantas vezes aparece cada valor de 0 a 3)
+acumuladas:   count = {1, 2, 3, 5}    (quantos são menores ou iguais a cada valor)
+distribuição, de trás para a frente:
+  v[4] = 2 -> count[2] = 2, aux[2] = 2
+  v[3] = 0 -> count[0] = 0, aux[0] = 0
+  v[2] = 3 -> count[3] = 4, aux[4] = 3
+  v[1] = 1 -> count[1] = 1, aux[1] = 1
+  v[0] = 3 -> count[3] = 3, aux[3] = 3
+resultado: 0 1 2 3 3
+@fimpre
+Com as contagens acumuladas, count[x] diz onde termina o bloco do valor x no vetor ordenado. Percorrendo o vetor original de trás para a frente e preenchendo cada bloco também de trás para a frente, elementos iguais mantêm a ordem relativa, e o método é estável. O consumo é O(n + k).
+@codigo exercicio_ordenacao_7.c
+@fim
+
+@exercicio
+Fonte: lista de exercícios de estudo para a P1 de MAC0122, 2026.
+Escreva void ordenaPorDigito(int v[], int n, int casa), que ordena o vetor só pelo dígito indicado por casa (1 para as unidades, 10 para as dezenas...) e preserva a ordem dos números com o mesmo dígito. Use a função para fazer o radix sort de inteiros não negativos: uma passada por casa, das unidades até a casa do maior número. O programa lê n e os n números.
+@resolucao
+@pre
+entrada:     170 45 75 90 802 24
+unidades:    170 90 802 24 45 75
+dezenas:     802 24 45 170 75 90
+centenas:    24 45 75 90 170 802
+@fimpre
+Cada passada tem que ser estável: na passada das dezenas, 170 e 75 empatam no dígito 7, e o 170 tem que continuar antes, porque a passada das unidades já tinha deixado os dois em ordem pelo último dígito. A solução usa uma inserção direta pelo dígito, que é estável, em vez do vetor auxiliar sugerido no enunciado; o resultado é o mesmo, mas cada passada custa O(n²) no pior caso, e não O(n). Para achar a maior casa, o programa ordena uma cópia do vetor com uma seleção recursiva e olha o último elemento.
+Erro corrigido: na seleção recursiva, a troca lia v[n], que fica uma posição depois do fim do vetor; o certo é v[n - 1].
+@codigo exercicio_ordenacao_8.c
+@fim

@@ -28,3 +28,20 @@ Pior caso: as n chaves na mesma lista, e uma busca sem sucesso percorre todas, O
 Caso médio: se a função espalha as chaves de maneira uniforme pelas m posições, cada lista tem em média n/m chaves (o fator de carga α). Uma busca sem sucesso calcula h(k) e percorre uma lista inteira, custo O(1 + α). Se m cresce junto com n, α fica constante e a busca é O(1), que é o resultado da P1: O(1) no caso médio e O(n) no pior.
 É o mesmo problema da função vista em aula que soma os códigos ASCII: anagramas como "abc" e "cba" sempre colidem, então ela espalha mal conjuntos de palavras parecidas.
 @fim
+
+@exercicio
+Fonte: lista de exercícios de estudo para a P1 de MAC0122, 2026.
+Use um vetor de 7 inteiros, preenchido com -1 (posição vazia), como tabela de espalhamento para chaves inteiras não negativas e sem repetição. Implemente int inserir(int tabela[], int chave), que começa na posição chave % 7 e, se ela estiver ocupada, avança até achar uma vazia, voltando ao início do vetor quando precisar (devolve a posição usada, ou -1 se a tabela estiver cheia), e int buscar(int tabela[], int chave), que segue a mesma sequência de posições e devolve a posição da chave ou -1. O programa lê quatro chaves, insere cada uma e procura uma quinta.
+@resolucao
+@pre
+chaves: 10 3 17 24     (todas têm resto 3 na divisão por 7)
+10 % 7 = 3            -> posição 3
+3 % 7 = 3, ocupada    -> posição 4
+17 % 7 = 3            -> 3, 4 ocupadas -> posição 5
+24 % 7 = 3            -> 3, 4, 5 ocupadas -> posição 6
+tabela: [-1, -1, -1, 10, 3, 17, 24]
+buscar(24): olha 3, 4, 5, 6 -> devolve 6
+@fimpre
+É o espalhamento com sondagem linear, outra forma de tratar colisões além da área de colisão e do encadeamento externo. O exemplo mostra o pior caso: todas as chaves colidem, e a busca da última examina 4 posições, como uma busca linear. A busca pode parar ao achar uma posição vazia porque não há remoções: se a chave estivesse na tabela, teria sido guardada antes dessa posição vazia.
+@codigo exercicio_espalhamento_3.c
+@fim

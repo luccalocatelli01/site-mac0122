@@ -29,3 +29,19 @@ Em C, int tem um valor máximo (2 147 483 647 com 32 bits). Se o vetor for enorm
 A solução é calcular o meio como m = e + (d − e) / 2. Matematicamente é o mesmo valor, mas d − e é sempre pequeno (é o tamanho do intervalo), então nenhuma conta passa do máximo.
 O programa do exercício anterior já usa essa forma.
 @fim
+
+@exercicio
+Fonte: lista de exercícios de estudo para a P1 de MAC0122, 2026.
+Escreva a busca binária iterativa int buscabinaria(int v[], int n, int x), que devolve a posição de x no vetor crescente v[0..n-1] ou -1 se x não estiver nele. Teste com v = {1, 3, 4, 7, 9, 11, 15}, procurando 7 (no meio), 1 (na primeira posição), 15 (na última) e 8 (que não está).
+@resolucao
+Os quatro testes cobrem os casos que costumam dar erro: o elemento do meio, as duas pontas e um valor ausente. Rastreio para x = 8:
+@pre
+e=0 d=6 m=3  v[3]=7  < 8  -> e = 4
+e=4 d=6 m=5  v[5]=11 > 8  -> d = 4
+e=4 d=4 m=4  v[4]=9  > 8  -> d = 3
+e=4 > d=3: para, devolve -1
+saída: 3  0  6  -1
+@fimpre
+A condição do laço tem que ser e <= d, e não e < d: com e < d, o caso e = d = 4 não seria testado. Os índices mudam para m - 1 e m + 1, porque v[m] já foi comparado; com d = m, o laço pode não terminar.
+@codigo exercicio_busca_3.c
+@fim

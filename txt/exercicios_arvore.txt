@@ -17,3 +17,34 @@ Escreva uma função que imprime somente as folhas de uma árvore binária, na o
 Faça o percurso em-ordem normal (esquerda, raiz, direita), mas só imprima a raiz quando ela não tiver filhos (esquerda == NULL e direita == NULL).
 Na árvore do programa (1 com filhos 2 e 3; 2 com filhos 4 e 5; 3 com filho direito 6), as folhas saem na ordem 4 5 6. Trocando a posição do printf em relação às duas chamadas recursivas, obtemos os percursos pré-ordem (r-e-d) e pós-ordem (e-d-r).
 @fim
+
+@exercicio
+Fonte: Avaliação 1 de MAC0122, 2026, Q5 e Q6 (adaptado).
+Monte a árvore de expressão de ((A + (B * C)) - (D / E)) com uma função que cria nós e escreva, de forma recursiva: os percursos pré-ordem, em-ordem e pós-ordem; int altura(no *raiz), com a raiz na altura 0; e int contaFolhas(no *raiz).
+@resolucao
+@pre
+pré-ordem:  - + A * B C / D E
+em-ordem:   A + B * C - D / E
+pós-ordem:  A B C * + D E / -
+Altura: 3
+Folhas: 5
+@fimpre
+Os três percursos só mudam o momento do printf: antes, entre ou depois das duas chamadas recursivas. altura devolve -1 para a árvore vazia; assim, uma folha tem altura 1 + máximo(-1, -1) = 0, e a raiz fica com 3. contaFolhas devolve 1 quando o nó não tem nenhum filho e, nos outros casos, a soma das folhas das duas subárvores. Esses resultados conferem as afirmativas da Q5: a folha mais à esquerda é A, a altura é 3, há 5 folhas, a raiz é o -, e a pós-ordem é a notação pós-fixa.
+@codigo exercicio_arvore_3.c
+@fim
+
+@exercicio
+Fonte: lista de exercícios de estudo para a P1 de MAC0122, 2026.
+Use a estrutura No, com um valor inteiro e os apontadores esq e dir. Na main, declare três nós, a, b e c, e monte a árvore: a guarda 10 e tem b à esquerda e c à direita; b guarda 4 e c guarda 7, os dois sem filhos. Escreva int somaArvore(No *raiz), que devolve, por recursão, a soma dos valores de todos os nós, sem alterar a árvore nem imprimir nada.
+@resolucao
+@pre
+somaArvore(a) = 10 + somaArvore(b) + somaArvore(c)
+              = 10 + (4 + 0 + 0) + (7 + 0 + 0) = 21
+pós-ordem: 4 7 10
+pré-ordem: 10 4 7
+em-ordem:  4 10 7
+@fimpre
+O caso base é o apontador NULL, que vale 0; cada nó soma o seu valor às somas das duas subárvores. Os nós são variáveis comuns da main, e por isso o endereço da raiz é &a. Os três percursos, que não eram pedidos, mostram a ordem em que cada um visita os nós.
+Erro corrigido: a main montava uma árvore com cinco nós (com filhos 2 e 6 no nó 4), diferente da pedida, e a soma saía 29 em vez de 21.
+@codigo exercicio_arvore_4.c
+@fim

@@ -29,3 +29,37 @@ Regra: uma ordem é impossível quando tem um número grande, depois um pequeno,
 O programa abaixo testa as 24 ordens simulando a pilha.
 @codigo exercicio_pilha_2.c
 @fim
+
+@exercicio
+Fonte: lista de exercícios de estudo para a P1 de MAC0122, 2026.
+Use a estrutura Pilha, com um vetor valores[5] e um inteiro quantidade (os números ocupam as posições 0 a quantidade - 1, e o topo é o último). Implemente int empilha(Pilha *p, int valor), que devolve 0 se a pilha estiver cheia, e int desempilha(Pilha *p, int *retirado), que guarda o número retirado em *retirado e devolve 0 se a pilha estiver vazia. O programa lê a quantidade de comandos e executa cada um: "E valor" empilha (e imprime cheia se não houver espaço); "D" desempilha e imprime o número retirado, ou vazia.
+@resolucao
+@pre
+comando   quantidade   saída
+D             0        vazia
+E 1           1
+E 2           2
+E 3           3
+E 4           4
+E 5           5
+E 6           5        cheia
+D             4        5
+@fimpre
+Aqui a pilha guarda quantidade, e não topo: empilhar escreve em valores[quantidade] e depois aumenta; desempilhar primeiro diminui e depois lê valores[quantidade]. É o mesmo que topo = quantidade - 1, com ++topo e topo--. desempilha precisa de dois resultados (se deu certo e qual número saiu), e por isso devolve um e guarda o outro no endereço recebido, como o scanf.
+Erro corrigido: a main imprimia uma linha "Resposta:" antes da saída, que não faz parte do enunciado.
+@codigo exercicio_pilha_3.c
+@fim
+
+@exercicio
+Fonte: Avaliação 1 de MAC0122, 2026, Q4 (adaptado).
+Escreva int avaliarPosfixa(char *expr), que calcula o valor de uma expressão pós-fixa com operandos de um dígito e os operadores +, -, * e /, usando uma pilha num vetor com topo começando em -1. Teste com 23+4*, 234*+, 82- e 52-3*.
+@resolucao
+@pre
+23+4*   (2 + 3) * 4 = 20
+234*+   2 + (3 * 4) = 14
+82-     8 - 2       = 6
+52-3*   (5 - 2) * 3 = 9
+@fimpre
+É a resposta da Q4 da P1: empilhar com pilha[++topo], desempilhar com pilha[topo--] (primeiro op2, depois op1) e devolver pilha[topo] no fim. O teste 82- confere a ordem dos operandos: como op2 sai primeiro, a conta é op1 - op2 = 8 - 2, e não 2 - 8.
+@codigo exercicio_pilha_4.c
+@fim

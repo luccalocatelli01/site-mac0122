@@ -22,3 +22,34 @@ Melhor caso: vetor já em ordem crescente. Para cada j, a primeira comparação 
 Pior caso: vetor em ordem decrescente. Para cada j, x é menor que todos os anteriores e o laço interno percorre as j posições: 1 + 2 + ... + (n − 1) = n(n − 1)/2 comparações, O(n²).
 Por isso a inserção direta é boa para vetores quase ordenados, mesmo sendo quadrática no pior caso.
 @fim
+
+@exercicio
+Fonte: lista de exercícios de estudo para a P1 de MAC0122, 2026. Baseado na Q1 da Avaliação 1.
+Para os cinco trechos de código da Q1 da P1, conte, com uma variável contador, quantas vezes a linha de dentro do laço é executada, para n lido do teclado e r = 10. Compare os números com as complexidades O(n * r), O(log n), O(n²), O(n log n) e O(n).
+@resolucao
+Com n = 8, os contadores dão exatamente as fórmulas de cada trecho:
+@pre
+trecho   laços                              contador   fórmula            complexidade
+(A)      n, com r dentro                    80         n * r              O(n * r)
+(B)      i = 1, 2, 4, ... até n             4          log₂ n + 1         O(log n)
+(C)      n, com j de i até n dentro         36         n(n + 1) / 2       O(n²)
+(D)      n, com j dobrando dentro           24         n * log₂ n         O(n log n)
+(E)      n                                  8          n                  O(n)
+@fimpre
+Repare no (C): o laço de dentro roda n, n - 1, ..., 1 vezes, e a soma é n(n + 1) / 2, que é cerca de metade de n², mas continua O(n²), porque a notação O ignora a constante 1/2. No (D), o laço de dentro roda log₂ n vezes para cada um dos n valores de i. Testar com n = 16 e n = 32 mostra como cada contador cresce quando n dobra.
+@codigo exercicio_complexidade_3.c
+@fim
+
+@exercicio
+Fonte: lista de exercícios de estudo para a P1 de MAC0122, 2026. Baseado no exemplo da semana 1 (tempo_fibonacci_it_rec.c).
+Implemente o Fibonacci recursivo e o iterativo (com fib(0) = fib(1) = 1) e, para n = 30, 35 e 40, imprima o resultado, o número de chamadas da versão recursiva, o número de iterações da iterativa e o tempo de cada uma, medido com clock().
+@resolucao
+O número de chamadas da recursiva cresce como o próprio Fibonacci: cada vez que n aumenta 5, as chamadas ficam cerca de 11 vezes maiores (1,618^5 ≈ 11), e o tempo também. A iterativa faz só n - 1 iterações e nem chega a ser medida pelo relógio. Uma execução (os tempos mudam de computador para computador):
+@pre
+n = 30   rec: 1346269     chamadas:   2692537   tempo: 0,007 s   it: 29 iterações
+n = 35   rec: 14930352    chamadas:  29860703   tempo: 0,087 s   it: 34 iterações
+n = 40   rec: 165580141   chamadas: 331160281   tempo: 0,934 s   it: 39 iterações
+@fimpre
+Com essa definição, o número de chamadas para n é 2 fib(n) - 1: para n = 30, 2 × 1346269 - 1 = 2692537. A recursiva é O(1,618^n) e a iterativa, O(n).
+@codigo exercicio_complexidade_4.c
+@fim

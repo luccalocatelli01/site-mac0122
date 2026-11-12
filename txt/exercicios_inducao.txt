@@ -20,3 +20,21 @@ Hipótese: a afirmação vale para toda árvore binária cheia com menos nós qu
 Passo: se T tem mais de um nó, a raiz é interna e tem duas subárvores, E e D, ambas cheias e menores que T. Se E tem f₁ folhas e D tem f₂, pela hipótese elas têm f₁ − 1 e f₂ − 1 nós internos. As folhas de T são as de E e de D: f = f₁ + f₂. Os nós internos de T são os de E, os de D e a raiz: (f₁ − 1) + (f₂ − 1) + 1 = f₁ + f₂ − 1 = f − 1. Vale para T.
 Aplicação: a árvore de expressão da P1 é cheia (cada operador tem dois operandos), então uma expressão com f números tem f − 1 operadores.
 @fim
+
+@exercicio
+Fonte: lista de exercícios de estudo para a P1 de MAC0122, 2026.
+Implemente a Torre de Hanói recursiva, imprimindo cada movimento e contando o total com uma variável global. Rode para n = 3 e confira se o total é 2^n - 1. Use a recorrência do algoritmo para provar por indução que são sempre 2^n - 1 movimentos.
+@resolucao
+@pre
+1 --> 3
+1 --> 2
+3 --> 2
+1 --> 3
+2 --> 1
+2 --> 3
+1 --> 3
+Movimentos: 7
+@fimpre
+7 = 2^3 - 1. Na função, o caso base é n = 0 (nenhum disco, nenhum movimento), e o caso geral move n - 1 discos, conta um movimento e move n - 1 discos de novo, então T(0) = 0 e T(n) = 2T(n - 1) + 1. Prova por indução: para n = 0, T(0) = 0 = 2^0 - 1. Supondo T(n - 1) = 2^(n-1) - 1, vale T(n) = 2(2^(n-1) - 1) + 1 = 2^n - 1.
+@codigo exercicio_inducao_3.c
+@fim
