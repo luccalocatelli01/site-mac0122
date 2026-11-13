@@ -28,8 +28,9 @@ O que aproveitamos: a extração e os ajustes, sem precisar copiar 24 páginas �
 
 3. DIFICULDADES COM A IA
 - Não havia gcc no computador. Ela tentou instalar um compilador e nós mandamos parar, então
-  NENHUM código foi compilado nem testado nesta etapa. A compilação com -Wall -Wextra
-  ainda precisa ser feita.
+  ela não compilou nem testou nada; só achou problemas lendo o código. Depois um colega do
+  grupo rodou o make site e compilou os 30 códigos com gcc -Wall -Wextra: tudo compilou
+  sem aviso.
 - Moodle: na primeira vez o navegador dela não estava logado no e-Disciplinas, e ela escreveu
   Hanói, MDC e DFS sozinha. Depois do login ela abriu as pastas das semanas 2, 3, 8 e 9 e
   trocou Hanói e MDC pelos códigos do professor. Da DFS só havia pseudocódigo, e a avaliação
