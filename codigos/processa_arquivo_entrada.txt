@@ -1,0 +1,4 @@
+Linha um do arquivo
+   linha com espacos no inicio
+
+Ultima linha

@@ -1,0 +1,46 @@
+PARTE DOS CÓDIGOS C (parte que era do Fernando)
+[Escrever aqui quem fez de fato. Esta parte foi feita pela Camila com o Claude Code na qui 12/11.]
+
+1. O QUE FOI FEITO
+Os 30 .c e o fila_lista.h da pasta codigos/, com os nomes da tabela do guia. 24 vieram do
+site do prof. Leônidas (ime.usp.br/~leo/mac/mac122), extraídos das páginas HTML e com um
+comentário de origem no topo. Fusão, heapsort e quicksort eram só bibliotecas e ganharam um
+main de exemplo. O compara_ordenacoes dependia de 6 arquivos ordena_*.h, e as funções foram
+copiadas para dentro dele. Foram corrigidos o #include da fila no BFS e um acesso fora do
+vetor na busca binária (chamava com d = n em vez de n-1). Do Moodle de 2026 vieram hanoi
+(semana 2) e mdc_euclides (semana 3), com ajustes para não dar aviso. A busca_profundidade
+foi escrita a partir do pseudocódigo da semana 9. Escritos do zero: recursao_maior (P1 Q6),
+lista_insercao_ordenada com No **ptLista (P1 Q3) e pilha_posfixa (P1 Q4, que não está no
+Moodle). Também foram feitos os arquivos _entrada.txt e o como_compilar.
+
+2. COMO FOI O DIÁLOGO COM IA
+IA usada: Claude (modelo Claude Opus 5.5), pelo Claude Code no app desktop, que tem acesso a
+terminal, arquivos e um navegador.
+Pedido: os dois PDFs do grupo (plano e guia) com "faz toda a parte do fernando, e me manda.
+entra no meu moodle e no google para achar e baixar as coisas".
+O que ela fez: baixou as 24 páginas de código do site do professor com curl, escreveu um
+script em Python para tirar o código das tabelas HTML (cada linha do código é uma linha de
+tabela com o número da linha) e salvou com os nomes padronizados. Lendo o código, achou
+problemas que dariam aviso ou erro no gcc: fibRec(n) sem tipo no parâmetro, void main, %ld
+com int, printf com argumento sobrando e atribuição dentro do while sem parênteses extras.
+Depois escreveu os 6 códigos que faltavam.
+O que aproveitamos: a extração e os ajustes, sem precisar copiar 24 páginas à mão.
+
+3. DIFICULDADES COM A IA
+- Não havia gcc no computador. Ela tentou instalar um compilador e nós mandamos parar, então
+  NENHUM código foi compilado nem testado nesta etapa. A compilação com -Wall -Wextra
+  ainda precisa ser feita.
+- Moodle: na primeira vez o navegador dela não estava logado no e-Disciplinas, e ela escreveu
+  Hanói, MDC e DFS sozinha. Depois do login ela abriu as pastas das semanas 2, 3, 8 e 9 e
+  trocou Hanói e MDC pelos códigos do professor. Da DFS só havia pseudocódigo, e a avaliação
+  pós-fixa não estava em nenhuma pasta.
+- Na primeira versão ela escreveu no cabeçalho de hanoi.c e mdc_euclides.c que eles vinham
+  da aula do Moodle, sem ter aberto o Moodle. Ela mesma percebeu e corrigiu. É o tipo de erro
+  (fonte inventada) que o guia manda conferir.
+- Os códigos do professor tinham funções int sem return e variáveis não usadas, o que dá
+  aviso com -Wall. Ela trocou para void e tirou as variáveis.
+- Um comando sed que ela usou para corrigir um printf quebrou a linha no meio da string, e
+  ela teve que consertar.
+- A assinatura maior(int v[], int k, int n) da P1 Q6 foi interpretada como "índice do
+  máximo de v[k..n-1]". Conferir com o enunciado da prova.
+Melhor e pior: só usamos uma IA nesta parte, então não dá para comparar.

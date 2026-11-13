@@ -1,0 +1,88 @@
+COMO COMPILAR — EP MAC0122 (fase 1)
+
+Todos os codigos dos algoritmos ficam na pasta codigos/. Para cada item: colocar os
+arquivos indicados em um mesmo diretorio e compilar com o comando dado. Quando o
+programa le dados, ha um arquivo <nome>_entrada.txt e o comando para rodar.
+
+GERADOR E FILTRO
+gerador: [Camila: colocar aqui os arquivos e o comando, ex.: cd gerador && make site]
+filtro:  [Bernardo: colocar aqui os arquivos e o comando]
+
+ALGORITMOS (tabela 3.1)
+fibonacci: colocar fibonacci.c e fibonacci_entrada.txt em um diretorio e compilar com
+    gcc -Wall -Wextra -o fibonacci fibonacci.c
+    rodar: ./fibonacci < fibonacci_entrada.txt
+hanoi: colocar hanoi.c em um diretorio e compilar com
+    gcc -Wall -Wextra -o hanoi hanoi.c
+    (imprime numero de movimentos e tempo para n = 1..19)
+recursao_maior: colocar recursao_maior.c em um diretorio e compilar com
+    gcc -Wall -Wextra -o recursao_maior recursao_maior.c
+mdc_euclides: colocar mdc_euclides.c em um diretorio e compilar com
+    gcc -Wall -Wextra -o mdc_euclides mdc_euclides.c
+    rodar: ./mdc_euclides 1071 462   (m e n na linha de comando)
+busca_linear: colocar busca_linear.c e busca_linear_entrada.txt em um diretorio e compilar com
+    gcc -Wall -Wextra -o busca_linear busca_linear.c
+    rodar: ./busca_linear < busca_linear_entrada.txt
+busca_sentinela: colocar busca_sentinela.c e busca_sentinela_entrada.txt em um diretorio e compilar com
+    gcc -Wall -Wextra -o busca_sentinela busca_sentinela.c
+    rodar: ./busca_sentinela < busca_sentinela_entrada.txt
+busca_binaria: colocar busca_binaria.c e busca_binaria_entrada.txt em um diretorio e compilar com
+    gcc -Wall -Wextra -o busca_binaria busca_binaria.c
+    rodar: ./busca_binaria < busca_binaria_entrada.txt
+selecao_direta: colocar selecao_direta.c em um diretorio e compilar com
+    gcc -Wall -Wextra -o selecao_direta selecao_direta.c
+bolha: colocar bolha.c em um diretorio e compilar com
+    gcc -Wall -Wextra -o bolha bolha.c
+insercao_direta: colocar insercao_direta.c em um diretorio e compilar com
+    gcc -Wall -Wextra -o insercao_direta insercao_direta.c
+quicksort: colocar quicksort.c em um diretorio e compilar com
+    gcc -Wall -Wextra -o quicksort quicksort.c
+fusao: colocar fusao.c em um diretorio e compilar com
+    gcc -Wall -Wextra -o fusao fusao.c
+heapsort: colocar heapsort.c em um diretorio e compilar com
+    gcc -Wall -Wextra -o heapsort heapsort.c
+ordenacao_frequencia: colocar ordenacao_frequencia.c em um diretorio e compilar com
+    gcc -Wall -Wextra -o ordenacao_frequencia ordenacao_frequencia.c
+lista_insercao_ordenada: colocar lista_insercao_ordenada.c em um diretorio e compilar com
+    gcc -Wall -Wextra -o lista_insercao_ordenada lista_insercao_ordenada.c
+pilha_posfixa: colocar pilha_posfixa.c e pilha_posfixa_entrada.txt em um diretorio e compilar com
+    gcc -Wall -Wextra -o pilha_posfixa pilha_posfixa.c
+    rodar: ./pilha_posfixa < pilha_posfixa_entrada.txt
+infixa_posfixa: colocar infixa_posfixa.c em um diretorio e compilar com
+    gcc -Wall -Wextra -o infixa_posfixa infixa_posfixa.c
+arvore_expressao: colocar arvore_expressao.c em um diretorio e compilar com
+    gcc -Wall -Wextra -o arvore_expressao arvore_expressao.c
+busca_profundidade: colocar busca_profundidade.c em um diretorio e compilar com
+    gcc -Wall -Wextra -o busca_profundidade busca_profundidade.c
+busca_largura: colocar busca_largura.c e fila_lista.h em um diretorio e compilar com
+    gcc -Wall -Wextra -o busca_largura busca_largura.c
+
+CODIGOS EXTRAS (tabela 3.2)
+compara_ordenacoes: colocar compara_ordenacoes.c em um diretorio e compilar com
+    gcc -Wall -Wextra -o compara_ordenacoes compara_ordenacoes.c
+    (as 6 ordenacoes, que no site do prof. ficavam em ordena_*.h, foram copiadas para dentro do .c)
+bolha_strings: colocar bolha_strings.c e bolha_strings_entrada.txt em um diretorio e compilar com
+    gcc -Wall -Wextra -o bolha_strings bolha_strings.c
+    rodar: ./bolha_strings bolha_strings_entrada.txt
+processa_arquivo: colocar processa_arquivo.c e processa_arquivo_entrada.txt em um diretorio e compilar com
+    gcc -Wall -Wextra -o processa_arquivo processa_arquivo.c
+    rodar: ./processa_arquivo processa_arquivo_entrada.txt saida.html
+compara_bolha_radix_strings: colocar compara_bolha_radix_strings.c e compara_bolha_radix_strings_entrada.txt
+    em um diretorio e compilar com
+    gcc -Wall -Wextra -o compara_bolha_radix_strings compara_bolha_radix_strings.c
+    rodar: ./compara_bolha_radix_strings compara_bolha_radix_strings_entrada.txt
+apontadores: colocar apontadores.c em um diretorio e compilar com
+    gcc -Wall -Wextra -o apontadores apontadores.c
+    rodar: ./apontadores um dois tres   (imprime os argumentos)
+apontadores_vetor_matriz: colocar apontadores_vetor_matriz.c e apontadores_vetor_matriz_entrada.txt
+    em um diretorio e compilar com
+    gcc -Wall -Wextra -o apontadores_vetor_matriz apontadores_vetor_matriz.c
+    rodar: ./apontadores_vetor_matriz < apontadores_vetor_matriz_entrada.txt
+vetor_struct: colocar vetor_struct.c em um diretorio e compilar com
+    gcc -Wall -Wextra -o vetor_struct vetor_struct.c
+lista_ligada: colocar lista_ligada.c em um diretorio e compilar com
+    gcc -Wall -Wextra -o lista_ligada lista_ligada.c
+pilha_lista: colocar pilha_lista.c em um diretorio e compilar com
+    gcc -Wall -Wextra -o pilha_lista pilha_lista.c
+fila_lista: colocar fila_lista.c em um diretorio e compilar com
+    gcc -Wall -Wextra -o fila_lista fila_lista.c
