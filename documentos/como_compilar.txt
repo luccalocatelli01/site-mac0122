@@ -5,8 +5,21 @@ arquivos indicados em um mesmo diretorio e compilar com o comando dado. Quando o
 programa le dados, ha um arquivo <nome>_entrada.txt e o comando para rodar.
 
 GERADOR E FILTRO
-gerador: [Camila: colocar aqui os arquivos e o comando, ex.: cd gerador && make site]
-filtro:  [Bernardo: colocar aqui os arquivos e o comando]
+gerador (gera o site): os arquivos ficam na pasta gerador/ (gerador.c, organizacao.c, html_comum.c,
+    pagina_txt.c, filtro.c, pagina.h, filtro.h, estilo.css, imagens/, fontes/), com as pastas
+    txt/ e codigos/ ao lado de gerador/. Compilar e gerar o site com
+    cd gerador
+    make site
+    o que equivale a
+    gcc -Wall -Wextra -o gerador gerador.c organizacao.c html_comum.c pagina_txt.c filtro.c
+    ./gerador site ../codigos ../txt/*.txt
+    cp -r estilo.css imagens fontes site/
+    depois abrir site/index.html no navegador.
+filtro (teste do colorizador sozinho): colocar main_filtro.c (de gerador/filtro/), filtro.c,
+    filtro.h e estilo.css (de gerador/) e teste_filtro.c (de gerador/filtro/) em um diretorio
+    e compilar com
+    gcc -std=c11 -Wall -Wextra main_filtro.c filtro.c -o colorir
+    rodar: ./colorir teste_filtro.c > teste.html   (abrir teste.html no navegador)
 
 ALGORITMOS (tabela 3.1)
 fibonacci: colocar fibonacci.c e fibonacci_entrada.txt em um diretorio e compilar com
